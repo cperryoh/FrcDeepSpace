@@ -16,6 +16,7 @@ import javax.swing.AbstractAction;
 import java.awt.event.ActionEvent;
 import static java.nio.file.StandardCopyOption.*;
 import java.io.File;
+import java.io.FileFilter;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -43,6 +44,9 @@ public class Scouting {
 	private JFrame frame;
 	private final Action action = new Enter();
 	private JTextField team;
+	JComboBox comboBoxClimb = new JComboBox();
+	JComboBox ComboBoxPanel = new JComboBox();
+	JComboBox ComboBoxCargo = new JComboBox();
 	File teamFolder = new File("C:\\scouting");
 	private JTable table;
 	private DefaultTableModel tableModel =new DefaultTableModel(
@@ -53,7 +57,10 @@ public class Scouting {
 			new String[] {
 				"Game piece grabbed time", "Delivery time", "Delivery location (CS R#)", "Game piece delivered"
 			});
+	TableModel emptyTable = tableModel;
 	private final Action action_1 = new SwingAction_1();
+	private JTextField RoundNum;
+	private JTextField textField;
 	/**
 	 * Launch the application.
 	 */
@@ -103,7 +110,7 @@ public class Scouting {
 		frame.getContentPane().add(lblTeam);
 		
 		JTabbedPane CargoOrPanel = new JTabbedPane(JTabbedPane.TOP);
-		CargoOrPanel.setBounds(15, 19, 338, 121);
+		CargoOrPanel.setBounds(15, 75, 338, 121);
 		frame.getContentPane().add(CargoOrPanel);
 		
 		JPanel Cargo = new JPanel();
@@ -114,7 +121,7 @@ public class Scouting {
 		lblRocketLevel.setBounds(27, 32, 106, 20);
 		Cargo.add(lblRocketLevel);
 		
-		JComboBox ComboBoxCargo = new JComboBox();
+		
 		ComboBoxCargo.setModel(new DefaultComboBoxModel(new String[] {"N/A", "One", "Two", "Three"}));
 		ComboBoxCargo.setBounds(130, 29, 86, 26);
 		Cargo.add(ComboBoxCargo);
@@ -127,8 +134,8 @@ public class Scouting {
 		lblEndGameClimb.setBounds(0, 35, 127, 20);
 		panel.add(lblEndGameClimb);
 		
-		JComboBox comboBoxClimb = new JComboBox();
-		comboBoxClimb.setModel(new DefaultComboBoxModel(new String[] {"N\\A", "2", "3"}));
+		
+		comboBoxClimb.setModel(new DefaultComboBoxModel(new String[] {"N\\A", "1", "2", "3"}));
 		comboBoxClimb.setBounds(139, 32, 77, 26);
 		panel.add(comboBoxClimb);
 		
@@ -140,7 +147,7 @@ public class Scouting {
 		label.setBounds(27, 32, 106, 20);
 		panel_1.add(label);
 		
-		JComboBox ComboBoxPanel = new JComboBox();
+		
 		ComboBoxPanel.setModel(new DefaultComboBoxModel(new String[] {"N/A", "One", "Two", "Three"}));
 		ComboBoxPanel.setBounds(130, 29, 86, 26);
 		panel_1.add(ComboBoxPanel);
@@ -154,6 +161,10 @@ public class Scouting {
 		table.setModel(tableModel);
 		scrollPane.setViewportView(table);
 		
+		textField = new JTextField();
+		scrollPane.setColumnHeaderView(textField);
+		textField.setColumns(10);
+		
 		JButton btnNewButton = new JButton("Add row");
 		btnNewButton.setBounds(398, 204, 115, 29);
 		frame.getContentPane().add(btnNewButton);
@@ -162,6 +173,16 @@ public class Scouting {
 		btnFileCreationLocation.setAction(action_1);
 		btnFileCreationLocation.setBounds(152, 379, 247, 29);
 		frame.getContentPane().add(btnFileCreationLocation);
+		
+		RoundNum = new JTextField();
+		RoundNum.setBounds(417, 55, 146, 26);
+		frame.getContentPane().add(RoundNum);
+		RoundNum.setColumns(10);
+		
+		JLabel lblRound = new JLabel("Round:");
+		lblRound.setHorizontalAlignment(SwingConstants.TRAILING);
+		lblRound.setBounds(342, 58, 69, 20);
+		frame.getContentPane().add(lblRound);
 	}
 
 	private class Enter extends AbstractAction {
@@ -170,11 +191,21 @@ public class Scouting {
 			putValue(SHORT_DESCRIPTION, "Some short description");
 		}
 		public void actionPerformed(ActionEvent e) {
+		
 		if(team.getText()!="") {
 			try {
-				PrintWriter writer = new PrintWriter(teamFolder.getAbsolutePath()+"\\"+team.getText()+".txt", "UTF-8");
+				
+				//loops through all folders in the scouting folder
+				File f = new File(teamFolder.getAbsolutePath()+"\\"+team.getText());
+				f.mkdir();
+				//creates and populates text file
+				PrintWriter writer = new PrintWriter(f.getAbsolutePath()+"\\Round"+RoundNum.getText()+".txt", "UTF-8");
+				writer.println("Cargo highest level: "+ComboBoxCargo.getModel().getElementAt(ComboBoxCargo.getSelectedIndex())+"\n");
+				//creates key
+				
 				ArrayList myList = new ArrayList();
 				TableModel tableModle = table.getModel();
+				
 				for(int x = 0; x < tableModle.getColumnCount(); x++) {
 					if(x<tableModle.getColumnCount()-1) {
 						writer.print(tableModle.getColumnName(x)+", ");
@@ -183,6 +214,8 @@ public class Scouting {
 						writer.print(tableModle.getColumnName(x)+" ");
 					}
 				}
+				
+				//creates table
 				writer.println();
 				for(int i = 0; i < tableModle.getRowCount(); i++) {
 					writer.print((i+1)+") ");

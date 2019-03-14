@@ -1,12 +1,15 @@
 package FrcDeepSpace;
 
 import java.awt.EventQueue;
+import java.awt.List;
 
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 import java.awt.BorderLayout;
 import javax.swing.JTable;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
 import javax.swing.JPanel;
 import javax.swing.JButton;
 import javax.swing.AbstractAction;
@@ -21,6 +24,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.ArrayList;
 
 import javax.swing.Action;
 import javax.swing.JTextField;
@@ -32,6 +36,7 @@ import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
 import javax.swing.DefaultComboBoxModel;
+import java.awt.ComponentOrientation;
 
 public class Scouting {
 
@@ -48,8 +53,7 @@ public class Scouting {
 			new String[] {
 				"Game piece grabbed time", "Delivery time", "Delivery location (CS R#)", "Game piece delivered"
 			});
-	private final Action action_1 = new SwingAction();
-	private final Action action_2 = new FileLocation();
+	private final Action action_1 = new SwingAction_1();
 	/**
 	 * Launch the application.
 	 */
@@ -151,12 +155,11 @@ public class Scouting {
 		scrollPane.setViewportView(table);
 		
 		JButton btnNewButton = new JButton("Add row");
-		btnNewButton.setAction(action_1);
 		btnNewButton.setBounds(398, 204, 115, 29);
 		frame.getContentPane().add(btnNewButton);
 		
 		JButton btnFileCreationLocation = new JButton("File creation location");
-		btnFileCreationLocation.setAction(action_2);
+		btnFileCreationLocation.setAction(action_1);
 		btnFileCreationLocation.setBounds(152, 379, 247, 29);
 		frame.getContentPane().add(btnFileCreationLocation);
 	}
@@ -167,13 +170,37 @@ public class Scouting {
 			putValue(SHORT_DESCRIPTION, "Some short description");
 		}
 		public void actionPerformed(ActionEvent e) {
-		try {
-			System.out.print(teamFolder.getAbsolutePath());
-			PrintWriter writer = new PrintWriter(teamFolder.getAbsolutePath()+"\\"+team.getText()+".txt", "UTF-8");
-		} catch (FileNotFoundException | UnsupportedEncodingException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
+		if(team.getText()!="") {
+			try {
+				PrintWriter writer = new PrintWriter(teamFolder.getAbsolutePath()+"\\"+team.getText()+".txt", "UTF-8");
+				ArrayList myList = new ArrayList();
+				TableModel tableModle = table.getModel();
+				for(int x = 0; x < tableModle.getColumnCount(); x++) {
+					if(x<tableModle.getColumnCount()-1) {
+						writer.print(tableModle.getColumnName(x)+", ");
+					}
+					else {
+						writer.print(tableModle.getColumnName(x)+" ");
+					}
+				}
+				writer.println();
+				for(int i = 0; i < tableModle.getRowCount(); i++) {
+					writer.print((i+1)+") ");
+					for(int y = 0; y < tableModle.getColumnCount(); y++) {
+						if(y<tableModle.getColumnCount()-1) {
+							writer.print(" "+(String) tableModle.getValueAt(i, y)+", ");
+						}
+						else {
+							writer.print(" "+(String) tableModle.getValueAt(i, y));
+						}
+					}
+					writer.println("");
+				}
+				writer.close();
+			} catch (FileNotFoundException | UnsupportedEncodingException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 			
 		}
 	}
@@ -186,9 +213,11 @@ public class Scouting {
 			tableModel.addRow(new Object[]{});
 		}
 	}
-	private class FileLocation extends AbstractAction {
-		public FileLocation() {
-			putValue(NAME, "File creation location");
+	
+}
+	private class SwingAction_1 extends AbstractAction {
+		public SwingAction_1() {
+			putValue(NAME, "Choose file location");
 			putValue(SHORT_DESCRIPTION, "Some short description");
 		}
 		public void actionPerformed(ActionEvent e) {

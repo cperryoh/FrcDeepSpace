@@ -21,6 +21,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
+import java.nio.file.DirectoryNotEmptyException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -47,7 +48,8 @@ public class Scouting {
 	JComboBox comboBoxClimb = new JComboBox();
 	JComboBox ComboBoxPanel = new JComboBox();
 	JComboBox ComboBoxCargo = new JComboBox();
-	File teamFolder = new File("C:\\scouting");
+	String userHome = System.getProperty("user.home");
+	File teamFolder = new File(userHome+"\\Desktop\\scouting");
 	private JTable table;
 	private DefaultTableModel tableModel =new DefaultTableModel(
 			new Object[][] {
@@ -194,7 +196,7 @@ public class Scouting {
 		
 		if(team.getText()!="") {
 			try {
-				
+				System.out.println(teamFolder.getAbsolutePath());
 				//loops through all folders in the scouting folder
 				File f = new File(teamFolder.getAbsolutePath()+"\\"+team.getText());
 				f.mkdir();
@@ -254,7 +256,7 @@ public class Scouting {
 			putValue(SHORT_DESCRIPTION, "Some short description");
 		}
 		public void actionPerformed(ActionEvent e) {
-			JFileChooser chooser = new JFileChooser();
+			JFileChooser chooser = new JFileChooser(userHome +"\\Desktop");
 		    chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 		    chooser.showDialog(frame, "Choose folder");
 			String path = chooser.getSelectedFile().getAbsolutePath();

@@ -167,7 +167,7 @@ public class Scouting {
 		table.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent arg0) {
-				if(arg0.getKeyCode()==KeyEvent.VK_BACK_SPACE) {
+				if(arg0.getKeyCode()==KeyEvent.VK_BACK_SPACE || arg0.getKeyCode()==KeyEvent.VK_DELETE) {
 					int [][] seleceted = new int[][] {table.getSelectedRows(),table.getSelectedColumns()};
 					for(int x = 0; x < seleceted[0].length; x++) {
 						for(int y = 0; y < seleceted[1].length; y++) {

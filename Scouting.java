@@ -201,7 +201,7 @@ public class Scouting {
 				File f = new File(teamFolder.getAbsolutePath()+"\\"+team.getText());
 				f.mkdir();
 				//creates and populates text file
-				PrintWriter writer = new PrintWriter(f.getAbsolutePath()+"\\Round"+RoundNum.getText()+".txt", "UTF-8");
+				PrintWriter writer = new PrintWriter(f.getAbsolutePath()+"\\Round "+RoundNum.getText()+".txt", "UTF-8");
 				writer.println("Cargo highest level: "+ComboBoxCargo.getModel().getElementAt(ComboBoxCargo.getSelectedIndex())+"\n");
 				//creates key
 				

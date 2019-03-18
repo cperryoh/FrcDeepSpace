@@ -26,10 +26,12 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 import javax.swing.Action;
 import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 import javax.swing.JRadioButton;
@@ -39,6 +41,8 @@ import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
 import javax.swing.DefaultComboBoxModel;
 import java.awt.ComponentOrientation;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 public class Scouting {
 
@@ -59,10 +63,10 @@ public class Scouting {
 			new String[] {
 				"Game piece grabbed time", "Delivery time", "Delivery location (CS R#)", "Game piece delivered"
 			});
-	TableModel emptyTable = tableModel;
 	private final Action action_1 = new SwingAction_1();
 	private JTextField RoundNum;
 	private JTextField textField;
+	private final Action action_2 = new SwingAction();
 	/**
 	 * Launch the application.
 	 */
@@ -128,19 +132,6 @@ public class Scouting {
 		ComboBoxCargo.setBounds(130, 29, 86, 26);
 		Cargo.add(ComboBoxCargo);
 		
-		JPanel panel = new JPanel();
-		CargoOrPanel.addTab("End game location", null, panel, null);
-		panel.setLayout(null);
-		
-		JLabel lblEndGameClimb = new JLabel("End game climb:");
-		lblEndGameClimb.setBounds(0, 35, 127, 20);
-		panel.add(lblEndGameClimb);
-		
-		
-		comboBoxClimb.setModel(new DefaultComboBoxModel(new String[] {"N\\A", "1", "2", "3"}));
-		comboBoxClimb.setBounds(139, 32, 77, 26);
-		panel.add(comboBoxClimb);
-		
 		JPanel panel_1 = new JPanel();
 		CargoOrPanel.addTab("Panel", null, panel_1, null);
 		panel_1.setLayout(null);
@@ -154,11 +145,38 @@ public class Scouting {
 		ComboBoxPanel.setBounds(130, 29, 86, 26);
 		panel_1.add(ComboBoxPanel);
 		
+		JPanel panel = new JPanel();
+		CargoOrPanel.addTab("End game location", null, panel, null);
+		panel.setLayout(null);
+		
+		JLabel lblEndGameClimb = new JLabel("End game climb:");
+		lblEndGameClimb.setHorizontalAlignment(SwingConstants.TRAILING);
+		lblEndGameClimb.setBounds(0, 35, 127, 20);
+		panel.add(lblEndGameClimb);
+		
+		
+		comboBoxClimb.setModel(new DefaultComboBoxModel(new String[] {"N\\A", "1", "2", "3"}));
+		comboBoxClimb.setBounds(139, 32, 77, 26);
+		panel.add(comboBoxClimb);
+		
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(0, 249, 934, 114);
 		frame.getContentPane().add(scrollPane);
 		
 		table = new JTable();
+		table.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent arg0) {
+				if(arg0.getKeyCode()==KeyEvent.VK_BACK_SPACE || arg0.getKeyCode()==KeyEvent.VK_DELETE) {
+					int [][] seleceted = new int[][] {table.getSelectedRows(),table.getSelectedColumns()};
+					for(int x = 0; x < seleceted[0].length; x++) {
+						for(int y = 0; y < seleceted[1].length; y++) {
+							tableModel.setValueAt(null, seleceted[0][x], seleceted[1][y]);
+						}
+					}
+				}
+			}
+		});
 		table.setCellSelectionEnabled(true);
 		table.setModel(tableModel);
 		scrollPane.setViewportView(table);
@@ -168,6 +186,7 @@ public class Scouting {
 		textField.setColumns(10);
 		
 		JButton btnNewButton = new JButton("Add row");
+		btnNewButton.setAction(action_2);
 		btnNewButton.setBounds(398, 204, 115, 29);
 		frame.getContentPane().add(btnNewButton);
 		
@@ -203,6 +222,8 @@ public class Scouting {
 				//creates and populates text file
 				PrintWriter writer = new PrintWriter(f.getAbsolutePath()+"\\Round "+RoundNum.getText()+".txt", "UTF-8");
 				writer.println("Cargo highest level: "+ComboBoxCargo.getModel().getElementAt(ComboBoxCargo.getSelectedIndex())+"\n");
+				writer.println("Panel higest level: "+ComboBoxPanel.getModel().getElementAt(ComboBoxPanel.getSelectedIndex())+"\n");
+				writer.println("Climb level: "+comboBoxClimb.getModel().getElementAt(comboBoxClimb.getSelectedIndex())+"\n");
 				//creates key
 				
 				ArrayList myList = new ArrayList();
@@ -231,21 +252,27 @@ public class Scouting {
 					}
 					writer.println("");
 				}
+				double time=0;
+				double amountOfEntrys=0;
+				for(int i = 0; i < table.getRowCount(); i++) {
+					if(isNumber(getCellValue(tableModle, i, 0))&&isNumber(getCellValue(tableModle, i, 1)) && Boolean.parseBoolean(getCellValue(tableModle, i, 3))) {
+						double valueOne,valueTwo;
+						amountOfEntrys++;
+						valueOne = Double.parseDouble(((String)tableModle.getValueAt(i, 0)));
+						valueTwo = Double.parseDouble(((String)tableModle.getValueAt(i, 1)));
+						time+=(valueOne-valueTwo);
+						//System.out.println(valueOne-valueTwo);
+					}
+				}
+				double avg =  time/amountOfEntrys;
+				DecimalFormat dcf= new DecimalFormat("0.##");
+				writer.println("\n The averag time for team "+team.getText()+" to successfully place panel is "+dcf.format(avg));
 				writer.close();
 			} catch (FileNotFoundException | UnsupportedEncodingException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
 			
-		}
-	}
-	private class SwingAction extends AbstractAction {
-		public SwingAction() {
-			putValue(NAME, "Add row");
-			putValue(SHORT_DESCRIPTION, "Some short description");
-		}
-		public void actionPerformed(ActionEvent e) {
-			tableModel.addRow(new Object[]{});
 		}
 	}
 	
@@ -268,5 +295,29 @@ public class Scouting {
 				e1.printStackTrace();
 			}
 		}
+	}
+	private class SwingAction extends AbstractAction {
+		public SwingAction() {
+			putValue(NAME, "Add row");
+			putValue(SHORT_DESCRIPTION, "Some short description");
+		}
+		public void actionPerformed(ActionEvent e) {
+			tableModel.addRow(new Object[]{});
+		}
+	}
+	String getCellValue(TableModel tbl, int row, int cell) {
+		return (String) tbl.getValueAt(row, cell);
+	}
+	boolean isNumber(String number) {
+		boolean isNumber=false;
+		try 
+		{ 
+			int num = Integer.parseInt(number);
+			isNumber =  true;
+		} 
+		catch (NumberFormatException ex) {
+			isNumber = false;
+		}
+		return isNumber;
 	}
 }

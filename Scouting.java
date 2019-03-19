@@ -43,6 +43,14 @@ import javax.swing.DefaultComboBoxModel;
 import java.awt.ComponentOrientation;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import javax.swing.JMenu;
+import javax.swing.JPopupMenu;
+import java.awt.Component;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import javax.swing.JMenuItem;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 
 public class Scouting {
 
@@ -52,21 +60,32 @@ public class Scouting {
 	JComboBox comboBoxClimb = new JComboBox();
 	JComboBox ComboBoxPanel = new JComboBox();
 	JComboBox ComboBoxCargo = new JComboBox();
+	JTabbedPane CargoOrPanel = new JTabbedPane(JTabbedPane.TOP);
 	String userHome = System.getProperty("user.home");
 	File teamFolder = new File(userHome+"\\Desktop\\scouting");
-	private JTable table;
-	private DefaultTableModel tableModel =new DefaultTableModel(
+	public static JTable table;
+	static int selectedRow=0;
+	JMenuItem mntmClearRow = new JMenuItem("Clear row");
+	JMenuItem mntmDeleteRow = new JMenuItem("Delete row");
+	DefaultTableModel tableModel= new DefaultTableModel(
 			new Object[][] {
+				{null, null, null, null},
+				{null, null, null, null},
+				{null, null, null, null},
+				{null, null, null, null},
 				{null, null, null, null},
 				{null, null, null, null},
 			},
 			new String[] {
 				"Game piece grabbed time", "Delivery time", "Delivery location (CS R#)", "Game piece delivered"
-			});
+			}
+	);
 	private final Action action_1 = new SwingAction_1();
 	private JTextField RoundNum;
 	private JTextField textField;
 	private final Action action_2 = new SwingAction();
+	private final Action action_3 = new SwingAction_2();
+	private final Action action_4 = new SwingAction_3();
 	/**
 	 * Launch the application.
 	 */
@@ -96,74 +115,41 @@ public class Scouting {
 	 */
 	private void initialize() {
 		frame = new JFrame();
-		frame.setBounds(100, 100, 956, 464);
+		frame.setBounds(100, 100, 678, 464);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
 		JButton btnEnter = new JButton("Enter");
-		btnEnter.setBounds(417, 379, 115, 29);
+		btnEnter.setBounds(331, 374, 115, 29);
 		btnEnter.setAction(action);
 		frame.getContentPane().add(btnEnter);
 		
 		team = new JTextField();
-		team.setBounds(414, 16, 146, 26);
+		team.setBounds(310, 11, 146, 26);
 		frame.getContentPane().add(team);
 		team.setColumns(10);
 		
 		JLabel lblTeam = new JLabel("Team:");
-		lblTeam.setBounds(296, 19, 106, 20);
+		lblTeam.setBounds(200, 14, 106, 20);
 		lblTeam.setHorizontalAlignment(SwingConstants.TRAILING);
 		frame.getContentPane().add(lblTeam);
 		
-		JTabbedPane CargoOrPanel = new JTabbedPane(JTabbedPane.TOP);
-		CargoOrPanel.setBounds(15, 75, 338, 121);
-		frame.getContentPane().add(CargoOrPanel);
-		
-		JPanel Cargo = new JPanel();
-		CargoOrPanel.addTab("Cargo", null, Cargo, null);
-		Cargo.setLayout(null);
-		
-		JLabel lblRocketLevel = new JLabel("Rocket level:");
-		lblRocketLevel.setBounds(27, 32, 106, 20);
-		Cargo.add(lblRocketLevel);
-		
-		
-		ComboBoxCargo.setModel(new DefaultComboBoxModel(new String[] {"N/A", "One", "Two", "Three"}));
-		ComboBoxCargo.setBounds(130, 29, 86, 26);
-		Cargo.add(ComboBoxCargo);
-		
-		JPanel panel_1 = new JPanel();
-		CargoOrPanel.addTab("Panel", null, panel_1, null);
-		panel_1.setLayout(null);
-		
-		JLabel label = new JLabel("Rocket level:");
-		label.setBounds(27, 32, 106, 20);
-		panel_1.add(label);
-		
-		
-		ComboBoxPanel.setModel(new DefaultComboBoxModel(new String[] {"N/A", "One", "Two", "Three"}));
-		ComboBoxPanel.setBounds(130, 29, 86, 26);
-		panel_1.add(ComboBoxPanel);
-		
-		JPanel panel = new JPanel();
-		CargoOrPanel.addTab("End game location", null, panel, null);
-		panel.setLayout(null);
-		
-		JLabel lblEndGameClimb = new JLabel("End game climb:");
-		lblEndGameClimb.setHorizontalAlignment(SwingConstants.TRAILING);
-		lblEndGameClimb.setBounds(0, 35, 127, 20);
-		panel.add(lblEndGameClimb);
-		
-		
-		comboBoxClimb.setModel(new DefaultComboBoxModel(new String[] {"N\\A", "1", "2", "3"}));
-		comboBoxClimb.setBounds(139, 32, 77, 26);
-		panel.add(comboBoxClimb);
-		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(0, 249, 934, 114);
+		scrollPane.setBorder(null);
+		scrollPane.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				if(e.getButton()==MouseEvent.BUTTON2) {
+					selectedRow = table.rowAtPoint(e.getPoint());
+					System.out.print(selectedRow);
+				}
+			}
+		});
+		scrollPane.setBounds(29, 219, 619, 114);
 		frame.getContentPane().add(scrollPane);
 		
 		table = new JTable();
+		table.setBorder(null);
 		table.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent arg0) {
@@ -178,32 +164,113 @@ public class Scouting {
 			}
 		});
 		table.setCellSelectionEnabled(true);
+		
 		table.setModel(tableModel);
 		scrollPane.setViewportView(table);
+		
+		JPopupMenu popupMenu_1 = new JPopupMenu();
+		addPopup(table, popupMenu_1);
+		
+		JMenuItem mntmNewMenuItem = new JMenuItem("New menu item");
+		mntmNewMenuItem.setAction(action_2);
+		popupMenu_1.add(mntmNewMenuItem);
+		
+		JMenuItem mntmNewMenuItem_1 = new JMenuItem("New menu item");
+		mntmNewMenuItem_1.setAction(action_3);
+		popupMenu_1.add(mntmNewMenuItem_1);
+		
+		JMenuItem mntmNewMenuItem_2 = new JMenuItem("New menu item");
+		mntmNewMenuItem_2.setAction(action_4);
+		popupMenu_1.add(mntmNewMenuItem_2);
+		
+		JPopupMenu popupMenu = new JPopupMenu();
+		popupMenu.addComponentListener(new ComponentAdapter() {
+			@Override
+			public void componentShown(ComponentEvent arg0) {
+				if(table.getSelectedColumns().length>1) {
+					mntmClearRow.setText("Clear rows");
+					mntmDeleteRow.setText("Delete rows");
+				}
+				else {
+					mntmClearRow.setText("Clear row");
+					mntmDeleteRow.setText("Delete row");
+				}
+			}
+		});
+		addPopup(table, popupMenu);
+		
+		mntmDeleteRow.setAction(action_3);
+		popupMenu.add(mntmDeleteRow);
+		
+		
+		mntmClearRow.setAction(action_4);
+		popupMenu.add(mntmClearRow);
+		
+		JMenuItem mntmAddRow = new JMenuItem("Add row");
+		mntmAddRow.setAction(action_2);
+		popupMenu.add(mntmAddRow);
 		
 		textField = new JTextField();
 		scrollPane.setColumnHeaderView(textField);
 		textField.setColumns(10);
 		
-		JButton btnNewButton = new JButton("Add row");
-		btnNewButton.setAction(action_2);
-		btnNewButton.setBounds(398, 204, 115, 29);
-		frame.getContentPane().add(btnNewButton);
-		
 		JButton btnFileCreationLocation = new JButton("File creation location");
 		btnFileCreationLocation.setAction(action_1);
-		btnFileCreationLocation.setBounds(152, 379, 247, 29);
+		btnFileCreationLocation.setBounds(45, 374, 247, 29);
 		frame.getContentPane().add(btnFileCreationLocation);
 		
 		RoundNum = new JTextField();
-		RoundNum.setBounds(417, 55, 146, 26);
+		RoundNum.setBounds(310, 50, 146, 26);
 		frame.getContentPane().add(RoundNum);
 		RoundNum.setColumns(10);
 		
 		JLabel lblRound = new JLabel("Round:");
 		lblRound.setHorizontalAlignment(SwingConstants.TRAILING);
-		lblRound.setBounds(342, 58, 69, 20);
+		lblRound.setBounds(235, 53, 69, 20);
 		frame.getContentPane().add(lblRound);
+		CargoOrPanel.setBounds(177, 87, 338, 121);
+		frame.getContentPane().add(CargoOrPanel);
+		
+		JPanel panel_1 = new JPanel();
+		CargoOrPanel.addTab("Panel", null, panel_1, null);
+		panel_1.setLayout(null);
+		
+		JLabel label = new JLabel("Rocket level:");
+		label.setBounds(27, 32, 106, 20);
+		panel_1.add(label);
+		
+		
+		ComboBoxPanel.setModel(new DefaultComboBoxModel(new String[] {"N/A", "One", "Two", "Three"}));
+		ComboBoxPanel.setBounds(130, 29, 86, 26);
+		panel_1.add(ComboBoxPanel);
+		
+		
+		JPanel Cargo = new JPanel();
+		CargoOrPanel.addTab("Cargo", null, Cargo, null);
+		Cargo.setLayout(null);
+		
+		JLabel lblRocketLevel = new JLabel("Rocket level:");
+		lblRocketLevel.setBounds(14, 32, 106, 20);
+		Cargo.add(lblRocketLevel);
+		
+		
+		ComboBoxCargo.setModel(new DefaultComboBoxModel(new String[] {"N/A", "One", "Two", "Three"}));
+		ComboBoxCargo.setBounds(130, 29, 86, 26);
+		Cargo.add(ComboBoxCargo);
+		
+		JPanel panel = new JPanel();
+		CargoOrPanel.addTab("End game location", null, panel, null);
+		panel.setLayout(null);
+		
+		JLabel lblEndGameClimb = new JLabel("End game climb:");
+		lblEndGameClimb.setHorizontalAlignment(SwingConstants.TRAILING);
+		lblEndGameClimb.setBounds(0, 35, 127, 20);
+		panel.add(lblEndGameClimb);
+		
+		
+		comboBoxClimb.setModel(new DefaultComboBoxModel(new String[] {"N\\A", "1", "2", "3"}));
+		comboBoxClimb.setBounds(139, 32, 77, 26);
+		panel.add(comboBoxClimb);
 	}
 
 	private class Enter extends AbstractAction {
@@ -252,8 +319,10 @@ public class Scouting {
 					}
 					writer.println("");
 				}
-				double time=0;
-				double amountOfEntrys=0;
+				
+				//calculating avg and printing other info
+				Double time=0.0;
+				Double amountOfEntrys=0.0;
 				for(int i = 0; i < table.getRowCount(); i++) {
 					if(isNumber(getCellValue(tableModle, i, 0))&&isNumber(getCellValue(tableModle, i, 1)) && Boolean.parseBoolean(getCellValue(tableModle, i, 3))) {
 						double valueOne,valueTwo;
@@ -261,13 +330,18 @@ public class Scouting {
 						valueOne = Double.parseDouble(((String)tableModle.getValueAt(i, 0)));
 						valueTwo = Double.parseDouble(((String)tableModle.getValueAt(i, 1)));
 						time+=(valueOne-valueTwo);
-						//System.out.println(valueOne-valueTwo);
 					}
 				}
-				double avg =  time/amountOfEntrys;
+				Double avg =  time/amountOfEntrys;
 				DecimalFormat dcf= new DecimalFormat("0.##");
-				writer.println("\n The averag time for team "+team.getText()+" to successfully place panel is "+dcf.format(avg));
-				writer.close();
+				if(!Double.isNaN(avg)|| avg!=0.0) {
+					writer.println("\n The averag time for team "+team.getText()+" to successfully place a game piece is "+dcf.format(avg)+" seconds.");
+					writer.close();
+				}
+				else {
+					System.out.println(avg);
+					writer.println("Somthing went wrong while calculating the\n average, you might not have defined if the team was actually able to \nplace the hatch panel/cargo. You also may have not given one of the value required");
+				}
 			} catch (FileNotFoundException | UnsupportedEncodingException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
@@ -319,5 +393,45 @@ public class Scouting {
 			isNumber = false;
 		}
 		return isNumber;
+	}
+	private class SwingAction_2 extends AbstractAction {
+		public SwingAction_2() {
+			putValue(NAME, "clear row");
+			putValue(SHORT_DESCRIPTION, "Some short description");
+		}
+		public void actionPerformed(ActionEvent e) {
+			for(int i = 0; i<table.getColumnCount(); i++) {
+				tableModel.setValueAt(null, selectedRow, i);
+			}
+		}
+	}
+	private class SwingAction_3 extends AbstractAction {
+		public SwingAction_3() {
+			putValue(NAME, "Delete row");
+			putValue(SHORT_DESCRIPTION, "Some short description");
+		}
+		public void actionPerformed(ActionEvent e) {
+			System.out.println(selectedRow);
+			tableModel.removeRow(selectedRow);
+		}
+	}
+	private static void addPopup(Component component, final JPopupMenu popup) {
+		component.addMouseListener(new MouseAdapter() {
+			public void mousePressed(MouseEvent e) {
+				selectedRow = table.rowAtPoint(e.getPoint());
+				if (e.isPopupTrigger()) {
+					selectedRow = table.rowAtPoint(e.getPoint());
+					showMenu(e);
+				}
+			}
+			public void mouseReleased(MouseEvent e) {
+				if (e.isPopupTrigger()) {
+					showMenu(e);
+				}
+			}
+			private void showMenu(MouseEvent e) {
+				popup.show(e.getComponent(), e.getX(), e.getY());
+			}
+		});
 	}
 }

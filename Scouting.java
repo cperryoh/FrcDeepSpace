@@ -167,7 +167,7 @@ public class Scouting {
 		table.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent arg0) {
-				if(arg0.getKeyCode()==KeyEvent.VK_BACK_SPACE || arg0.getKeyCode()==KeyEvent.VK_DELETE) {
+				if(arg0.getKeyCode()==KeyEvent.VK_BACK_SPACE) {
 					int [][] seleceted = new int[][] {table.getSelectedRows(),table.getSelectedColumns()};
 					for(int x = 0; x < seleceted[0].length; x++) {
 						for(int y = 0; y < seleceted[1].length; y++) {
@@ -220,7 +220,7 @@ public class Scouting {
 				File f = new File(teamFolder.getAbsolutePath()+"\\"+team.getText());
 				f.mkdir();
 				//creates and populates text file
-				PrintWriter writer = new PrintWriter(f.getAbsolutePath()+"\\Round "+RoundNum.getText()+".txt", "UTF-8");
+				PrintWriter writer = new PrintWriter(f.getAbsolutePath()+"\\Round"+RoundNum.getText()+".txt", "UTF-8");
 				writer.println("Cargo highest level: "+ComboBoxCargo.getModel().getElementAt(ComboBoxCargo.getSelectedIndex())+"\n");
 				writer.println("Panel higest level: "+ComboBoxPanel.getModel().getElementAt(ComboBoxPanel.getSelectedIndex())+"\n");
 				writer.println("Climb level: "+comboBoxClimb.getModel().getElementAt(comboBoxClimb.getSelectedIndex())+"\n");

@@ -51,6 +51,8 @@ import java.awt.event.MouseEvent;
 import javax.swing.JMenuItem;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.awt.Color;
+import javax.swing.UIManager;
 
 public class Scouting {
 
@@ -83,6 +85,8 @@ public class Scouting {
 	private final Action action_1 = new SwingAction_1();
 	private JTextField RoundNum;
 	private JTextField textField;
+	boolean enterable = false;
+	JButton btnFileCreationLocation = new JButton("File creation location");
 	private final Action action_2 = new SwingAction();
 	private final Action action_3 = new SwingAction_2();
 	private final Action action_4 = new SwingAction_3();
@@ -120,11 +124,30 @@ public class Scouting {
 		frame.getContentPane().setLayout(null);
 		
 		JButton btnEnter = new JButton("Enter");
-		btnEnter.setBounds(331, 374, 115, 29);
+		btnEnter.setForeground(Color.BLACK);
+		btnEnter.setBounds(323, 374, 115, 29);
 		btnEnter.setAction(action);
 		frame.getContentPane().add(btnEnter);
 		
 		team = new JTextField();
+		team.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyReleased(KeyEvent arg0) {
+				
+				if(team.getText().equals("")||RoundNum.getText().equals("")) {
+					btnEnter.setBackground(new Color(104, 104, 104));
+					enterable=false;
+					
+				}
+				else {
+					enterable=true;
+					btnEnter.setBackground(btnFileCreationLocation.getBackground());
+				}
+				
+			}
+		});
+		btnEnter.setBackground(new Color(104, 104, 104));
+		enterable=false;
 		team.setBounds(310, 11, 146, 26);
 		frame.getContentPane().add(team);
 		team.setColumns(10);
@@ -213,13 +236,29 @@ public class Scouting {
 		textField = new JTextField();
 		scrollPane.setColumnHeaderView(textField);
 		textField.setColumns(10);
+		btnFileCreationLocation.setBackground(new Color(240, 240, 240));
 		
-		JButton btnFileCreationLocation = new JButton("File creation location");
+		
 		btnFileCreationLocation.setAction(action_1);
 		btnFileCreationLocation.setBounds(45, 374, 247, 29);
 		frame.getContentPane().add(btnFileCreationLocation);
 		
 		RoundNum = new JTextField();
+		RoundNum.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyReleased(KeyEvent e) {
+
+				if(team.getText().equals("")||RoundNum.getText().equals("")) {
+					btnEnter.setBackground(btnFileCreationLocation.getBackground());
+					enterable=false;
+					
+				}
+				else {
+					enterable=true;
+					btnEnter.setBackground(btnFileCreationLocation.getBackground());
+				}
+			}
+		});
 		RoundNum.setBounds(310, 50, 146, 26);
 		frame.getContentPane().add(RoundNum);
 		RoundNum.setColumns(10);
@@ -280,7 +319,7 @@ public class Scouting {
 		}
 		public void actionPerformed(ActionEvent e) {
 		
-		if(team.getText()!="") {
+		if(enterable) {
 			try {
 				System.out.println(teamFolder.getAbsolutePath());
 				//loops through all folders in the scouting folder

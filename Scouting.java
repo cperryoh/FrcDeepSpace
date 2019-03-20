@@ -130,12 +130,12 @@ public class Scouting {
 		frame.getContentPane().add(btnEnter);
 		
 		team = new JTextField();
-		team.addKeyListener(new KeyAdapter() {
+		RoundNum = new JTextField();
+		RoundNum.addKeyListener(new KeyAdapter() {
 			@Override
-			public void keyReleased(KeyEvent arg0) {
-				
-				if(team.getText().equals("")||RoundNum.getText().equals("")) {
-					btnEnter.setBackground(new Color(104, 104, 104));
+			public void keyReleased(KeyEvent e) {
+				if(isNumber(team.getText())==false||isNumber(RoundNum.getText())==false) {
+					btnEnter.setBackground(new Color(100,100,100));
 					enterable=false;
 					
 				}
@@ -143,7 +143,19 @@ public class Scouting {
 					enterable=true;
 					btnEnter.setBackground(btnFileCreationLocation.getBackground());
 				}
-				
+			}
+		});
+		team.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyReleased(KeyEvent arg0) {
+				if(isNumber(team.getText())==false||isNumber(RoundNum.getText())==false) {
+					btnEnter.setBackground(new Color(100, 100, 100));
+					enterable=false;
+				}
+				else {
+					enterable=true;
+					btnEnter.setBackground(btnFileCreationLocation.getBackground());
+				}
 			}
 		});
 		btnEnter.setBackground(new Color(104, 104, 104));
@@ -243,22 +255,7 @@ public class Scouting {
 		btnFileCreationLocation.setBounds(45, 374, 247, 29);
 		frame.getContentPane().add(btnFileCreationLocation);
 		
-		RoundNum = new JTextField();
-		RoundNum.addKeyListener(new KeyAdapter() {
-			@Override
-			public void keyReleased(KeyEvent e) {
-
-				if(team.getText().equals("")||RoundNum.getText().equals("")) {
-					btnEnter.setBackground(btnFileCreationLocation.getBackground());
-					enterable=false;
-					
-				}
-				else {
-					enterable=true;
-					btnEnter.setBackground(btnFileCreationLocation.getBackground());
-				}
-			}
-		});
+		
 		RoundNum.setBounds(310, 50, 146, 26);
 		frame.getContentPane().add(RoundNum);
 		RoundNum.setColumns(10);

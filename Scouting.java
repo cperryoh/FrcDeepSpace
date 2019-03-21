@@ -55,6 +55,7 @@ import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.Color;
 import javax.swing.UIManager;
+import javax.swing.JMenuBar;
 
 public class Scouting {
 
@@ -81,7 +82,7 @@ public class Scouting {
 				{null, null, null, null},
 			},
 			new String[] {
-				"Game piece grabbed time", "Delivery time", "Delivery location (CS R#)", "Game piece delivered"
+				"Game piece grabbed time", "Delivery time", "Delivery location (CS R#)","Hatch panel or cargo", "Game piece delivered"
 			}
 	);
 	private final Action action_1 = new SwingAction_1();
@@ -116,8 +117,19 @@ public class Scouting {
 		teamFolder.mkdir();
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		int width = (int)screenSize.getWidth();
+		System.out.print(width++);
     	int height =(int) screenSize.getHeight();
     	frame.setLocation((width/2)-(frame.getWidth()/2), (height/2)-(frame.getHeight()));
+    	table.setModel(tableModel);
+    	
+    	JMenuBar menuBar = new JMenuBar();
+    	frame.setJMenuBar(menuBar);
+    	
+    	JMenu mnOperations = new JMenu("Operations");
+    	menuBar.add(mnOperations);
+    	
+    	JMenuItem mntmClearAllFields = new JMenuItem("Clear all fields");
+    	mnOperations.add(mntmClearAllFields);
 	}
 
 	/**
@@ -125,7 +137,8 @@ public class Scouting {
 	 */
 	private void initialize() {
 		frame = new JFrame();
-		frame.setBounds(100, 100, 678, 464);
+		frame.setResizable(false);
+		frame.setBounds(100, 100, 782, 466);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
@@ -186,7 +199,7 @@ public class Scouting {
 				}
 			}
 		});
-		scrollPane.setBounds(29, 219, 619, 114);
+		scrollPane.setBounds(10, 219, 746, 114);
 		frame.getContentPane().add(scrollPane);
 		
 		table = new JTable();
@@ -206,7 +219,7 @@ public class Scouting {
 		});
 		table.setCellSelectionEnabled(true);
 		
-		table.setModel(tableModel);
+		table.setModel(new DefaultTableModel());
 		scrollPane.setViewportView(table);
 		
 		JPopupMenu popupMenu_1 = new JPopupMenu();
@@ -329,7 +342,7 @@ public class Scouting {
 				File f = new File(teamFolder.getAbsolutePath()+"\\"+team.getText());
 				f.mkdir();
 				//creates and populates text file
-				PrintWriter writer = new PrintWriter(f.getAbsolutePath()+"\\Round"+RoundNum.getText()+".txt", "UTF-8");
+				PrintWriter writer = new PrintWriter(f.getAbsolutePath()+"\\Round "+RoundNum.getText()+".txt", "UTF-8");
 				writer.println("Cargo highest level: "+ComboBoxCargo.getModel().getElementAt(ComboBoxCargo.getSelectedIndex())+"\n");
 				writer.println("Panel higest level: "+ComboBoxPanel.getModel().getElementAt(ComboBoxPanel.getSelectedIndex())+"\n");
 				writer.println("Climb level: "+comboBoxClimb.getModel().getElementAt(comboBoxClimb.getSelectedIndex())+"\n");
@@ -366,7 +379,7 @@ public class Scouting {
 				Double time=0.0;
 				Double amountOfEntrys=0.0;
 				for(int i = 0; i < table.getRowCount(); i++) {
-					if(isNumber(getCellValue(tableModle, i, 0))&&isNumber(getCellValue(tableModle, i, 1)) && Boolean.parseBoolean(getCellValue(tableModle, i, 3))) {
+					if(isNumber(getCellValue(tableModle, i, 0))&&isNumber(getCellValue(tableModle, i, 1)) && Boolean.parseBoolean(getCellValue(tableModle, i, 4))) {
 						double valueOne,valueTwo;
 						amountOfEntrys++;
 						valueOne = Double.parseDouble(((String)tableModle.getValueAt(i, 0)));
@@ -377,7 +390,7 @@ public class Scouting {
 				Double avg =  time/amountOfEntrys;
 				DecimalFormat dcf= new DecimalFormat("0.##");
 				if(!Double.isNaN(avg)|| avg!=0.0) {
-					writer.println("\n The averag time for team "+team.getText()+" to successfully place a game piece is "+dcf.format(avg)+" seconds.");
+					writer.println("\n The average time for team "+team.getText()+" to successfully place a game piece is "+dcf.format(avg)+" seconds.");
 					writer.close();
 				}
 				else {

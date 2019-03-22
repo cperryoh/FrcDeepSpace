@@ -70,6 +70,7 @@ public class Scouting {
 	File teamFolder = new File(userHome+"\\Desktop\\scouting");
 	public static JTable table;
 	static int selectedRow=0;
+	JButton btnEnter = new JButton("Enter");
 	JMenuItem mntmClearRow = new JMenuItem("Clear row");
 	JMenuItem mntmDeleteRow = new JMenuItem("Delete row");
 	DefaultTableModel tableModel= new DefaultTableModel(
@@ -117,7 +118,6 @@ public class Scouting {
 		teamFolder.mkdir();
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		int width = (int)screenSize.getWidth();
-		System.out.print(width++);
     	int height =(int) screenSize.getHeight();
     	frame.setLocation((width/2)-(frame.getWidth()/2), (height/2)-(frame.getHeight()));
     	table.setModel(tableModel);
@@ -142,9 +142,8 @@ public class Scouting {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
-		JButton btnEnter = new JButton("Enter");
 		btnEnter.setForeground(Color.BLACK);
-		btnEnter.setBounds(323, 374, 115, 29);
+		btnEnter.setBounds(325, 366, 115, 29);
 		btnEnter.setAction(action);
 		frame.getContentPane().add(btnEnter);
 		
@@ -199,7 +198,7 @@ public class Scouting {
 				}
 			}
 		});
-		scrollPane.setBounds(10, 219, 746, 114);
+		scrollPane.setBounds(10, 219, 746, 139);
 		frame.getContentPane().add(scrollPane);
 		
 		table = new JTable();
@@ -271,7 +270,7 @@ public class Scouting {
 		
 		
 		btnFileCreationLocation.setAction(action_1);
-		btnFileCreationLocation.setBounds(45, 374, 247, 29);
+		btnFileCreationLocation.setBounds(47, 366, 247, 29);
 		frame.getContentPane().add(btnFileCreationLocation);
 		
 		
@@ -365,10 +364,10 @@ public class Scouting {
 				for(int i = 0; i < tableModle.getRowCount(); i++) {
 					writer.print((i+1)+") ");
 					for(int y = 0; y < tableModle.getColumnCount(); y++) {
-						if(y<tableModle.getColumnCount()-1) {
+						if(y<tableModle.getColumnCount()-1&&tableModel.getValueAt(i, y)!=null) {
 							writer.print(" "+(String) tableModle.getValueAt(i, y)+", ");
 						}
-						else {
+						else if(tableModel.getValueAt(i, y)!=null){
 							writer.print(" "+(String) tableModle.getValueAt(i, y));
 						}
 					}
@@ -389,17 +388,20 @@ public class Scouting {
 				}
 				Double avg =  time/amountOfEntrys;
 				DecimalFormat dcf= new DecimalFormat("0.##");
-				if(!Double.isNaN(avg)|| avg!=0.0) {
-					writer.println("\n The average time for team "+team.getText()+" to successfully place a game piece is "+dcf.format(avg)+" seconds.");
-					writer.close();
+				if(!Double.isNaN(avg)&& avg!=0.0) {
+					writer.println("\nThe average time for team "+team.getText()+" to successfully place a game piece is during round "+RoundNum.getText()+" is "+dcf.format(avg)+" seconds.");
+					//System.out.println(Double.isNaN(avg));
+					
 				}
 				else {
 					System.out.println(avg);
 					writer.println("Somthing went wrong while calculating the\n average, you might not have defined if the team was actually able to \nplace the hatch panel/cargo. You also may have not given one of the value required");
 				}
+				writer.close();
 			} catch (FileNotFoundException | UnsupportedEncodingException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
+				
 			}
 			
 		}

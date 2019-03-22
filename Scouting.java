@@ -213,7 +213,7 @@ public class Scouting {
 						}
 					}
 				}
-				if(arg0.getKeyCode()==KeyEvent.VK_ENTER) {
+				if(arg0.getKeyCode()==KeyEvent.VK_CONTROL) {
 					enter();
 				}
 			}

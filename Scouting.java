@@ -55,13 +55,14 @@ import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.Color;
 import javax.swing.UIManager;
+import javax.swing.JMenuBar;
 
 public class Scouting {
 
 	private JFrame frame;
 	private final Action action = new Enter();
 	private JTextField team;
-	JComboBox comboBoxClimb = new JComboBox();
+	JComboBox ComboBoxClimb = new JComboBox();
 	JComboBox ComboBoxPanel = new JComboBox();
 	JComboBox ComboBoxCargo = new JComboBox();
 	JTabbedPane CargoOrPanel = new JTabbedPane(JTabbedPane.TOP);
@@ -69,6 +70,7 @@ public class Scouting {
 	File teamFolder = new File(userHome+"\\Desktop\\scouting");
 	public static JTable table;
 	static int selectedRow=0;
+	JButton btnEnter = new JButton("Enter");
 	JMenuItem mntmClearRow = new JMenuItem("Clear row");
 	JMenuItem mntmDeleteRow = new JMenuItem("Delete row");
 	DefaultTableModel tableModel= new DefaultTableModel(
@@ -81,7 +83,7 @@ public class Scouting {
 				{null, null, null, null},
 			},
 			new String[] {
-				"Game piece grabbed time", "Delivery time", "Delivery location (CS R#)", "Game piece delivered"
+				"Game piece grabbed time", "Delivery time", "Delivery location (CS R#)","Hatch panel or cargo", "Game piece delivered"
 			}
 	);
 	private final Action action_1 = new SwingAction_1();
@@ -92,6 +94,7 @@ public class Scouting {
 	private final Action action_2 = new SwingAction();
 	private final Action action_3 = new SwingAction_2();
 	private final Action action_4 = new SwingAction_3();
+	private final Action action_5 = new SwingAction_4();
 	/**
 	 * Launch the application.
 	 */
@@ -114,6 +117,18 @@ public class Scouting {
 	public Scouting() {
 		initialize();
 		teamFolder.mkdir();
+		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		int width = (int)screenSize.getWidth();
+    	int height =(int) screenSize.getHeight();
+    	frame.setLocation((width/2)-(frame.getWidth()/2), (height/2)-(frame.getHeight()));
+    	table.setModel(tableModel);
+    	
+    	JPopupMenu popupMenu = new JPopupMenu();
+    	addPopup(frame, popupMenu);
+    	
+    	JMenuItem mntmNewMenuItem_3 = new JMenuItem("New menu item");
+    	mntmNewMenuItem_3.setAction(action_5);
+    	popupMenu.add(mntmNewMenuItem_3);
 	}
 
 	/**
@@ -121,13 +136,13 @@ public class Scouting {
 	 */
 	private void initialize() {
 		frame = new JFrame();
-		frame.setBounds(100, 100, 678, 464);
+		frame.setResizable(false);
+		frame.setBounds(100, 100, 782, 466);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
-		JButton btnEnter = new JButton("Enter");
 		btnEnter.setForeground(Color.BLACK);
-		btnEnter.setBounds(323, 374, 115, 29);
+		btnEnter.setBounds(325, 366, 115, 29);
 		btnEnter.setAction(action);
 		frame.getContentPane().add(btnEnter);
 		
@@ -187,7 +202,7 @@ public class Scouting {
 				}
 			}
 		});
-		scrollPane.setBounds(29, 219, 619, 114);
+		scrollPane.setBounds(10, 219, 746, 139);
 		frame.getContentPane().add(scrollPane);
 		
 		table = new JTable();
@@ -203,11 +218,14 @@ public class Scouting {
 						}
 					}
 				}
+				if(arg0.getKeyCode()==KeyEvent.VK_CONTROL) {
+					enter();
+				}
 			}
 		});
 		table.setCellSelectionEnabled(true);
 		
-		table.setModel(tableModel);
+		table.setModel(new DefaultTableModel());
 		scrollPane.setViewportView(table);
 		
 		JPopupMenu popupMenu_1 = new JPopupMenu();
@@ -259,7 +277,7 @@ public class Scouting {
 		
 		
 		btnFileCreationLocation.setAction(action_1);
-		btnFileCreationLocation.setBounds(45, 374, 247, 29);
+		btnFileCreationLocation.setBounds(47, 366, 247, 29);
 		frame.getContentPane().add(btnFileCreationLocation);
 		
 		
@@ -311,18 +329,11 @@ public class Scouting {
 		panel.add(lblEndGameClimb);
 		
 		
-		comboBoxClimb.setModel(new DefaultComboBoxModel(new String[] {"N\\A", "1", "2", "3"}));
-		comboBoxClimb.setBounds(139, 32, 77, 26);
-		panel.add(comboBoxClimb);
+		ComboBoxClimb.setModel(new DefaultComboBoxModel(new String[] {"N\\A", "1", "2", "3"}));
+		ComboBoxClimb.setBounds(139, 32, 77, 26);
+		panel.add(ComboBoxClimb);
 	}
-
-	private class Enter extends AbstractAction {
-		public Enter() {
-			putValue(NAME, "Enter");
-			putValue(SHORT_DESCRIPTION, "Some short description");
-		}
-		public void actionPerformed(ActionEvent e) {
-		
+	void enter() {
 		if(enterable) {
 			try {
 				System.out.println(teamFolder.getAbsolutePath());
@@ -330,10 +341,10 @@ public class Scouting {
 				File f = new File(teamFolder.getAbsolutePath()+"\\"+team.getText());
 				f.mkdir();
 				//creates and populates text file
-				PrintWriter writer = new PrintWriter(f.getAbsolutePath()+"\\Round"+RoundNum.getText()+".txt", "UTF-8");
+				PrintWriter writer = new PrintWriter(f.getAbsolutePath()+"\\Round "+RoundNum.getText()+".txt", "UTF-8");
 				writer.println("Cargo highest level: "+ComboBoxCargo.getModel().getElementAt(ComboBoxCargo.getSelectedIndex())+"\n");
 				writer.println("Panel higest level: "+ComboBoxPanel.getModel().getElementAt(ComboBoxPanel.getSelectedIndex())+"\n");
-				writer.println("Climb level: "+comboBoxClimb.getModel().getElementAt(comboBoxClimb.getSelectedIndex())+"\n");
+				writer.println("Climb level: "+ComboBoxClimb.getModel().getElementAt(ComboBoxClimb.getSelectedIndex())+"\n");
 				//creates key
 				
 				ArrayList myList = new ArrayList();
@@ -353,10 +364,10 @@ public class Scouting {
 				for(int i = 0; i < tableModle.getRowCount(); i++) {
 					writer.print((i+1)+") ");
 					for(int y = 0; y < tableModle.getColumnCount(); y++) {
-						if(y<tableModle.getColumnCount()-1) {
+						if(y<tableModle.getColumnCount()-1&&tableModel.getValueAt(i, y)!=null) {
 							writer.print(" "+(String) tableModle.getValueAt(i, y)+", ");
 						}
-						else {
+						else if(tableModel.getValueAt(i, y)!=null){
 							writer.print(" "+(String) tableModle.getValueAt(i, y));
 						}
 					}
@@ -367,7 +378,7 @@ public class Scouting {
 				Double time=0.0;
 				Double amountOfEntrys=0.0;
 				for(int i = 0; i < table.getRowCount(); i++) {
-					if(isNumber(getCellValue(tableModle, i, 0))&&isNumber(getCellValue(tableModle, i, 1)) && Boolean.parseBoolean(getCellValue(tableModle, i, 3))) {
+					if(isNumber(getCellValue(tableModle, i, 0))&&isNumber(getCellValue(tableModle, i, 1)) && Boolean.parseBoolean(getCellValue(tableModle, i, 4))) {
 						double valueOne,valueTwo;
 						amountOfEntrys++;
 						valueOne = Double.parseDouble(((String)tableModle.getValueAt(i, 0)));
@@ -377,21 +388,32 @@ public class Scouting {
 				}
 				Double avg =  time/amountOfEntrys;
 				DecimalFormat dcf= new DecimalFormat("0.##");
-				if(!Double.isNaN(avg)|| avg!=0.0) {
-					writer.println("\n The averag time for team "+team.getText()+" to successfully place a game piece is "+dcf.format(avg)+" seconds.");
-					writer.close();
+				if(!Double.isNaN(avg)&& avg!=0.0) {
+					writer.println("\nThe average time for team "+team.getText()+" to successfully place a game piece is during round "+RoundNum.getText()+" is "+dcf.format(avg)+" seconds.");
+					//System.out.println(Double.isNaN(avg));
+					
 				}
 				else {
 					System.out.println(avg);
 					writer.println("Somthing went wrong while calculating the\n average, you might not have defined if the team was actually able to \nplace the hatch panel/cargo. You also may have not given one of the value required");
 				}
+				writer.close();
 			} catch (FileNotFoundException | UnsupportedEncodingException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
+				
 			}
 			
 		}
 	}
+	private class Enter extends AbstractAction {
+		public Enter() {
+			putValue(NAME, "Enter");
+			putValue(SHORT_DESCRIPTION, "Some short description");
+		}
+		public void actionPerformed(ActionEvent e) {
+			enter();
+		}	
 	
 }
 	private class SwingAction_1 extends AbstractAction {
@@ -476,5 +498,23 @@ public class Scouting {
 				popup.show(e.getComponent(), e.getX(), e.getY());
 			}
 		});
+	}
+	private class SwingAction_4 extends AbstractAction {
+		public SwingAction_4() {
+			putValue(NAME, "Clear all fields");
+			putValue(SHORT_DESCRIPTION, "Some short description");
+		}
+		public void actionPerformed(ActionEvent e) {
+			ComboBoxPanel.getModel().setSelectedItem(ComboBoxPanel.getModel().getElementAt(0));
+			ComboBoxCargo.getModel().setSelectedItem(ComboBoxCargo.getModel().getElementAt(0));
+			ComboBoxClimb.getModel().setSelectedItem(ComboBoxClimb.getModel().getElementAt(0));
+			team.setText("");
+			RoundNum.setText("");
+			for(int x = 0; x < tableModel.getRowCount(); x++) {
+				for(int y = 0; y <tableModel.getColumnCount(); y++) {
+					tableModel.setValueAt("", x, y);
+				}
+			}
+		}
 	}
 }

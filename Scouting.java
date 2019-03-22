@@ -62,7 +62,7 @@ public class Scouting {
 	private JFrame frame;
 	private final Action action = new Enter();
 	private JTextField team;
-	JComboBox comboBoxClimb = new JComboBox();
+	JComboBox ComboBoxClimb = new JComboBox();
 	JComboBox ComboBoxPanel = new JComboBox();
 	JComboBox ComboBoxCargo = new JComboBox();
 	JTabbedPane CargoOrPanel = new JTabbedPane(JTabbedPane.TOP);
@@ -94,6 +94,7 @@ public class Scouting {
 	private final Action action_2 = new SwingAction();
 	private final Action action_3 = new SwingAction_2();
 	private final Action action_4 = new SwingAction_3();
+	private final Action action_5 = new SwingAction_4();
 	/**
 	 * Launch the application.
 	 */
@@ -122,14 +123,12 @@ public class Scouting {
     	frame.setLocation((width/2)-(frame.getWidth()/2), (height/2)-(frame.getHeight()));
     	table.setModel(tableModel);
     	
-    	JMenuBar menuBar = new JMenuBar();
-    	frame.setJMenuBar(menuBar);
+    	JPopupMenu popupMenu = new JPopupMenu();
+    	addPopup(frame, popupMenu);
     	
-    	JMenu mnOperations = new JMenu("Operations");
-    	menuBar.add(mnOperations);
-    	
-    	JMenuItem mntmClearAllFields = new JMenuItem("Clear all fields");
-    	mnOperations.add(mntmClearAllFields);
+    	JMenuItem mntmNewMenuItem_3 = new JMenuItem("New menu item");
+    	mntmNewMenuItem_3.setAction(action_5);
+    	popupMenu.add(mntmNewMenuItem_3);
 	}
 
 	/**
@@ -213,6 +212,9 @@ public class Scouting {
 							tableModel.setValueAt(null, seleceted[0][x], seleceted[1][y]);
 						}
 					}
+				}
+				if(arg0.getKeyCode()==KeyEvent.VK_ENTER) {
+					enter();
 				}
 			}
 		});
@@ -322,18 +324,11 @@ public class Scouting {
 		panel.add(lblEndGameClimb);
 		
 		
-		comboBoxClimb.setModel(new DefaultComboBoxModel(new String[] {"N\\A", "1", "2", "3"}));
-		comboBoxClimb.setBounds(139, 32, 77, 26);
-		panel.add(comboBoxClimb);
+		ComboBoxClimb.setModel(new DefaultComboBoxModel(new String[] {"N\\A", "1", "2", "3"}));
+		ComboBoxClimb.setBounds(139, 32, 77, 26);
+		panel.add(ComboBoxClimb);
 	}
-
-	private class Enter extends AbstractAction {
-		public Enter() {
-			putValue(NAME, "Enter");
-			putValue(SHORT_DESCRIPTION, "Some short description");
-		}
-		public void actionPerformed(ActionEvent e) {
-		
+	void enter() {
 		if(enterable) {
 			try {
 				System.out.println(teamFolder.getAbsolutePath());
@@ -344,7 +339,7 @@ public class Scouting {
 				PrintWriter writer = new PrintWriter(f.getAbsolutePath()+"\\Round "+RoundNum.getText()+".txt", "UTF-8");
 				writer.println("Cargo highest level: "+ComboBoxCargo.getModel().getElementAt(ComboBoxCargo.getSelectedIndex())+"\n");
 				writer.println("Panel higest level: "+ComboBoxPanel.getModel().getElementAt(ComboBoxPanel.getSelectedIndex())+"\n");
-				writer.println("Climb level: "+comboBoxClimb.getModel().getElementAt(comboBoxClimb.getSelectedIndex())+"\n");
+				writer.println("Climb level: "+ComboBoxClimb.getModel().getElementAt(ComboBoxClimb.getSelectedIndex())+"\n");
 				//creates key
 				
 				ArrayList myList = new ArrayList();
@@ -406,6 +401,14 @@ public class Scouting {
 			
 		}
 	}
+	private class Enter extends AbstractAction {
+		public Enter() {
+			putValue(NAME, "Enter");
+			putValue(SHORT_DESCRIPTION, "Some short description");
+		}
+		public void actionPerformed(ActionEvent e) {
+			enter();
+		}	
 	
 }
 	private class SwingAction_1 extends AbstractAction {
@@ -490,5 +493,23 @@ public class Scouting {
 				popup.show(e.getComponent(), e.getX(), e.getY());
 			}
 		});
+	}
+	private class SwingAction_4 extends AbstractAction {
+		public SwingAction_4() {
+			putValue(NAME, "Clear all fields");
+			putValue(SHORT_DESCRIPTION, "Some short description");
+		}
+		public void actionPerformed(ActionEvent e) {
+			ComboBoxPanel.getModel().setSelectedItem(ComboBoxPanel.getModel().getElementAt(0));
+			ComboBoxCargo.getModel().setSelectedItem(ComboBoxCargo.getModel().getElementAt(0));
+			ComboBoxClimb.getModel().setSelectedItem(ComboBoxClimb.getModel().getElementAt(0));
+			team.setText("");
+			RoundNum.setText("");
+			for(int x = 0; x < tableModel.getRowCount(); x++) {
+				for(int y = 0; y <tableModel.getColumnCount(); y++) {
+					tableModel.setValueAt("", x, y);
+				}
+			}
+		}
 	}
 }

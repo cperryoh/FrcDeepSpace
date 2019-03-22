@@ -2,6 +2,7 @@ package FrcDeepSpace;
 
 import java.awt.EventQueue;
 import java.awt.List;
+import java.awt.Toolkit;
 
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
@@ -41,6 +42,7 @@ import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
 import javax.swing.DefaultComboBoxModel;
 import java.awt.ComponentOrientation;
+import java.awt.Dimension;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import javax.swing.JMenu;
@@ -158,6 +160,11 @@ public class Scouting {
 				}
 			}
 		});
+		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		int width = (int)screenSize.getWidth();
+    	int height =(int) screenSize.getHeight();
+		System.out.println(width+","+height);
+		frame.setLocation((width/2)-(frame.getWidth()/2), (height/2)-(frame.getHeight()/2));
 		btnEnter.setBackground(new Color(104, 104, 104));
 		enterable=false;
 		team.setBounds(310, 11, 146, 26);

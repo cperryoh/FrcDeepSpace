@@ -123,6 +123,11 @@ public class Scouting {
     	frame.setLocation((width/2)-(frame.getWidth()/2), (height/2)-(frame.getHeight()));
     	table.setModel(tableModel);
     	
+    	JLabel lbltrueOrFalse = new JLabel("(true or false)");
+    	lbltrueOrFalse.setHorizontalAlignment(SwingConstants.CENTER);
+    	lbltrueOrFalse.setBounds(822, 183, 155, 20);
+    	frame.getContentPane().add(lbltrueOrFalse);
+    	
     	JPopupMenu popupMenu = new JPopupMenu();
     	addPopup(frame, popupMenu);
     	
@@ -137,12 +142,12 @@ public class Scouting {
 	private void initialize() {
 		frame = new JFrame();
 		frame.setResizable(false);
-		frame.setBounds(100, 100, 782, 466);
+		frame.setBounds(100, 100, 1037, 466);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
 		btnEnter.setForeground(Color.BLACK);
-		btnEnter.setBounds(325, 366, 115, 29);
+		btnEnter.setBounds(574, 370, 115, 29);
 		btnEnter.setAction(action);
 		frame.getContentPane().add(btnEnter);
 		
@@ -182,12 +187,12 @@ public class Scouting {
 		frame.setLocation((width/2)-(frame.getWidth()/2), (height/2)-(frame.getHeight()/2));
 		btnEnter.setBackground(new Color(104, 104, 104));
 		enterable=false;
-		team.setBounds(310, 11, 146, 26);
+		team.setBounds(484, 16, 146, 26);
 		frame.getContentPane().add(team);
 		team.setColumns(10);
 		
 		JLabel lblTeam = new JLabel("Team:");
-		lblTeam.setBounds(200, 14, 106, 20);
+		lblTeam.setBounds(374, 19, 106, 20);
 		lblTeam.setHorizontalAlignment(SwingConstants.TRAILING);
 		frame.getContentPane().add(lblTeam);
 		
@@ -202,7 +207,7 @@ public class Scouting {
 				}
 			}
 		});
-		scrollPane.setBounds(10, 219, 746, 139);
+		scrollPane.setBounds(10, 219, 1011, 139);
 		frame.getContentPane().add(scrollPane);
 		
 		table = new JTable();
@@ -277,19 +282,19 @@ public class Scouting {
 		
 		
 		btnFileCreationLocation.setAction(action_1);
-		btnFileCreationLocation.setBounds(47, 366, 247, 29);
+		btnFileCreationLocation.setBounds(296, 370, 247, 29);
 		frame.getContentPane().add(btnFileCreationLocation);
 		
 		
-		RoundNum.setBounds(310, 50, 146, 26);
+		RoundNum.setBounds(484, 53, 146, 26);
 		frame.getContentPane().add(RoundNum);
 		RoundNum.setColumns(10);
 		
 		JLabel lblRound = new JLabel("Round:");
 		lblRound.setHorizontalAlignment(SwingConstants.TRAILING);
-		lblRound.setBounds(235, 53, 69, 20);
+		lblRound.setBounds(409, 56, 69, 20);
 		frame.getContentPane().add(lblRound);
-		CargoOrPanel.setBounds(177, 87, 338, 121);
+		CargoOrPanel.setBounds(351, 90, 338, 121);
 		frame.getContentPane().add(CargoOrPanel);
 		
 		JPanel panel_1 = new JPanel();

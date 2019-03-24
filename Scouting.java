@@ -29,6 +29,9 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Scanner;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import javax.swing.Action;
 import javax.swing.JTextField;
@@ -56,6 +59,8 @@ import java.awt.event.ComponentEvent;
 import java.awt.Color;
 import javax.swing.UIManager;
 import javax.swing.JMenuBar;
+import java.awt.Font;
+import java.awt.event.ActionListener;
 
 public class Scouting {
 
@@ -63,6 +68,7 @@ public class Scouting {
 	private final Action action = new Enter();
 	private JTextField team;
 	JComboBox ComboBoxClimb = new JComboBox();
+	JLabel timerLbl = new JLabel("135");
 	JComboBox ComboBoxPanel = new JComboBox();
 	JComboBox ComboBoxCargo = new JComboBox();
 	JTabbedPane CargoOrPanel = new JTabbedPane(JTabbedPane.TOP);
@@ -70,6 +76,13 @@ public class Scouting {
 	File teamFolder = new File(userHome+"\\Desktop\\scouting");
 	public static JTable table;
 	static int selectedRow=0;
+	static int interval = 135;
+	String currectTime="135";
+	JButton btnStartMatch = new JButton("Start match");
+    static Timer timer = new Timer();
+    int currentColumn=0;
+    boolean hasStarted = false;
+    boolean hasGamePiece= false;
 	JButton btnEnter = new JButton("Enter");
 	JMenuItem mntmClearRow = new JMenuItem("Clear row");
 	JMenuItem mntmDeleteRow = new JMenuItem("Delete row");
@@ -95,6 +108,7 @@ public class Scouting {
 	private final Action action_3 = new SwingAction_2();
 	private final Action action_4 = new SwingAction_3();
 	private final Action action_5 = new SwingAction_4();
+	private final Action action_6 = new SwingAction_5();
 	/**
 	 * Launch the application.
 	 */
@@ -127,6 +141,28 @@ public class Scouting {
     	lbltrueOrFalse.setHorizontalAlignment(SwingConstants.CENTER);
     	lbltrueOrFalse.setBounds(822, 183, 155, 20);
     	frame.getContentPane().add(lbltrueOrFalse);
+    	timerLbl.setFont(new Font("Tahoma", Font.PLAIN, 46));
+    	
+    	
+    	timerLbl.setBounds(121, 59, 100, 90);
+    	frame.getContentPane().add(timerLbl);
+    	
+    	btnStartMatch.setAction(action_6);
+    	btnStartMatch.setBounds(69, 15, 177, 29);
+    	frame.getContentPane().add(btnStartMatch);
+    	
+    	JButton btnReset = new JButton("Reset");
+    	btnReset.addActionListener(new ActionListener() {
+    		public void actionPerformed(ActionEvent e) {
+    			hasStarted=false;
+    			interval=135;
+    			timer.cancel();
+    			timerLbl.setText("135");
+    			
+    		}
+    	});
+    	btnReset.setBounds(106, 152, 115, 29);
+    	frame.getContentPane().add(btnReset);
     	
     	JPopupMenu popupMenu = new JPopupMenu();
     	addPopup(frame, popupMenu);
@@ -520,6 +556,59 @@ public class Scouting {
 					tableModel.setValueAt("", x, y);
 				}
 			}
+		}
+	}
+	void timer() {
+        int delay = 1000;
+        int period = 1000;
+        timerLbl.setText("135");
+        timer= new Timer();
+        timer.scheduleAtFixedRate(new TimerTask() {
+
+            public void run() {
+            	if(hasStarted==true) {
+            		currectTime = Integer.toString(setInterval());
+            		timerLbl.setText(currectTime);
+            	}
+
+            }
+        }, delay, period);
+    }
+
+    private static final int setInterval() {
+        if (interval == 1)
+            timer.cancel();
+        return --interval;
+    }
+	private class SwingAction_5 extends AbstractAction {
+		public SwingAction_5() {
+			putValue(NAME, "Start match");
+			putValue(SHORT_DESCRIPTION, "Some short description");
+		}
+		public void actionPerformed(ActionEvent e) {
+			if(hasStarted==false) {
+				hasStarted=true;
+				timer();
+				
+				btnStartMatch.setText("Pick up game piece");
+			}
+			else {
+				if(currentColumn+1==table.getRowCount()) {
+					tableModel.addRow(new Object[]{});
+				}
+				if(hasGamePiece==false) {
+					btnStartMatch.setText("Place game piece");
+					hasGamePiece=true;
+					tableModel.setValueAt(currectTime, currentColumn, 0);
+				}
+				else {
+					btnStartMatch.setText("Pick up game piece");
+					hasGamePiece=false;
+					tableModel.setValueAt(currectTime, currentColumn, 1);
+					currentColumn++;
+				}
+			}
+	    	
 		}
 	}
 }

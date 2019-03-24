@@ -83,6 +83,8 @@ public class Scouting {
     int currentColumn=0;
     boolean hasStarted = false;
     boolean hasGamePiece= false;
+    JButton btnCargo = new JButton("Taken cargo");
+	JButton btnHatch = new JButton("Taken hatch");
 	JButton btnEnter = new JButton("Enter");
 	JMenuItem mntmClearRow = new JMenuItem("Clear row");
 	JMenuItem mntmDeleteRow = new JMenuItem("Delete row");
@@ -109,6 +111,8 @@ public class Scouting {
 	private final Action action_4 = new SwingAction_3();
 	private final Action action_5 = new SwingAction_4();
 	private final Action action_6 = new SwingAction_5();
+	private final Action action_7 = new SwingAction_6();
+	private final Action action_8 = new SwingAction_7();
 	/**
 	 * Launch the application.
 	 */
@@ -141,10 +145,11 @@ public class Scouting {
     	lbltrueOrFalse.setHorizontalAlignment(SwingConstants.CENTER);
     	lbltrueOrFalse.setBounds(822, 183, 155, 20);
     	frame.getContentPane().add(lbltrueOrFalse);
+    	timerLbl.setHorizontalAlignment(SwingConstants.CENTER);
     	timerLbl.setFont(new Font("Tahoma", Font.PLAIN, 46));
     	
     	
-    	timerLbl.setBounds(121, 59, 100, 90);
+    	timerLbl.setBounds(10, 59, 298, 90);
     	frame.getContentPane().add(timerLbl);
     	
     	btnStartMatch.setAction(action_6);
@@ -156,13 +161,27 @@ public class Scouting {
     		public void actionPerformed(ActionEvent e) {
     			hasStarted=false;
     			interval=135;
+    			btnCargo.setVisible(false);
+    			btnHatch.setVisible(false);
     			timer.cancel();
+    			btnStartMatch.setVisible(true);
     			timerLbl.setText("135");
     			
     		}
     	});
     	btnReset.setBounds(106, 152, 115, 29);
     	frame.getContentPane().add(btnReset);
+    	btnHatch.setAction(action_7);
+    	
+    	btnHatch.setVisible(false);
+    	btnHatch.setBounds(0, 52, 146, 29);
+    	frame.getContentPane().add(btnHatch);
+    	btnCargo.setAction(action_8);
+    	
+    	
+    	btnCargo.setVisible(false);
+    	btnCargo.setBounds(166, 52, 146, 29);
+    	frame.getContentPane().add(btnCargo);
     	
     	JPopupMenu popupMenu = new JPopupMenu();
     	addPopup(frame, popupMenu);
@@ -589,26 +608,55 @@ public class Scouting {
 			if(hasStarted==false) {
 				hasStarted=true;
 				timer();
-				
+				btnCargo.setVisible(true);
+    			btnHatch.setVisible(true);
+    			btnStartMatch.setVisible(false);
 				btnStartMatch.setText("Pick up game piece");
 			}
-			else {
-				if(currentColumn+1==table.getRowCount()) {
-					tableModel.addRow(new Object[]{});
-				}
-				if(hasGamePiece==false) {
-					btnStartMatch.setText("Place game piece");
-					hasGamePiece=true;
-					tableModel.setValueAt(currectTime, currentColumn, 0);
-				}
-				else {
-					btnStartMatch.setText("Pick up game piece");
-					hasGamePiece=false;
-					tableModel.setValueAt(currectTime, currentColumn, 1);
-					currentColumn++;
-				}
+		}
+	}
+	private class SwingAction_6 extends AbstractAction {
+		public SwingAction_6() {
+			putValue(NAME, "Taken hatch");
+			putValue(SHORT_DESCRIPTION, "Some short description");
+		}
+		public void actionPerformed(ActionEvent e) {
+			if(hasGamePiece==true) {
+				btnHatch.setText("Taken hatch panel");
+				btnCargo.setVisible(true);
+				hasGamePiece=false;
+				table.setValueAt(currectTime, currentColumn, 1);
+				currentColumn++;
 			}
-	    	
+			else {
+				btnCargo.setVisible(false);
+				hasGamePiece=true;
+				table.setValueAt("Hatch", currentColumn, 3);
+				btnHatch.setText("Placed hatch panel");
+				table.setValueAt(currectTime, currentColumn, 0);
+			}
+		}
+	}
+	private class SwingAction_7 extends AbstractAction {
+		public SwingAction_7() {
+			putValue(NAME, "Taken cargo");
+			putValue(SHORT_DESCRIPTION, "Some short description");
+		}
+		public void actionPerformed(ActionEvent e) {
+			if(hasGamePiece==true) {
+				btnCargo.setText("Taken cargo");
+				btnHatch.setVisible(true);
+				table.setValueAt(currectTime, currentColumn, 1);
+				currentColumn++;
+				hasGamePiece=false;
+			}
+			else {
+				btnHatch.setVisible(false);
+				hasGamePiece=true;
+				table.setValueAt("Cargo", currentColumn, 3);
+				btnCargo.setText("Placed cargo");
+				table.setValueAt(currectTime, currentColumn, 0);
+			}
 		}
 	}
 }

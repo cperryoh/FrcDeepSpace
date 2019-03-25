@@ -438,7 +438,7 @@ public class Scouting {
 				f.mkdir();
 				//creates and populates text file
 				
-				File[] files= f.listFiles();
+				File[] files= teamFolder.listFiles();
 				boolean foundFile=false;
 				for(int i = 0; i < files.length; i++) {
 					if(files[i].getName().equals("overView.txt")) {
@@ -447,7 +447,7 @@ public class Scouting {
 						break;
 					}
 				}
-				Writer  FW = new FileWriter (f.getAbsolutePath()+"\\overView.txt",true);
+				Writer  FW = new FileWriter (teamFolder.getAbsolutePath()+"\\overView.txt",true);
 				BufferedWriter writer = new BufferedWriter(FW);
 				if(foundFile==false) {
 					writer.write("Team number,highest cargo,starting location,robot condition,higest panel,climb level");

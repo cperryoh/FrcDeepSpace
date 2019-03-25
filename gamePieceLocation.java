@@ -89,13 +89,16 @@ public class gamePieceLocation {
 			main.currentRow++;
 			
 		}
+		
 	}
 	private class SwingAction_10 extends AbstractAction {
 		public SwingAction_10() {
+			
 			putValue(NAME, "R1");
 			putValue(SHORT_DESCRIPTION, "Some short description");
 		}
 		public void actionPerformed(ActionEvent e) {
+
 			main.tableModel.setValueAt("R1", main.currentRow, 2);
 			done();
 		}

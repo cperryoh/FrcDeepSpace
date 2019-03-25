@@ -11,17 +11,24 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
+import javax.tools.DocumentationTool.Location;
 import javax.swing.JPanel;
 import javax.swing.JButton;
 import javax.swing.AbstractAction;
 import java.awt.event.ActionEvent;
 import static java.nio.file.StandardCopyOption.*;
+
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileFilter;
 import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
+import java.io.Writer;
 import java.nio.file.DirectoryNotEmptyException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -29,6 +36,8 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.NoSuchElementException;
 import java.util.Scanner;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -79,6 +88,9 @@ public class Scouting {
 	JComboBox ComboBoxCargo = new JComboBox();
 	JTabbedPane CargoOrPanel = new JTabbedPane(JTabbedPane.TOP);
 	String userHome = System.getProperty("user.home");
+	JComboBox Condition = new JComboBox();
+	JComboBox level = new JComboBox();
+	JComboBox Location = new JComboBox();
 	File teamFolder = new File(userHome+"\\Desktop\\scouting");
 	public static JTable table;
 	static int selectedRow=0;
@@ -163,13 +175,7 @@ public class Scouting {
     	JButton btnReset = new JButton("Reset");
     	btnReset.addActionListener(new ActionListener() {
     		public void actionPerformed(ActionEvent e) {
-    			hasStarted=false;
-    			interval=135;
-    			btnCargo.setVisible(false);
-    			btnHatch.setVisible(false);
-    			timer.cancel();
-    			btnStartMatch.setVisible(true);
-    			timerLbl.setText("135");
+    			resetTimer();
     			
     		}
     	});
@@ -283,7 +289,12 @@ public class Scouting {
 					}
 				}
 				if(arg0.getKeyCode()==KeyEvent.VK_CONTROL) {
-					enter();
+					try {
+						enter();
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 				}
 			}
 		});
@@ -353,7 +364,7 @@ public class Scouting {
 		lblRound.setHorizontalAlignment(SwingConstants.TRAILING);
 		lblRound.setBounds(409, 56, 69, 20);
 		frame.getContentPane().add(lblRound);
-		CargoOrPanel.setBounds(351, 90, 338, 121);
+		CargoOrPanel.setBounds(351, 90, 420, 121);
 		frame.getContentPane().add(CargoOrPanel);
 		
 		JPanel panel_1 = new JPanel();
@@ -396,8 +407,29 @@ public class Scouting {
 		ComboBoxClimb.setModel(new DefaultComboBoxModel(new String[] {"N\\A", "1", "2", "3"}));
 		ComboBoxClimb.setBounds(139, 32, 77, 26);
 		panel.add(ComboBoxClimb);
+		
+		JPanel panel_2 = new JPanel();
+		CargoOrPanel.addTab("Disabilities", null, panel_2, null);
+		
+		
+		Condition.setModel(new DefaultComboBoxModel(new String[] {"not working at all", "broken feature", "working", ""}));
+		panel_2.add(Condition);
+		
+		JPanel panel_3 = new JPanel();
+		CargoOrPanel.addTab("Staring location", null, panel_3, null);
+		panel_3.setLayout(null);
+		
+		
+		Location.setModel(new DefaultComboBoxModel(new String[] {"Left", "middle", "right"}));
+		Location.setBounds(97, 16, 85, 26);
+		panel_3.add(Location);
+		
+		
+		level.setModel(new DefaultComboBoxModel(new String[] {"One", "two"}));
+		level.setBounds(197, 16, 71, 26);
+		panel_3.add(level);
 	}
-	void enter() {
+	void enter() throws IOException {
 		if(enterable) {
 			try {
 				System.out.println(teamFolder.getAbsolutePath());
@@ -405,10 +437,26 @@ public class Scouting {
 				File f = new File(teamFolder.getAbsolutePath()+"\\"+team.getText());
 				f.mkdir();
 				//creates and populates text file
-				PrintWriter writer = new PrintWriter(f.getAbsolutePath()+"\\Round "+RoundNum.getText()+".txt", "UTF-8");
-				writer.println("Cargo highest level: "+ComboBoxCargo.getModel().getElementAt(ComboBoxCargo.getSelectedIndex())+"\n");
-				writer.println("Panel higest level: "+ComboBoxPanel.getModel().getElementAt(ComboBoxPanel.getSelectedIndex())+"\n");
-				writer.println("Climb level: "+ComboBoxClimb.getModel().getElementAt(ComboBoxClimb.getSelectedIndex())+"\n");
+				
+				File[] files= f.listFiles();
+				boolean foundFile=false;
+				for(int i = 0; i < files.length; i++) {
+					if(files[i].getName().equals("overView.txt")) {
+						foundFile=true;
+						System.out.println(files[i].getName());
+						break;
+					}
+				}
+				Writer  FW = new FileWriter (f.getAbsolutePath()+"\\overView.txt",true);
+				BufferedWriter writer = new BufferedWriter(FW);
+				if(foundFile==false) {
+					writer.write("Team number,ghest cargo,starting location,robot condition,higest panel,climb level");
+				}
+				writer.newLine();
+				writer.write(team.getText()+","+ComboBoxValue(ComboBoxPanel)+","+ComboBoxValue(Location)+":"+ComboBoxValue(level)+","+ComboBoxValue(Condition)+","+ComboBoxValue(ComboBoxPanel)+","+ComboBoxValue(ComboBoxClimb));
+				writer.close();
+				FW.close();
+				PrintWriter writer2 = new PrintWriter(f.getAbsolutePath()+"\\Round "+RoundNum.getText()+".txt", "UTF-8");
 				//creates key
 				
 				ArrayList myList = new ArrayList();
@@ -416,26 +464,25 @@ public class Scouting {
 				
 				for(int x = 0; x < tableModle.getColumnCount(); x++) {
 					if(x<tableModle.getColumnCount()-1) {
-						writer.print(tableModle.getColumnName(x)+", ");
+						writer2.print(tableModle.getColumnName(x)+",");
 					}
 					else {
-						writer.print(tableModle.getColumnName(x)+" ");
+						writer2.print(tableModle.getColumnName(x)+" ");
 					}
 				}
 				
 				//creates table
-				writer.println();
+				writer2.println();
 				for(int i = 0; i < tableModle.getRowCount(); i++) {
-					writer.print((i+1)+") ");
 					for(int y = 0; y < tableModle.getColumnCount(); y++) {
 						if(y<tableModle.getColumnCount()-1&&tableModel.getValueAt(i, y)!=null) {
-							writer.print(" "+(String) tableModle.getValueAt(i, y)+", ");
+							writer2.print((String) tableModle.getValueAt(i, y)+",");
 						}
 						else if(tableModel.getValueAt(i, y)!=null){
-							writer.print(" "+(String) tableModle.getValueAt(i, y));
+							writer2.print((String) tableModle.getValueAt(i, y));
 						}
 					}
-					writer.println("");
+					writer2.println("");
 				}
 				
 				//calculating avg and printing other info
@@ -453,20 +500,21 @@ public class Scouting {
 				Double avg =  time/amountOfEntrys;
 				DecimalFormat dcf= new DecimalFormat("0.##");
 				if(!Double.isNaN(avg)&& avg!=0.0) {
-					writer.println("\nThe average time for team "+team.getText()+" to successfully place a game piece is during round "+RoundNum.getText()+" is "+dcf.format(avg)+" seconds.");
+					writer2.println("\nThe average time for team "+team.getText()+" to successfully place a game piece is during round "+RoundNum.getText()+" is "+dcf.format(avg)+" seconds.");
 					//System.out.println(Double.isNaN(avg));
 					
 				}
 				else {
 					System.out.println(avg);
-					writer.println("Somthing went wrong while calculating the\n average, you might not have defined if the team was actually able to \nplace the hatch panel/cargo. You also may have not given one of the value required");
+					writer2.println("Somthing went wrong while calculating the\n average, you might not have defined if the team was actually able to \nplace the hatch panel/cargo. You also may have not given one of the value required");
 				}
-				writer.close();
+				writer2.close();
 			} catch (FileNotFoundException | UnsupportedEncodingException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 				
 			}
+			resetTimer();
 			
 		}
 	}
@@ -476,7 +524,12 @@ public class Scouting {
 			putValue(SHORT_DESCRIPTION, "Some short description");
 		}
 		public void actionPerformed(ActionEvent e) {
-			enter();
+			try {
+				enter();
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 		}	
 	
 }
@@ -572,6 +625,7 @@ public class Scouting {
 			ComboBoxPanel.getModel().setSelectedItem(ComboBoxPanel.getModel().getElementAt(0));
 			ComboBoxCargo.getModel().setSelectedItem(ComboBoxCargo.getModel().getElementAt(0));
 			ComboBoxClimb.getModel().setSelectedItem(ComboBoxClimb.getModel().getElementAt(0));
+			
 			team.setText("");
 			RoundNum.setText("");
 			for(int x = 0; x < tableModel.getRowCount(); x++) {
@@ -655,5 +709,25 @@ public class Scouting {
 				table.setValueAt(currectTime, currentRow, 0);
 				
 		}
+	}
+	String ComboBoxValue(JComboBox box){
+		return (String) box.getModel().getElementAt(box.getSelectedIndex());
+	}
+	String getFileContents(File f) throws FileNotFoundException {
+		Scanner sc = new Scanner(f); 
+		String con="";
+	    while (sc.hasNextLine()) { 
+	      con=con+sc.nextLine();
+	    }
+	    return con;
+	}
+	void resetTimer() {
+		hasStarted=false;
+		interval=135;
+		btnCargo.setVisible(false);
+		btnHatch.setVisible(false);
+		timer.cancel();
+		btnStartMatch.setVisible(true);
+		timerLbl.setText("135");
 	}
 }

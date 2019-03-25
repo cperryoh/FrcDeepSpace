@@ -450,7 +450,7 @@ public class Scouting {
 				Writer  FW = new FileWriter (f.getAbsolutePath()+"\\overView.txt",true);
 				BufferedWriter writer = new BufferedWriter(FW);
 				if(foundFile==false) {
-					writer.write("Team number,ghest cargo,starting location,robot condition,higest panel,climb level");
+					writer.write("Team number,highest cargo,starting location,robot condition,higest panel,climb level");
 				}
 				writer.newLine();
 				writer.write(team.getText()+","+ComboBoxValue(ComboBoxPanel)+","+ComboBoxValue(Location)+":"+ComboBoxValue(level)+","+ComboBoxValue(Condition)+","+ComboBoxValue(ComboBoxPanel)+","+ComboBoxValue(ComboBoxClimb));

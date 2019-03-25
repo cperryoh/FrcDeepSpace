@@ -61,6 +61,12 @@ import javax.swing.UIManager;
 import javax.swing.JMenuBar;
 import java.awt.Font;
 import java.awt.event.ActionListener;
+import javax.swing.JInternalFrame;
+import java.awt.GridLayout;
+import com.jgoodies.forms.layout.FormLayout;
+import com.jgoodies.forms.layout.ColumnSpec;
+import com.jgoodies.forms.layout.RowSpec;
+import com.jgoodies.forms.layout.FormSpecs;
 
 public class Scouting {
 
@@ -77,10 +83,11 @@ public class Scouting {
 	public static JTable table;
 	static int selectedRow=0;
 	static int interval = 135;
+	static gamePieceLocation GPL;
 	String currectTime="135";
 	JButton btnStartMatch = new JButton("Start match");
     static Timer timer = new Timer();
-    int currentColumn=0;
+    int currentRow=0;
     boolean hasStarted = false;
     boolean hasGamePiece= false;
     JButton btnCargo = new JButton("Taken cargo");
@@ -98,7 +105,7 @@ public class Scouting {
 				{null, null, null, null},
 			},
 			new String[] {
-				"Game piece grabbed time", "Delivery time", "Delivery location (CS R#)","Hatch panel or cargo", "Game piece delivered"
+				"Game piece grabbed time", "Delivery time", "Delivery location (CS R#)", "Hatch panel or cargo"
 			}
 	);
 	private final Action action_1 = new SwingAction_1();
@@ -113,6 +120,7 @@ public class Scouting {
 	private final Action action_6 = new SwingAction_5();
 	private final Action action_7 = new SwingAction_6();
 	private final Action action_8 = new SwingAction_7();
+	
 	/**
 	 * Launch the application.
 	 */
@@ -121,6 +129,7 @@ public class Scouting {
 			public void run() {
 				try {
 					Scouting window = new Scouting();
+					GPL = new gamePieceLocation(window);
 					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -140,11 +149,6 @@ public class Scouting {
     	int height =(int) screenSize.getHeight();
     	frame.setLocation((width/2)-(frame.getWidth()/2), (height/2)-(frame.getHeight()));
     	table.setModel(tableModel);
-    	
-    	JLabel lbltrueOrFalse = new JLabel("(true or false)");
-    	lbltrueOrFalse.setHorizontalAlignment(SwingConstants.CENTER);
-    	lbltrueOrFalse.setBounds(822, 183, 155, 20);
-    	frame.getContentPane().add(lbltrueOrFalse);
     	timerLbl.setHorizontalAlignment(SwingConstants.CENTER);
     	timerLbl.setFont(new Font("Tahoma", Font.PLAIN, 46));
     	
@@ -285,7 +289,7 @@ public class Scouting {
 		});
 		table.setCellSelectionEnabled(true);
 		
-		table.setModel(new DefaultTableModel());
+		table.setModel(tableModel);
 		scrollPane.setViewportView(table);
 		
 		JPopupMenu popupMenu_1 = new JPopupMenu();
@@ -438,7 +442,7 @@ public class Scouting {
 				Double time=0.0;
 				Double amountOfEntrys=0.0;
 				for(int i = 0; i < table.getRowCount(); i++) {
-					if(isNumber(getCellValue(tableModle, i, 0))&&isNumber(getCellValue(tableModle, i, 1)) && Boolean.parseBoolean(getCellValue(tableModle, i, 4))) {
+					if(isNumber(getCellValue(tableModle, i, 0))&&isNumber(getCellValue(tableModle, i, 1))) {
 						double valueOne,valueTwo;
 						amountOfEntrys++;
 						valueOne = Double.parseDouble(((String)tableModle.getValueAt(i, 0)));
@@ -621,20 +625,16 @@ public class Scouting {
 			putValue(SHORT_DESCRIPTION, "Some short description");
 		}
 		public void actionPerformed(ActionEvent e) {
-			if(hasGamePiece==true) {
-				btnHatch.setText("Taken hatch panel");
-				btnCargo.setVisible(true);
-				hasGamePiece=false;
-				table.setValueAt(currectTime, currentColumn, 1);
-				currentColumn++;
+			if(currentRow == table.getRowCount()) {
+				tableModel.addRow(new Object[]{});
 			}
-			else {
-				btnCargo.setVisible(false);
-				hasGamePiece=true;
-				table.setValueAt("Hatch", currentColumn, 3);
-				btnHatch.setText("Placed hatch panel");
-				table.setValueAt(currectTime, currentColumn, 0);
-			}
+			btnHatch.setVisible(false);
+			GPL.frame.setLocation(frame.getLocation());
+			GPL.frame.setVisible(true);
+			hasGamePiece=true;
+			table.setValueAt("hatch", currentRow, 3);
+			btnCargo.setText("Placed hatch");
+			table.setValueAt(currectTime, currentRow, 0);
 		}
 	}
 	private class SwingAction_7 extends AbstractAction {
@@ -643,20 +643,17 @@ public class Scouting {
 			putValue(SHORT_DESCRIPTION, "Some short description");
 		}
 		public void actionPerformed(ActionEvent e) {
-			if(hasGamePiece==true) {
-				btnCargo.setText("Taken cargo");
-				btnHatch.setVisible(true);
-				table.setValueAt(currectTime, currentColumn, 1);
-				currentColumn++;
-				hasGamePiece=false;
-			}
-			else {
+				if(currentRow == table.getRowCount()) {
+					tableModel.addRow(new Object[]{});
+				}
 				btnHatch.setVisible(false);
+				GPL.frame.setLocation(frame.getLocation());
+				GPL.frame.setVisible(true);
 				hasGamePiece=true;
-				table.setValueAt("Cargo", currentColumn, 3);
+				table.setValueAt("Cargo", currentRow, 3);
 				btnCargo.setText("Placed cargo");
-				table.setValueAt(currectTime, currentColumn, 0);
-			}
+				table.setValueAt(currectTime, currentRow, 0);
+				
 		}
 	}
 }

@@ -96,7 +96,7 @@ public class Scouting {
 	static int selectedRow=0;
 	static int interval = 135;
 	static gamePieceLocation GPL;
-	String currectTime="135";
+	String currentTime="135";
 	JButton btnStartMatch = new JButton("Start match");
     static Timer timer = new Timer();
     int currentRow=0;
@@ -175,7 +175,8 @@ public class Scouting {
     	JButton btnReset = new JButton("Reset");
     	btnReset.addActionListener(new ActionListener() {
     		public void actionPerformed(ActionEvent e) {
-    			resetTimer();
+    			reset
+    			();
     			
     		}
     	});
@@ -514,7 +515,7 @@ public class Scouting {
 				e1.printStackTrace();
 				
 			}
-			resetTimer();
+			reset();
 			
 		}
 	}
@@ -551,6 +552,9 @@ public class Scouting {
 				e1.printStackTrace();
 			}
 		}
+	}
+	void resetComboBox (JComboBox box) {
+		box.getModel().setSelectedItem(box.getModel().getElementAt(0));
 	}
 	private class SwingAction extends AbstractAction {
 		public SwingAction() {
@@ -622,17 +626,7 @@ public class Scouting {
 			putValue(SHORT_DESCRIPTION, "Some short description");
 		}
 		public void actionPerformed(ActionEvent e) {
-			ComboBoxPanel.getModel().setSelectedItem(ComboBoxPanel.getModel().getElementAt(0));
-			ComboBoxCargo.getModel().setSelectedItem(ComboBoxCargo.getModel().getElementAt(0));
-			ComboBoxClimb.getModel().setSelectedItem(ComboBoxClimb.getModel().getElementAt(0));
-			
-			team.setText("");
-			RoundNum.setText("");
-			for(int x = 0; x < tableModel.getRowCount(); x++) {
-				for(int y = 0; y <tableModel.getColumnCount(); y++) {
-					tableModel.setValueAt("", x, y);
-				}
-			}
+			reset();
 		}
 	}
 	void timer() {
@@ -644,8 +638,13 @@ public class Scouting {
 
             public void run() {
             	if(hasStarted==true) {
-            		currectTime = Integer.toString(setInterval());
-            		timerLbl.setText(currectTime);
+            		currentTime = Integer.toString(setInterval());
+            		timerLbl.setText(currentTime);
+            	}
+            	if(Integer.parseInt(currentTime)==0) {
+            		hasStarted=false;
+            		GPL.frame.setVisible(false);
+            		btnHatch.setVisible(false);
             	}
 
             }
@@ -688,7 +687,7 @@ public class Scouting {
 			hasGamePiece=true;
 			table.setValueAt("hatch", currentRow, 3);
 			btnCargo.setText("Placed hatch");
-			table.setValueAt(currectTime, currentRow, 0);
+			table.setValueAt(currentTime, currentRow, 0);
 		}
 	}
 	private class SwingAction_7 extends AbstractAction {
@@ -706,7 +705,7 @@ public class Scouting {
 				hasGamePiece=true;
 				table.setValueAt("Cargo", currentRow, 3);
 				btnCargo.setText("Placed cargo");
-				table.setValueAt(currectTime, currentRow, 0);
+				table.setValueAt(currentTime, currentRow, 0);
 				
 		}
 	}
@@ -721,13 +720,29 @@ public class Scouting {
 	    }
 	    return con;
 	}
-	void resetTimer() {
+	void reset(){
+		resetComboBox(ComboBoxPanel);
+		resetComboBox(ComboBoxCargo);
+		resetComboBox(ComboBoxClimb);
+		resetComboBox(Location);
+		resetComboBox(level);
+		resetComboBox(Condition);
+		team.setText("");
+		RoundNum.setText("");
+		for(int x = 0; x < tableModel.getRowCount(); x++) {
+			for(int y = 0; y <tableModel.getColumnCount(); y++) {
+				tableModel.setValueAt("", x, y);
+			}
+		}
+		GPL.frame.setVisible(false);
+		btnHatch.setVisible(false);
+		btnCargo.setVisible(false);
+		btnStartMatch.setVisible(true);
 		hasStarted=false;
 		interval=135;
-		btnCargo.setVisible(false);
-		btnHatch.setVisible(false);
-		timer.cancel();
-		btnStartMatch.setVisible(true);
+		currentTime="135";
 		timerLbl.setText("135");
+		timer.cancel();
+		
 	}
 }

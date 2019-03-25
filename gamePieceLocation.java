@@ -82,7 +82,7 @@ public class gamePieceLocation {
 			putValue(SHORT_DESCRIPTION, "Some short description");
 		}
 		public void actionPerformed(ActionEvent e) {
-			main.tableModel.setValueAt(main.currectTime+" X", main.currentRow, 1);
+			main.tableModel.setValueAt(main.currentTime+" X", main.currentRow, 1);
 			main.tableModel.setValueAt("Failed", main.currentRow, 2);
 			main.btnHatch.setVisible(true);
 			frame.setVisible(false);
@@ -126,7 +126,7 @@ public class gamePieceLocation {
 	void done() {
 		main.btnHatch.setVisible(true);
 		frame.setVisible(false);
-		main.table.setValueAt(main.currectTime, main.currentRow, 1);
+		main.table.setValueAt(main.currentTime, main.currentRow, 1);
 		main.currentRow++;
 		
 	}

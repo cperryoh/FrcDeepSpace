@@ -687,7 +687,6 @@ public class Scouting {
 			GPL.frame.setVisible(true);
 			hasGamePiece=true;
 			table.setValueAt("hatch", currentRow, 3);
-			btnCargo.setText("Placed hatch");
 			table.setValueAt(currentTime, currentRow, 0);
 		}
 	}
@@ -705,7 +704,6 @@ public class Scouting {
 				GPL.frame.setVisible(true);
 				hasGamePiece=true;
 				table.setValueAt("Cargo", currentRow, 3);
-				btnCargo.setText("Placed cargo");
 				table.setValueAt(currentTime, currentRow, 0);
 				
 		}

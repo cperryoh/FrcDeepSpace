@@ -436,7 +436,7 @@ public class Scouting {
 			try {
 				//System.out.println(teamFolder.getAbsolutePath());
 				//loops through all folders in the scouting folder
-				File f = new File(teamFolder.getAbsolutePath()+"\\"+team.getText());
+				File f = new File(teamFolder.getAbsolutePath()+"/"+team.getText());
 				f.mkdir();
 				//creates and populates text file
 				
@@ -449,7 +449,7 @@ public class Scouting {
 						break;
 					}
 				}
-				Writer  FW = new FileWriter (teamFolder.getAbsolutePath()+"\\overView.txt",true);
+				Writer  FW = new FileWriter (teamFolder.getAbsolutePath()+"/overView.txt",true);
 				BufferedWriter writer = new BufferedWriter(FW);
 				if(foundFile==false) {
 					writer.write("Team number,highest cargo,starting location,robot condition,higest panel,climb level");
@@ -458,7 +458,7 @@ public class Scouting {
 				writer.write(team.getText()+","+ComboBoxValue(ComboBoxPanel)+","+ComboBoxValue(Location)+":"+ComboBoxValue(level)+","+ComboBoxValue(Condition)+","+ComboBoxValue(ComboBoxPanel)+","+ComboBoxValue(ComboBoxClimb));
 				writer.close();
 				FW.close();
-				PrintWriter writer2 = new PrintWriter(f.getAbsolutePath()+"\\Round "+RoundNum.getText()+".txt", "UTF-8");
+				PrintWriter writer2 = new PrintWriter(f.getAbsolutePath()+"/Round "+RoundNum.getText()+".txt", "UTF-8");
 				//creates key
 				
 				ArrayList myList = new ArrayList();
@@ -541,11 +541,11 @@ public class Scouting {
 			putValue(SHORT_DESCRIPTION, "Some short description");
 		}
 		public void actionPerformed(ActionEvent e) {
-			JFileChooser chooser = new JFileChooser(userHome +"\\Desktop");
+			JFileChooser chooser = new JFileChooser(userHome +"/Desktop");
 		    chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 		    chooser.showDialog(frame, "Choose folder");
 			String path = chooser.getSelectedFile().getAbsolutePath();
-		    Path folder = Paths.get(path+"\\scouting");
+		    Path folder = Paths.get(path+"/scouting");
 			try {
 				Files.move(teamFolder.toPath(), folder, StandardCopyOption.REPLACE_EXISTING);
 			} catch (IOException e1) {

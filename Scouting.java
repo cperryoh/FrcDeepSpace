@@ -458,7 +458,7 @@ public class Scouting {
 					writer.write("Team number,highest cargo,starting location,robot condition,higest panel,climb level");
 				}
 				writer.newLine();
-				writer.write(team.getText()+","+ComboBoxValue(ComboBoxPanel)+","+ComboBoxValue(Location)+":"+ComboBoxValue(level)+","+ComboBoxValue(Condition)+","+ComboBoxValue(ComboBoxPanel)+","+ComboBoxValue(ComboBoxClimb));
+				writer.write(team.getText()+","+ComboBoxValue(ComboBoxCargo)+","+ComboBoxValue(Location)+":"+ComboBoxValue(level)+","+ComboBoxValue(Condition)+","+ComboBoxValue(ComboBoxPanel)+","+ComboBoxValue(ComboBoxClimb));
 				writer.close();
 				FW.close();
 				PrintWriter writer2 = new PrintWriter(f.getAbsolutePath()+sep+"Round "+RoundNum.getText()+".txt", "UTF-8");

@@ -87,11 +87,11 @@ public class Scouting {
 	JComboBox ComboBoxPanel = new JComboBox();
 	JComboBox ComboBoxCargo = new JComboBox();
 	JTabbedPane CargoOrPanel = new JTabbedPane(JTabbedPane.TOP);
-	String userHome = System.getProperty("user.home");
+	String Desktop = System.getProperty("user.home")+"\\Desktop";
 	JComboBox Condition = new JComboBox();
 	JComboBox level = new JComboBox();
 	JComboBox Location = new JComboBox();
-	File teamFolder = new File(userHome+"\\Desktop\\scouting");
+	File teamFolder = new File(Desktop+"\\scouting");
 	public static JTable table;
 	static int selectedRow=0;
 	static int interval = 135;
@@ -541,7 +541,7 @@ public class Scouting {
 			putValue(SHORT_DESCRIPTION, "Some short description");
 		}
 		public void actionPerformed(ActionEvent e) {
-			JFileChooser chooser = new JFileChooser(userHome +"\\Desktop");
+			JFileChooser chooser = new JFileChooser(Desktop);
 		    chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 		    chooser.showDialog(frame, "Choose folder");
 			String path = chooser.getSelectedFile().getAbsolutePath();

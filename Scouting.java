@@ -83,15 +83,16 @@ public class Scouting {
 	private final Action action = new Enter();
 	private JTextField team;
 	JComboBox ComboBoxClimb = new JComboBox();
+	String sep = File.separator;
 	JLabel timerLbl = new JLabel("135");
 	JComboBox ComboBoxPanel = new JComboBox();
 	JComboBox ComboBoxCargo = new JComboBox();
 	JTabbedPane CargoOrPanel = new JTabbedPane(JTabbedPane.TOP);
-	String Desktop = System.getProperty("user.home")+"\\Desktop";
+	String Desktop = System.getProperty("user.home")+sep+"Desktop";
 	JComboBox Condition = new JComboBox();
 	JComboBox level = new JComboBox();
 	JComboBox Location = new JComboBox();
-	File teamFolder = new File(Desktop+"\\scouting");
+	File teamFolder = new File(Desktop+sep+"scouting");
 	public static JTable table;
 	static int selectedRow=0;
 	static int interval = 135;
@@ -434,9 +435,10 @@ public class Scouting {
 	void enter() throws IOException {
 		if(enterable) {
 			try {
+				teamFolder=new File(Desktop+sep+"scouting");
 				//System.out.println(teamFolder.getAbsolutePath());
 				//loops through all folders in the scouting folder
-				File f = new File(teamFolder.getAbsolutePath()+"\\"+team.getText());
+				File f = new File(teamFolder.getAbsolutePath()+sep+team.getText());
 				f.mkdir();
 				//creates and populates text file
 				
@@ -449,7 +451,7 @@ public class Scouting {
 						break;
 					}
 				}
-				Writer  FW = new FileWriter (teamFolder.getAbsolutePath()+"\\overView.txt",true);
+				Writer  FW = new FileWriter (teamFolder.getAbsolutePath()+sep+"overView.txt",true);
 				BufferedWriter writer = new BufferedWriter(FW);
 				if(foundFile==false) {
 					writer.write("Team number,highest cargo,starting location,robot condition,higest panel,climb level");
@@ -458,7 +460,7 @@ public class Scouting {
 				writer.write(team.getText()+","+ComboBoxValue(ComboBoxPanel)+","+ComboBoxValue(Location)+":"+ComboBoxValue(level)+","+ComboBoxValue(Condition)+","+ComboBoxValue(ComboBoxPanel)+","+ComboBoxValue(ComboBoxClimb));
 				writer.close();
 				FW.close();
-				PrintWriter writer2 = new PrintWriter(f.getAbsolutePath()+"\\Round "+RoundNum.getText()+".txt", "UTF-8");
+				PrintWriter writer2 = new PrintWriter(f.getAbsolutePath()+sep+"Round "+RoundNum.getText()+".txt", "UTF-8");
 				//creates key
 				
 				ArrayList myList = new ArrayList();
@@ -545,7 +547,7 @@ public class Scouting {
 		    chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 		    chooser.showDialog(frame, "Choose folder");
 			String path = chooser.getSelectedFile().getAbsolutePath();
-		    Path folder = Paths.get(path+"\\scouting");
+		    Path folder = Paths.get(path+sep+"scouting");
 			try {
 				Files.move(teamFolder.toPath(), folder, StandardCopyOption.REPLACE_EXISTING);
 			} catch (IOException e1) {

@@ -408,7 +408,7 @@ public class Scouting {
 		panel.add(lblEndGameClimb);
 		
 		
-		ComboBoxClimb.setModel(new DefaultComboBoxModel(new String[] {"N\\A", "1", "2", "3"}));
+		ComboBoxClimb.setModel(new DefaultComboBoxModel(new String[] {"N\\A", "One", "Two", "Three"}));
 		ComboBoxClimb.setBounds(139, 32, 77, 26);
 		panel.add(ComboBoxClimb);
 		
@@ -456,10 +456,10 @@ public class Scouting {
 				Writer  FW = new FileWriter (teamFolder.getAbsolutePath()+sep+"overView.txt",true);
 				BufferedWriter writer = new BufferedWriter(FW);
 				if(foundFile==false) {
-					writer.write("Team number,highest cargo,starting location,robot condition,higest panel,climb level");
+					writer.write("Team number,highest cargo,higest panel,starting location,robot condition,climb level");
 				}
 				writer.newLine();
-				writer.write(team.getText()+","+ComboBoxValue(ComboBoxCargo)+","+ComboBoxValue(Location)+":"+ComboBoxValue(level)+","+ComboBoxValue(Condition)+","+ComboBoxValue(ComboBoxPanel)+","+ComboBoxValue(ComboBoxClimb));
+				writer.write(team.getText()+","+ComboBoxValue(ComboBoxCargo)+","+ComboBoxValue(ComboBoxPanel)+","+ComboBoxValue(Location)+":"+ComboBoxValue(level)+","+ComboBoxValue(Condition)+","+ComboBoxValue(ComboBoxClimb));
 				writer.close();
 				FW.close();
 				PrintWriter writer2 = new PrintWriter(f.getAbsolutePath()+sep+"Round "+RoundNum.getText()+".txt", "UTF-8");

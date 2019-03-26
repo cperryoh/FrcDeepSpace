@@ -175,8 +175,7 @@ public class Scouting {
     	JButton btnReset = new JButton("Reset");
     	btnReset.addActionListener(new ActionListener() {
     		public void actionPerformed(ActionEvent e) {
-    			reset
-    			();
+    			reset();
     			
     		}
     	});
@@ -372,13 +371,14 @@ public class Scouting {
 		CargoOrPanel.addTab("Panel", null, panel_1, null);
 		panel_1.setLayout(null);
 		
-		JLabel label = new JLabel("Rocket level:");
-		label.setBounds(27, 32, 106, 20);
-		panel_1.add(label);
+		JLabel lblHighestRocketLevel = new JLabel("Highest rocket level:");
+		lblHighestRocketLevel.setHorizontalAlignment(SwingConstants.RIGHT);
+		lblHighestRocketLevel.setBounds(0, 32, 209, 20);
+		panel_1.add(lblHighestRocketLevel);
 		
 		
 		ComboBoxPanel.setModel(new DefaultComboBoxModel(new String[] {"N/A", "One", "Two", "Three"}));
-		ComboBoxPanel.setBounds(130, 29, 86, 26);
+		ComboBoxPanel.setBounds(224, 29, 86, 26);
 		panel_1.add(ComboBoxPanel);
 		
 		
@@ -386,13 +386,14 @@ public class Scouting {
 		CargoOrPanel.addTab("Cargo", null, Cargo, null);
 		Cargo.setLayout(null);
 		
-		JLabel lblRocketLevel = new JLabel("Rocket level:");
-		lblRocketLevel.setBounds(14, 32, 106, 20);
+		JLabel lblRocketLevel = new JLabel("Highest rocket level:");
+		lblRocketLevel.setHorizontalAlignment(SwingConstants.RIGHT);
+		lblRocketLevel.setBounds(0, 19, 204, 20);
 		Cargo.add(lblRocketLevel);
 		
 		
 		ComboBoxCargo.setModel(new DefaultComboBoxModel(new String[] {"N/A", "One", "Two", "Three"}));
-		ComboBoxCargo.setBounds(130, 29, 86, 26);
+		ComboBoxCargo.setBounds(214, 16, 86, 26);
 		Cargo.add(ComboBoxCargo);
 		
 		JPanel panel = new JPanel();
@@ -433,7 +434,7 @@ public class Scouting {
 	void enter() throws IOException {
 		if(enterable) {
 			try {
-				System.out.println(teamFolder.getAbsolutePath());
+				//System.out.println(teamFolder.getAbsolutePath());
 				//loops through all folders in the scouting folder
 				File f = new File(teamFolder.getAbsolutePath()+"\\"+team.getText());
 				f.mkdir();
@@ -721,11 +722,13 @@ public class Scouting {
 	    return con;
 	}
 	void reset(){
+		currentRow=0;
 		resetComboBox(ComboBoxPanel);
 		resetComboBox(ComboBoxCargo);
 		resetComboBox(ComboBoxClimb);
 		resetComboBox(Location);
 		resetComboBox(level);
+		
 		resetComboBox(Condition);
 		team.setText("");
 		RoundNum.setText("");
@@ -738,6 +741,7 @@ public class Scouting {
 		btnHatch.setVisible(false);
 		btnCargo.setVisible(false);
 		btnStartMatch.setVisible(true);
+		btnStartMatch.setText("Start match");
 		hasStarted=false;
 		interval=135;
 		currentTime="135";

@@ -648,8 +648,11 @@ public class Scouting {
             	}
             	if(Integer.parseInt(currentTime)==0) {
             		hasStarted=false;
+            		btnStartMatch.setVisible(true);
             		GPL.frame.setVisible(false);
             		btnHatch.setVisible(false);
+            		btnCargo.setVisible(false);
+            		
             	}
 
             }

@@ -436,6 +436,7 @@ public class Scouting {
 		if(enterable) {
 			try {
 				teamFolder=new File(Desktop+sep+"scouting");
+				teamFolder.mkdir();
 				//System.out.println(teamFolder.getAbsolutePath());
 				//loops through all folders in the scouting folder
 				File f = new File(teamFolder.getAbsolutePath()+sep+team.getText());

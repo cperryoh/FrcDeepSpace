@@ -84,9 +84,11 @@ public class Scouting {
 	private JTextField team;
 	JComboBox ComboBoxClimb = new JComboBox();
 	String sep = File.separator;
-	JLabel timerLbl = new JLabel("135");
+	JLabel timerLbl = new JLabel("150");
 	JComboBox ComboBoxPanel = new JComboBox();
+	boolean hatch=false;
 	JComboBox ComboBoxCargo = new JComboBox();
+	public int HighestCargo,HighestHatch=0;
 	JTabbedPane CargoOrPanel = new JTabbedPane(JTabbedPane.TOP);
 	String Desktop = System.getProperty("user.home")+sep+"Desktop";
 	JComboBox Condition = new JComboBox();
@@ -95,9 +97,9 @@ public class Scouting {
 	File teamFolder = new File(Desktop+sep+"scouting");
 	public static JTable table;
 	static int selectedRow=0;
-	static int interval = 135;
+	static int interval = 150;
 	static gamePieceLocation GPL;
-	String currentTime="135";
+	String currentTime="150";
 	JButton btnStartMatch = new JButton("Start match");
     static Timer timer = new Timer();
     int currentRow=0;
@@ -193,6 +195,20 @@ public class Scouting {
     	btnCargo.setVisible(false);
     	btnCargo.setBounds(166, 52, 146, 29);
     	frmMadeByCole.getContentPane().add(btnCargo);
+    	
+    	JMenuBar menuBar = new JMenuBar();
+    	frmMadeByCole.setJMenuBar(menuBar);
+    	
+    	JMenu mnStartingGamePiece = new JMenu("Starting game piece");
+    	menuBar.add(mnStartingGamePiece);
+    	
+    	JMenuItem mntmCargo = new JMenuItem("Cargo");
+    	mntmCargo.setAction(action_8);
+    	mnStartingGamePiece.add(mntmCargo);
+    	
+    	JMenuItem mntmHatch = new JMenuItem("Hatch");
+    	mntmHatch.setAction(action_7);
+    	mnStartingGamePiece.add(mntmHatch);
     	
     	JPopupMenu popupMenu = new JPopupMenu();
     	addPopup(frmMadeByCole, popupMenu);
@@ -416,7 +432,7 @@ public class Scouting {
 		CargoOrPanel.addTab("Disabilities", null, panel_2, null);
 		
 		
-		Condition.setModel(new DefaultComboBoxModel(new String[] {"not working at all", "broken feature", "working", ""}));
+		Condition.setModel(new DefaultComboBoxModel(new String[] {"working","not working at all", "broken feature",  ""}));
 		panel_2.add(Condition);
 		
 		JPanel panel_3 = new JPanel();
@@ -467,7 +483,7 @@ public class Scouting {
 				
 				ArrayList myList = new ArrayList();
 				TableModel tableModle = table.getModel();
-				
+				writer2.print("Team number, round number,");
 				for(int x = 0; x < tableModle.getColumnCount(); x++) {
 					if(x<tableModle.getColumnCount()-1) {
 						writer2.print(tableModle.getColumnName(x)+",");
@@ -480,6 +496,9 @@ public class Scouting {
 				//creates table
 				writer2.println();
 				for(int i = 0; i < tableModle.getRowCount(); i++) {
+					if(tableModel.getValueAt(i, 0)!=null) {
+						writer2.print(team.getText()+","+RoundNum.getText()+",");
+					}
 					for(int y = 0; y < tableModle.getColumnCount(); y++) {
 						if(y<tableModle.getColumnCount()-1&&tableModel.getValueAt(i, y)!=null) {
 							writer2.print((String) tableModle.getValueAt(i, y)+",");
@@ -637,7 +656,7 @@ public class Scouting {
 	void timer() {
         int delay = 1000;
         int period = 1000;
-        timerLbl.setText("135");
+        timerLbl.setText("150");
         timer= new Timer();
         timer.scheduleAtFixedRate(new TimerTask() {
 
@@ -648,6 +667,7 @@ public class Scouting {
             	}
             	if(Integer.parseInt(currentTime)==0) {
             		hasStarted=false;
+            		btnStartMatch.setText("Start match");
             		btnStartMatch.setVisible(true);
             		GPL.frame.setVisible(false);
             		btnHatch.setVisible(false);
@@ -673,8 +693,16 @@ public class Scouting {
 			if(hasStarted==false) {
 				hasStarted=true;
 				timer();
-				btnCargo.setVisible(true);
-    			btnHatch.setVisible(true);
+				if(hasGamePiece==false) {
+					btnCargo.setVisible(true);
+    				btnHatch.setVisible(true);
+    				GPL.frame.setVisible(false);
+				}
+				else {
+					btnCargo.setVisible(false);
+    				btnHatch.setVisible(false);
+    				GPL.frame.setVisible(true);
+				}
     			btnStartMatch.setVisible(false);
 				btnStartMatch.setText("Pick up game piece");
 			}
@@ -689,11 +717,23 @@ public class Scouting {
 			if(currentRow == table.getRowCount()) {
 				tableModel.addRow(new Object[]{});
 			}
+			if(Integer.parseInt(currentTime)>=135) {
+				table.setValueAt("hatch(sand storm)", currentRow, 3);
+			}
+			else {
+				table.setValueAt("hatch", currentRow, 3);
+			}
 			btnHatch.setVisible(false);
-			GPL.frame.setLocation(frmMadeByCole.getLocation());
-			GPL.frame.setVisible(true);
+			hatch=true;
+			btnCargo.setVisible(false);
+			GPL.frame.setLocation(frmMadeByCole.getX()-GPL.frame.getWidth(), frmMadeByCole.getY());
+			if(hasStarted==true) {
+				GPL.frame.setVisible(true);
+			}
+			else {
+				GPL.frame.setVisible(false);
+			}
 			hasGamePiece=true;
-			table.setValueAt("hatch", currentRow, 3);
 			table.setValueAt(currentTime, currentRow, 0);
 		}
 	}
@@ -703,15 +743,27 @@ public class Scouting {
 			putValue(SHORT_DESCRIPTION, "Some short description");
 		}
 		public void actionPerformed(ActionEvent e) {
-				if(currentRow == table.getRowCount()) {
-					tableModel.addRow(new Object[]{});
-				}
-				btnHatch.setVisible(false);
-				GPL.frame.setLocation(frmMadeByCole.getLocation());
+			if(currentRow == table.getRowCount()) {
+				tableModel.addRow(new Object[]{});
+			}
+			if(Integer.parseInt(currentTime)>=135) {
+				table.setValueAt("cargo(sand storm)", currentRow, 3);
+			}
+			else {
+				table.setValueAt("cargo", currentRow, 3);
+			}
+			btnHatch.setVisible(false);
+			hatch=false;
+			btnCargo.setVisible(false);
+			GPL.frame.setLocation(frmMadeByCole.getX()-GPL.frame.getWidth(), frmMadeByCole.getY());
+			if(hasStarted==true) {
 				GPL.frame.setVisible(true);
-				hasGamePiece=true;
-				table.setValueAt("Cargo", currentRow, 3);
-				table.setValueAt(currentTime, currentRow, 0);
+			}
+			else {
+				GPL.frame.setVisible(false);
+			}
+			hasGamePiece=true;
+			table.setValueAt(currentTime, currentRow, 0);
 				
 		}
 	}
@@ -748,9 +800,10 @@ public class Scouting {
 		btnStartMatch.setVisible(true);
 		btnStartMatch.setText("Start match");
 		hasStarted=false;
-		interval=135;
-		currentTime="135";
-		timerLbl.setText("135");
+		hasGamePiece=false;
+		interval=150;
+		currentTime="150";
+		timerLbl.setText("150");
 		timer.cancel();
 		
 	}

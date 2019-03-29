@@ -85,6 +85,7 @@ public class gamePieceLocation {
 			main.tableModel.setValueAt(main.currentTime+" X", main.currentRow, 1);
 			main.tableModel.setValueAt("Failed", main.currentRow, 2);
 			main.btnHatch.setVisible(true);
+			main.btnCargo.setVisible(true);
 			frame.setVisible(false);
 			main.currentRow++;
 			
@@ -100,6 +101,15 @@ public class gamePieceLocation {
 		public void actionPerformed(ActionEvent e) {
 
 			main.tableModel.setValueAt("R1", main.currentRow, 2);
+			if(main.HighestCargo<1 && main.hatch==false) {
+				main.HighestCargo=1;
+				main.ComboBoxCargo.getModel().setSelectedItem(main.ComboBoxCargo.getModel().getElementAt(1));
+			}
+			if(main.HighestHatch<1 && main.hatch) {
+				main.HighestHatch=1;
+				main.ComboBoxPanel.getModel().setSelectedItem(main.ComboBoxPanel.getModel().getElementAt(1));
+			}
+			
 			done();
 		}
 	}
@@ -110,6 +120,15 @@ public class gamePieceLocation {
 		}
 		public void actionPerformed(ActionEvent e) {
 			main.tableModel.setValueAt("R2", main.currentRow, 2);
+			if(main.HighestCargo<1 && main.hatch==false) {
+				main.HighestCargo=2;
+				main.ComboBoxCargo.getModel().setSelectedItem(main.ComboBoxCargo.getModel().getElementAt(2));
+			}
+			if(main.HighestHatch<1 && main.hatch) {
+				main.HighestHatch=2;
+				main.ComboBoxPanel.getModel().setSelectedItem(main.ComboBoxPanel.getModel().getElementAt(2));
+			}
+			
 			done();
 		}
 	}
@@ -120,11 +139,21 @@ public class gamePieceLocation {
 		}
 		public void actionPerformed(ActionEvent e) {
 			main.tableModel.setValueAt("R3", main.currentRow, 2);
+			if(main.hatch==false) {
+				main.HighestCargo=3;
+				main.ComboBoxCargo.getModel().setSelectedItem(main.ComboBoxCargo.getModel().getElementAt(3));
+			}
+			if(main.hatch) {
+				main.HighestHatch=3;
+				main.ComboBoxPanel.getModel().setSelectedItem(main.ComboBoxPanel.getModel().getElementAt(3));
+			}
+			
 			done();
 		}
 	}
 	void done() {
 		main.btnHatch.setVisible(true);
+		main.btnCargo.setVisible(true);
 		frame.setVisible(false);
 		main.table.setValueAt(main.currentTime, main.currentRow, 1);
 		main.currentRow++;

@@ -87,6 +87,7 @@ public class Scouting {
 	JLabel timerLbl = new JLabel("150");
 	JComboBox ComboBoxPanel = new JComboBox();
 	boolean hatch=false;
+	
 	JComboBox ComboBoxCargo = new JComboBox();
 	public int HighestCargo,HighestHatch=0;
 	JTabbedPane CargoOrPanel = new JTabbedPane(JTabbedPane.TOP);
@@ -135,6 +136,7 @@ public class Scouting {
 	private final Action action_6 = new SwingAction_5();
 	private final Action action_7 = new SwingAction_6();
 	private final Action action_8 = new SwingAction_7();
+	private final Action action_9 = new SwingAction_8();
 	
 	/**
 	 * Launch the application.
@@ -195,6 +197,11 @@ public class Scouting {
     	btnCargo.setVisible(false);
     	btnCargo.setBounds(166, 52, 146, 29);
     	frmMadeByCole.getContentPane().add(btnCargo);
+    	
+    	JButton btnCompileData = new JButton("Compile data");
+    	btnCompileData.setAction(action_9);
+    	btnCompileData.setBounds(820, 30, 196, 29);
+    	frmMadeByCole.getContentPane().add(btnCompileData);
     	
     	JMenuBar menuBar = new JMenuBar();
     	frmMadeByCole.setJMenuBar(menuBar);
@@ -494,7 +501,6 @@ public class Scouting {
 				}
 				
 				//creates table
-				writer2.println();
 				for(int i = 0; i < tableModle.getRowCount(); i++) {
 					if(tableModel.getValueAt(i, 0)!=null) {
 						writer2.print(team.getText()+","+RoundNum.getText()+",");
@@ -507,32 +513,12 @@ public class Scouting {
 							writer2.print((String) tableModle.getValueAt(i, y));
 						}
 					}
-					writer2.println("");
-				}
-				
-				//calculating avg and printing other info
-				Double time=0.0;
-				Double amountOfEntrys=0.0;
-				for(int i = 0; i < table.getRowCount(); i++) {
-					if(isNumber(getCellValue(tableModle, i, 0))&&isNumber(getCellValue(tableModle, i, 1))) {
-						double valueOne,valueTwo;
-						amountOfEntrys++;
-						valueOne = Double.parseDouble(((String)tableModle.getValueAt(i, 0)));
-						valueTwo = Double.parseDouble(((String)tableModle.getValueAt(i, 1)));
-						time+=(valueOne-valueTwo);
+					if(i!=tableModle.getRowCount()-1 &&tableModel.getValueAt(i, 0)!=null) {
+						writer2.println("");
 					}
 				}
-				Double avg =  time/amountOfEntrys;
-				DecimalFormat dcf= new DecimalFormat("0.##");
-				if(!Double.isNaN(avg)&& avg!=0.0) {
-					writer2.println("\nThe average time for team "+team.getText()+" to successfully place a game piece is during round "+RoundNum.getText()+" is "+dcf.format(avg)+" seconds.");
-					//System.out.println(Double.isNaN(avg));
-					
-				}
-				else {
-					System.out.println(avg);
-					writer2.println("Somthing went wrong while calculating the\n average, you might not have defined if the team was actually able to \nplace the hatch panel/cargo. You also may have not given one of the value required");
-				}
+				
+				
 				writer2.close();
 			} catch (FileNotFoundException | UnsupportedEncodingException e1) {
 				// TODO Auto-generated catch block
@@ -770,14 +756,6 @@ public class Scouting {
 	String ComboBoxValue(JComboBox box){
 		return (String) box.getModel().getElementAt(box.getSelectedIndex());
 	}
-	String getFileContents(File f) throws FileNotFoundException {
-		Scanner sc = new Scanner(f); 
-		String con="";
-	    while (sc.hasNextLine()) { 
-	      con=con+sc.nextLine();
-	    }
-	    return con;
-	}
 	void reset(){
 		currentRow=0;
 		resetComboBox(ComboBoxPanel);
@@ -806,5 +784,45 @@ public class Scouting {
 		timerLbl.setText("150");
 		timer.cancel();
 		
+	}
+	private class SwingAction_8 extends AbstractAction {
+		public SwingAction_8() {
+			putValue(NAME, "Compile data");
+			putValue(SHORT_DESCRIPTION, "Some short description");
+		}
+		public void actionPerformed(ActionEvent e) {
+			BufferedWriter writer=null;
+			try {
+				writer = new BufferedWriter(new FileWriter (Desktop+sep+"scouting.txt"));
+
+				
+				writer.write("Team number,highest cargo,higest panel,starting location,robot condition,climb level");
+			} catch (IOException e2) {
+				// TODO Auto-generated catch block
+				e2.printStackTrace();
+			}
+			File[] textFiles = new File[teamFolder.listFiles().length-1];
+			try {
+				for(int x = 0; x < textFiles.length; x++) {
+					File currentFoleder = teamFolder.listFiles()[x]; 
+					if(currentFoleder.isDirectory()) {
+						for(int i = 0; i < currentFoleder.listFiles().length; i++) {
+							textFiles[i] = currentFoleder.listFiles()[i];
+							BufferedReader r = new BufferedReader (new FileReader(textFiles[i]));
+							String throwAway = r.readLine();
+							String st;
+							while((st = r.readLine())!=null) {
+								writer.write(st);
+								writer.newLine();
+							}
+						}
+					}
+				}
+				writer.close();
+			}
+			catch(IOException e1) {
+				e1.printStackTrace();
+			}
+		}
 	}
 }

@@ -488,6 +488,7 @@ public class Scouting {
 				PrintWriter writer2 = new PrintWriter(f.getAbsolutePath()+sep+"Round "+RoundNum.getText()+".txt", "UTF-8");
 				//creates key
 				
+				
 				ArrayList myList = new ArrayList();
 				TableModel tableModle = table.getModel();
 				writer2.print("Team number, round number,");
@@ -499,7 +500,7 @@ public class Scouting {
 						writer2.print(tableModle.getColumnName(x)+" ");
 					}
 				}
-				
+				writer2.println();
 				//creates table
 				for(int i = 0; i < tableModle.getRowCount(); i++) {
 					if(tableModel.getValueAt(i, 0)!=null) {

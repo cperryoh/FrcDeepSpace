@@ -6,6 +6,8 @@ import java.awt.event.ActionEvent;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.JFrame;
+import javax.swing.WindowConstants;
+
 import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.RowSpec;
@@ -28,6 +30,7 @@ public class gamePieceLocation {
 	 */
 	public gamePieceLocation(Scouting s) {
 		initialize();
+		frame.setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
 		main = s;
 	}
 
@@ -35,6 +38,7 @@ public class gamePieceLocation {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
+
 		frame = new JFrame();
 		frame.setResizable(false);
 		frame.setBounds(100, 100, 255, 180);

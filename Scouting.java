@@ -72,10 +72,6 @@ import java.awt.Font;
 import java.awt.event.ActionListener;
 import javax.swing.JInternalFrame;
 import java.awt.GridLayout;
-import com.jgoodies.forms.layout.FormLayout;
-import com.jgoodies.forms.layout.ColumnSpec;
-import com.jgoodies.forms.layout.RowSpec;
-import com.jgoodies.forms.layout.FormSpecs;
 
 public class Scouting {
 
@@ -84,6 +80,8 @@ public class Scouting {
 	private JTextField team;
 	JComboBox ComboBoxClimb = new JComboBox();
 	String sep = File.separator;
+	public int[] cargoCycleTime=new int[table.getModel().getRowCount()+20];
+	public int[] panelCycleTime=cargoCycleTime;
 	JLabel timerLbl = new JLabel("150");
 	JComboBox ComboBoxPanel = new JComboBox();
 	boolean hatch=false;
@@ -795,8 +793,7 @@ public class Scouting {
 			BufferedWriter writer=null;
 			try {
 				writer = new BufferedWriter(new FileWriter (Desktop+sep+"scouting.txt"));
-
-				
+				enter();
 				writer.write("Team number,highest cargo,higest panel,starting location,robot condition,climb level");
 			} catch (IOException e2) {
 				// TODO Auto-generated catch block
@@ -825,5 +822,12 @@ public class Scouting {
 				e1.printStackTrace();
 			}
 		}
+	}
+	String ArrayToString(Object[]arr){
+		String value="";
+		for(int i = 0; i < arr.length; i++) {
+			
+		}
+		return value;
 	}
 }

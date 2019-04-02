@@ -3,20 +3,19 @@ package FrcDeepSpace;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 
+import javax.imageio.ImageIO;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
-<<<<<<< HEAD
 import javax.swing.WindowConstants;
-
-import com.jgoodies.forms.layout.FormLayout;
-import com.jgoodies.forms.layout.ColumnSpec;
-import com.jgoodies.forms.layout.RowSpec;
-import com.jgoodies.forms.layout.FormSpecs;
-=======
->>>>>>> bb1766060f4859f7183628316565e3cb6fe3c556
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+
+import javax.swing.JLabel;
 
 public class gamePieceLocation {
 
@@ -30,8 +29,9 @@ public class gamePieceLocation {
 
 	/**
 	 * Create the application.
+	 * @throws IOException 
 	 */
-	public gamePieceLocation(Scouting s) {
+	public gamePieceLocation(Scouting s) throws IOException {
 		initialize();
 		frame.setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
 		main = s;
@@ -39,12 +39,13 @@ public class gamePieceLocation {
 
 	/**
 	 * Initialize the contents of the frame.
+	 * @throws IOException 
 	 */
-	private void initialize() {
+	private void initialize() throws IOException {
 
 		frame = new JFrame();
 		frame.setResizable(false);
-		frame.setBounds(100, 100, 255, 180);
+		frame.setBounds(100, 100, 511, 347);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
@@ -72,6 +73,12 @@ public class gamePieceLocation {
 		button_4.setAction(action_12);
 		button_4.setBounds(177, 53, 51, 29);
 		frame.getContentPane().add(button_4);
+		
+		JLabel CS = new JLabel("");
+		BufferedImage csImage = ImageIO.read(getClass().getResource("cs.jpg"));
+	    JLabel label = new JLabel(new ImageIcon(csImage));
+		CS.setSize(csImage.getWidth(), csImage.getHeight());
+		frame.getContentPane().add(CS);
 	}
 	private class SwingAction_8 extends AbstractAction {
 		public SwingAction_8() {
@@ -166,6 +173,4 @@ public class gamePieceLocation {
 		main.currentRow++;
 		
 	}
-	
 }
-

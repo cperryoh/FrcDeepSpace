@@ -6,12 +6,15 @@ import java.awt.event.ActionEvent;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.JFrame;
+<<<<<<< HEAD
 import javax.swing.WindowConstants;
 
 import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.RowSpec;
 import com.jgoodies.forms.layout.FormSpecs;
+=======
+>>>>>>> bb1766060f4859f7183628316565e3cb6fe3c556
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 

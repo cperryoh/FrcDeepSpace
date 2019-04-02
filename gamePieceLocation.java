@@ -45,7 +45,7 @@ public class gamePieceLocation {
 
 		frame = new JFrame();
 		frame.setResizable(false);
-		frame.setBounds(100, 100, 511, 347);
+		frame.setBounds(100, 100, 260, 168);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
@@ -74,11 +74,7 @@ public class gamePieceLocation {
 		button_4.setBounds(177, 53, 51, 29);
 		frame.getContentPane().add(button_4);
 		
-		JLabel CS = new JLabel("");
-		BufferedImage csImage = ImageIO.read(getClass().getResource("cs.jpg"));
-	    JLabel label = new JLabel(new ImageIcon(csImage));
-		CS.setSize(csImage.getWidth(), csImage.getHeight());
-		frame.getContentPane().add(CS);
+		
 	}
 	private class SwingAction_8 extends AbstractAction {
 		public SwingAction_8() {

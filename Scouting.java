@@ -81,6 +81,7 @@ import javax.swing.JInternalFrame;
 import java.awt.GridLayout;
 
 public class Scouting {
+
 	private JFrame frame;
 	private final Action action = new Enter();
 	private JTextField team;
@@ -100,7 +101,6 @@ public class Scouting {
 	File teamFolder = new File(Desktop+sep+"scouting");
 	public static JTable table;
 	static int selectedRow=0;
-	File sa;
 	static int interval = 150;
 	static gamePieceLocation GPL;
 	String currentTime="150";
@@ -165,8 +165,6 @@ public class Scouting {
 	public Scouting() throws IOException {
 		initialize();
 		teamFolder.mkdir();
-		sa=new File(teamFolder.getAbsolutePath()+sep+"data averages (don't open)");
-		sa.mkdir();
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		int width = (int)screenSize.getWidth();
     	int height =(int) screenSize.getHeight();
@@ -210,7 +208,8 @@ public class Scouting {
     	btnCompileData.setBounds(820, 30, 196, 29);
     	frame.getContentPane().add(btnCompileData);
     	
- 
+
+    
     	JMenuBar menuBar = new JMenuBar();
     	frame.setJMenuBar(menuBar);
     	
@@ -500,7 +499,6 @@ public class Scouting {
 				
 				ArrayList myList = new ArrayList();
 				TableModel tableModle = table.getModel();
-				
 				writer2.print("Team number, round number,");
 				for(int x = 0; x < tableModle.getColumnCount(); x++) {
 					if(x<tableModle.getColumnCount()-1) {
@@ -509,37 +507,28 @@ public class Scouting {
 					else {
 						writer2.print(tableModle.getColumnName(x)+" ");
 					}
-					
 				}
 				writer2.println();
 				//creates table
-				int[][] hatchTimes= new int[2][tableModle.getRowCount()],cargoTimes = new int[2][tableModle.getRowCount()];
-				for(int x = 0; x < tableModle.getRowCount(); x++) {
-					if(tableModel.getValueAt(x, 0)!=null) {
+				for(int i = 0; i < tableModle.getRowCount(); i++) {
+					if(tableModel.getValueAt(i, 0)!=null) {
 						writer2.print(team.getText()+","+RoundNum.getText()+",");
 					}
 					for(int y = 0; y < tableModle.getColumnCount(); y++) {
-						if(y<tableModle.getColumnCount()-1&&tableModel.getValueAt(x, y)!=null) {
-							writer2.print((String) tableModle.getValueAt(x, y)+",");
+						if(y<tableModle.getColumnCount()-1&&tableModel.getValueAt(i, y)!=null) {
+							writer2.print((String) tableModle.getValueAt(i, y)+",");
 						}
-						else if(tableModel.getValueAt(x, y)!=null){
-							writer2.print((String) tableModle.getValueAt(x, y));
+						else if(tableModel.getValueAt(i, y)!=null){
+							writer2.print((String) tableModle.getValueAt(i, y));
 						}
-						
 					}
-					if(x!=tableModle.getRowCount()-1 &&tableModel.getValueAt(x, 0)!=null) {
+					if(i!=tableModle.getRowCount()-1 &&tableModel.getValueAt(i, 0)!=null) {
 						writer2.println("");
 					}
-					//calculates the averages 
-					if(getTableValue(tableModle,x,3).startsWith("hatch") && (!getTableValue(tableModle,x,2).equals("Failed"))) {
-						hatchTimes[0][x]=Integer.parseInt(getTableValue(tableModel,x, 0));
-						hatchTimes[1][x]=Integer.parseInt(getTableValue(tableModel,x, 1));
-					}
-					else if (!getTableValue(tableModle,x,2).equals("Failed")) {
-						cargoTimes[0][x]=Integer.parseInt(getTableValue(tableModel,x, 0));
-						cargoTimes[1][x]=Integer.parseInt(getTableValue(tableModel,x, 1));
-					}
 				}
+				
+				
+				writer2.close();
 			} catch (FileNotFoundException | UnsupportedEncodingException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
@@ -548,21 +537,6 @@ public class Scouting {
 			reset();
 			
 		}
-	}
-	String write1dArray(int[] arr){
-		String value="";
-		for(int i = 0; i < arr.length; i++) {
-			if(arr.length-1==i) {
-				value=value+","+arr[i];
-			}
-			else {
-				value=value+arr[i]+",";
-			}
-		}
-		return value;
-	}
-	String getTableValue(TableModel table, int x, int y){
-		return (String) table.getValueAt(x, y);
 	}
 	private class Enter extends AbstractAction {
 		public Enter() {
@@ -829,7 +803,8 @@ public class Scouting {
 			BufferedWriter writer=null;
 			try {
 				writer = new BufferedWriter(new FileWriter (Desktop+sep+"scouting.txt"));
-				enter();
+
+				
 				writer.write("Team number,highest cargo,higest panel,starting location,robot condition,climb level");
 			} catch (IOException e2) {
 				// TODO Auto-generated catch block
@@ -858,12 +833,5 @@ public class Scouting {
 				e1.printStackTrace();
 			}
 		}
-	}
-	String ArrayToString(Object[]arr){
-		String value="";
-		for(int i = 0; i < arr.length; i++) {
-			
-		}
-		return value;
 	}
 }

@@ -3,7 +3,6 @@ package FrcDeepSpace;
 import java.awt.EventQueue;
 import java.awt.List;
 import java.awt.Toolkit;
-
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 import java.awt.BorderLayout;
@@ -41,7 +40,6 @@ import java.util.NoSuchElementException;
 import java.util.Scanner;
 import java.util.Timer;
 import java.util.TimerTask;
-
 import javax.swing.Action;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
@@ -91,6 +89,7 @@ public class Scouting {
 	String Desktop = System.getProperty("user.home")+sep+"Desktop";
 	JComboBox Condition = new JComboBox();
 	JComboBox level = new JComboBox();
+	
 	JComboBox Location = new JComboBox();
 	File teamFolder = new File(Desktop+sep+"scouting");
 	public static JTable table;
@@ -531,9 +530,6 @@ public class Scouting {
 						cargoTimes[1][x]=Integer.parseInt(getTableValue(tableModel,x, 1));
 					}
 				}
-				Writer  FWCargo = new FileWriter (sa+sep+"carogAvg.txt",true);
-				BufferedWriter writerCargo = new BufferedWriter(FW);
-				FWCargo.write(write1dArray(findAverage(cargoTimes)));
 				writer2.close();
 			} catch (FileNotFoundException | UnsupportedEncodingException e1) {
 				// TODO Auto-generated catch block
@@ -543,28 +539,6 @@ public class Scouting {
 			reset();
 			
 		}
-	}
-	String write1dArray(int[] arr){
-		String value="";
-		for(int i = 0; i < arr.length; i++) {
-			if(arr.length-1==i) {
-				value=value+","+arr[i];
-			}
-			else {
-				value=value+arr[i]+",";
-			}
-		}
-		return value;
-	}
-	int[] colaspeArray(int[][] entrys){
-		int arr = new int[entrys[1].length]
-		double length = (double) entrys.length;
-		for(int x = 0; x < length; x++) {
-			for(int y = 0; y < length; y++) {
-				sum+= entrys[y][x];
-			}
-		}
-		return sum/length;
 	}
 	String getTableValue(TableModel table, int x, int y){
 		return (String) table.getValueAt(x, y);

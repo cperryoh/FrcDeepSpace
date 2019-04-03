@@ -6,8 +6,6 @@ import java.awt.List;
 import java.awt.Toolkit;
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
-
-import java.awt.AlphaComposite;
 import java.awt.BorderLayout;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -66,8 +64,6 @@ import javax.swing.JPopupMenu;
 import java.awt.Component;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.image.BufferedImage;
-
 import javax.swing.JMenuItem;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
@@ -75,13 +71,12 @@ import java.awt.Color;
 import javax.swing.UIManager;
 import javax.swing.JMenuBar;
 import java.awt.Font;
-import java.awt.Graphics2D;
 import java.awt.event.ActionListener;
 import javax.swing.JInternalFrame;
 import java.awt.GridLayout;
 
 public class Scouting {
-	private JFrame frame;
+	private JFrame frmMadeByCole;
 	private final Action action = new Enter();
 	private JTextField team;
 	JComboBox ComboBoxClimb = new JComboBox();
@@ -151,7 +146,7 @@ public class Scouting {
 				try {
 					Scouting window = new Scouting();
 					GPL = new gamePieceLocation(window);
-					window.frame.setVisible(true);
+					window.frmMadeByCole.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -167,21 +162,23 @@ public class Scouting {
 		initialize();
 		
 		teamFolder.mkdir();
+		sa=new File(teamFolder.getAbsolutePath()+sep+"data averages (don't open)");
+		sa.mkdir();
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		int width = (int)screenSize.getWidth();
     	int height =(int) screenSize.getHeight();
-    	frame.setLocation((width/2)-(frame.getWidth()/2), (height/2)-(frame.getHeight()));
+    	frmMadeByCole.setLocation((width/2)-(frmMadeByCole.getWidth()/2), (height/2)-(frmMadeByCole.getHeight()));
     	table.setModel(tableModel);
     	timerLbl.setHorizontalAlignment(SwingConstants.CENTER);
     	timerLbl.setFont(new Font("Tahoma", Font.PLAIN, 46));
     	
     	
     	timerLbl.setBounds(10, 59, 298, 90);
-    	frame.getContentPane().add(timerLbl);
+    	frmMadeByCole.getContentPane().add(timerLbl);
     	
     	btnStartMatch.setAction(action_6);
     	btnStartMatch.setBounds(69, 15, 177, 29);
-    	frame.getContentPane().add(btnStartMatch);
+    	frmMadeByCole.getContentPane().add(btnStartMatch);
     	
     	JButton btnReset = new JButton("Reset");
     	btnReset.addActionListener(new ActionListener() {
@@ -191,28 +188,32 @@ public class Scouting {
     		}
     	});
     	btnReset.setBounds(106, 152, 115, 29);
-    	frame.getContentPane().add(btnReset);
+    	frmMadeByCole.getContentPane().add(btnReset);
     	btnHatch.setAction(action_7);
     	
     	btnHatch.setVisible(false);
     	btnHatch.setBounds(0, 52, 146, 29);
-    	frame.getContentPane().add(btnHatch);
+    	frmMadeByCole.getContentPane().add(btnHatch);
     	btnCargo.setAction(action_8);
     	
     	
     	btnCargo.setVisible(false);
     	btnCargo.setBounds(166, 52, 146, 29);
-    	frame.getContentPane().add(btnCargo);
+    	frmMadeByCole.getContentPane().add(btnCargo);
     	
     	JButton btnCompileData = new JButton("Compile data");
     	btnCompileData.setAction(action_9);
     	btnCompileData.setBounds(820, 30, 196, 29);
-    	frame.getContentPane().add(btnCompileData);
+    	frmMadeByCole.getContentPane().add(btnCompileData);
     	
-    	
+    	ImageIcon icn =new ImageIcon(ImageIO.read(super.getClass().getResource("background.png")));
+    	JLabel lblBackground = new JLabel(icn);
+    	lblBackground.setSize(icn.getIconWidth(), icn.getIconHeight());
+    	lblBackground.setLocation(0, 0);
+    	frmMadeByCole.getContentPane().add(lblBackground);
     	
     	JMenuBar menuBar = new JMenuBar();
-    	frame.setJMenuBar(menuBar);
+    	frmMadeByCole.setJMenuBar(menuBar);
     	
     	JMenu mnStartingGamePiece = new JMenu("Starting game piece");
     	menuBar.add(mnStartingGamePiece);
@@ -226,7 +227,7 @@ public class Scouting {
     	mnStartingGamePiece.add(mntmHatch);
     	
     	JPopupMenu popupMenu = new JPopupMenu();
-    	addPopup(frame, popupMenu);
+    	addPopup(frmMadeByCole, popupMenu);
     	
     	JMenuItem mntmNewMenuItem_3 = new JMenuItem("New menu item");
     	mntmNewMenuItem_3.setAction(action_5);
@@ -235,27 +236,19 @@ public class Scouting {
 
 	/**
 	 * Initialize the contents of the frame.
-	 * @throws IOException 
 	 */
-	private void initialize() throws IOException {
-		frame = new JFrame();
-		frame.setTitle("Made by Cole Perry from team 5567");
-		frame.setResizable(false);
-		frame.setBounds(100, 100, 1037, 466);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.getContentPane().setLayout(null);
-		BufferedImage img = ImageIO.read(super.getClass().getResource("watermark.png"));
-		ImageIcon icn =new ImageIcon();
-		float opacity = 0.5f;
-		JLabel lblBackground = new JLabel(icn);
-		lblBackground.setSize(icn.getIconWidth(), icn.getIconHeight());
-		lblBackground.setLocation(frame.getContentPane().getWidth()/2+(icn.getIconWidth()),0);
-		frame.getContentPane().add(lblBackground);
+	private void initialize() {
+		frmMadeByCole = new JFrame();
+		frmMadeByCole.setTitle("Made by Cole Perry from team 5567");
+		frmMadeByCole.setResizable(false);
+		frmMadeByCole.setBounds(100, 100, 1037, 466);
+		frmMadeByCole.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frmMadeByCole.getContentPane().setLayout(null);
 		
 		btnEnter.setForeground(Color.BLACK);
 		btnEnter.setBounds(574, 370, 115, 29);
 		btnEnter.setAction(action);
-		frame.getContentPane().add(btnEnter);
+		frmMadeByCole.getContentPane().add(btnEnter);
 		
 		team = new JTextField();
 		RoundNum = new JTextField();
@@ -290,17 +283,17 @@ public class Scouting {
 		int width = (int)screenSize.getWidth();
     	int height =(int) screenSize.getHeight();
 		System.out.println(width+","+height);
-		frame.setLocation((width/2)-(frame.getWidth()/2), (height/2)-(frame.getHeight()/2));
+		frmMadeByCole.setLocation((width/2)-(frmMadeByCole.getWidth()/2), (height/2)-(frmMadeByCole.getHeight()/2));
 		btnEnter.setBackground(new Color(104, 104, 104));
 		enterable=false;
 		team.setBounds(484, 16, 146, 26);
-		frame.getContentPane().add(team);
+		frmMadeByCole.getContentPane().add(team);
 		team.setColumns(10);
 		
 		JLabel lblTeam = new JLabel("Team:");
 		lblTeam.setBounds(374, 19, 106, 20);
 		lblTeam.setHorizontalAlignment(SwingConstants.TRAILING);
-		frame.getContentPane().add(lblTeam);
+		frmMadeByCole.getContentPane().add(lblTeam);
 		
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBorder(null);
@@ -314,7 +307,7 @@ public class Scouting {
 			}
 		});
 		scrollPane.setBounds(10, 219, 1011, 139);
-		frame.getContentPane().add(scrollPane);
+		frmMadeByCole.getContentPane().add(scrollPane);
 		
 		table = new JTable();
 		table.setBorder(null);
@@ -394,19 +387,19 @@ public class Scouting {
 		
 		btnFileCreationLocation.setAction(action_1);
 		btnFileCreationLocation.setBounds(296, 370, 247, 29);
-		frame.getContentPane().add(btnFileCreationLocation);
+		frmMadeByCole.getContentPane().add(btnFileCreationLocation);
 		
 		
 		RoundNum.setBounds(484, 53, 146, 26);
-		frame.getContentPane().add(RoundNum);
+		frmMadeByCole.getContentPane().add(RoundNum);
 		RoundNum.setColumns(10);
 		
 		JLabel lblRound = new JLabel("Round:");
 		lblRound.setHorizontalAlignment(SwingConstants.TRAILING);
 		lblRound.setBounds(409, 56, 69, 20);
-		frame.getContentPane().add(lblRound);
+		frmMadeByCole.getContentPane().add(lblRound);
 		CargoOrPanel.setBounds(351, 90, 420, 121);
-		frame.getContentPane().add(CargoOrPanel);
+		frmMadeByCole.getContentPane().add(CargoOrPanel);
 		
 		JPanel panel_1 = new JPanel();
 		CargoOrPanel.addTab("Panel", null, panel_1, null);
@@ -583,7 +576,7 @@ public class Scouting {
 		public void actionPerformed(ActionEvent e) {
 			JFileChooser chooser = new JFileChooser(Desktop);
 		    chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-		    chooser.showDialog(frame, "Choose folder");
+		    chooser.showDialog(frmMadeByCole, "Choose folder");
 			String path = chooser.getSelectedFile().getAbsolutePath();
 		    Path folder = Paths.get(path+sep+"scouting");
 			try {
@@ -743,7 +736,7 @@ public class Scouting {
 			btnHatch.setVisible(false);
 			hatch=true;
 			btnCargo.setVisible(false);
-			GPL.frame.setLocation(frame.getX()-GPL.frame.getWidth(), frame.getY());
+			GPL.frame.setLocation(frmMadeByCole.getX()-GPL.frame.getWidth(), frmMadeByCole.getY());
 			if(hasStarted==true) {
 				GPL.frame.setVisible(true);
 			}
@@ -772,7 +765,7 @@ public class Scouting {
 			btnHatch.setVisible(false);
 			hatch=false;
 			btnCargo.setVisible(false);
-			GPL.frame.setLocation(frame.getX()-GPL.frame.getWidth(), frame.getY());
+			GPL.frame.setLocation(frmMadeByCole.getX()-GPL.frame.getWidth(), frmMadeByCole.getY());
 			if(hasStarted==true) {
 				GPL.frame.setVisible(true);
 			}
@@ -823,7 +816,6 @@ public class Scouting {
 		}
 		public void actionPerformed(ActionEvent e) {
 			BufferedWriter writer=null;
-			
 			try {
 				writer = new BufferedWriter(new FileWriter (Desktop+sep+"scouting.txt"));
 				enter();

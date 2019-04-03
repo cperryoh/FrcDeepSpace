@@ -45,7 +45,7 @@ public class gamePieceLocation {
 
 		frame = new JFrame();
 		frame.setResizable(false);
-		frame.setBounds(100, 100, 260, 168);
+		frame.setBounds(100, 100, 453, 342);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		

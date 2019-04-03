@@ -1,3 +1,4 @@
+
 package FrcDeepSpace;
 
 import java.awt.EventQueue;
@@ -845,4 +846,3 @@ public class Scouting {
 		}
 		return value;
 	}
-}

@@ -14,6 +14,7 @@ import javax.swing.table.TableModel;
 import javax.tools.DocumentationTool.Location;
 import javax.swing.JPanel;
 import javax.swing.JButton;
+import javax.imageio.ImageIO;
 import javax.swing.AbstractAction;
 import java.awt.event.ActionEvent;
 import static java.nio.file.StandardCopyOption.*;
@@ -52,6 +53,8 @@ import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.ImageIcon;
+
 import java.awt.ComponentOrientation;
 import java.awt.Dimension;
 import java.awt.event.KeyAdapter;
@@ -78,8 +81,6 @@ public class Scouting {
 	private JTextField team;
 	JComboBox ComboBoxClimb = new JComboBox();
 	String sep = File.separator;
-	public int[] cargoCycleTime=new int[table.getModel().getRowCount()+20];
-	public int[] panelCycleTime=cargoCycleTime;
 	JLabel timerLbl = new JLabel("150");
 	JComboBox ComboBoxPanel = new JComboBox();
 	boolean hatch=false;
@@ -155,9 +156,11 @@ public class Scouting {
 
 	/**
 	 * Create the application.
+	 * @throws IOException 
 	 */
-	public Scouting() {
+	public Scouting() throws IOException {
 		initialize();
+		
 		teamFolder.mkdir();
 		sa=new File(teamFolder.getAbsolutePath()+sep+"data averages (don't open)");
 		sa.mkdir();
@@ -202,6 +205,12 @@ public class Scouting {
     	btnCompileData.setAction(action_9);
     	btnCompileData.setBounds(820, 30, 196, 29);
     	frmMadeByCole.getContentPane().add(btnCompileData);
+    	
+    	ImageIcon icn =new ImageIcon(ImageIO.read(super.getClass().getResource("background.png")));
+    	JLabel lblBackground = new JLabel(icn);
+    	lblBackground.setSize(icn.getIconWidth(), icn.getIconHeight());
+    	lblBackground.setLocation(0, 0);
+    	frmMadeByCole.getContentPane().add(lblBackground);
     	
     	JMenuBar menuBar = new JMenuBar();
     	frmMadeByCole.setJMenuBar(menuBar);
@@ -839,10 +848,4 @@ public class Scouting {
 			}
 		}
 	}
-	String ArrayToString(Object[]arr){
-		String value="";
-		for(int i = 0; i < arr.length; i++) {
-			
-		}
-		return value;
-	}
+}

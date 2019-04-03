@@ -115,10 +115,14 @@ public class Scouting {
 	JMenuItem mntmClearRow = new JMenuItem("Clear row");
 	JMenuItem mntmDeleteRow = new JMenuItem("Delete row");
 	DefaultTableModel tableModel = new DefaultTableModel(
-			new Object[][] { { null, null, null, null }, { null, null, null, null }, { null, null, null, null },
-					{ null, null, null, null }, { null, null, null, null }, { null, null, null, null }, },
-			new String[] { "Game piece grabbed time", "Delivery time", "Delivery location (CS R#)",
-					"Hatch panel or cargo" });
+			new Object[][] { 
+				{ null, null, null, null }, 
+				{ null, null, null, null }, 
+				{ null, null, null, null },
+				{ null, null, null, null }, 
+				{ null, null, null, null }, 
+				{ null, null, null, null }, },
+			new String[] { "Game piece grabbed time", "Delivery time", "Delivery location (CS R#)","Hatch panel or cargo" });
 	private final Action action_1 = new SwingAction_1();
 	private JTextField RoundNum;
 	private JTextField textField;
@@ -229,10 +233,9 @@ public class Scouting {
 	 */
 	private void initialize() throws IOException {
 		frame = new JFrame();
-
 		frame.setTitle("Made by Cole Perry from team 5567");
 		frame.setResizable(false);
-		frame.setBounds(100, 100, 1037, 466);
+		frame.setBounds(100, 100, 1037, 467);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		btnEnter.setForeground(Color.BLACK);

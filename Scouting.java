@@ -64,6 +64,9 @@ import javax.swing.JPopupMenu;
 import java.awt.Component;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+
 import javax.swing.JMenuItem;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
@@ -153,10 +156,13 @@ public class Scouting {
 	 */
 	public Scouting() throws IOException {
 		initialize();
-
+		JButton btnReset = new JButton("Reset");
+		btnStartMatch.setFocusPainted(false);
+		btnHatch.setFocusPainted(false);
+		btnCargo.setFocusPainted(false);
+		btnEnter.setFocusPainted(false);
+		btnReset.setFocusPainted(false);
 		teamFolder.mkdir();
-		sa = new File(teamFolder.getAbsolutePath() + sep + "data averages (don't open)");
-		sa.mkdir();
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		int width = (int) screenSize.getWidth();
 		int height = (int) screenSize.getHeight();
@@ -173,7 +179,6 @@ public class Scouting {
 		btnStartMatch.setBounds(69, 15, 177, 29);
 		frmMadeByCole.getContentPane().add(btnStartMatch);
 
-		JButton btnReset = new JButton("Reset");
 		btnReset.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				reset();
@@ -220,11 +225,34 @@ public class Scouting {
 		popupMenu.add(mntmNewMenuItem_3);
 	}
 
+	public static boolean isWindows() {
+
+		String os = System.getProperty("os.name").toLowerCase();
+		// windows
+		return (os.indexOf("win") >= 0);
+
+	}
+
 	/**
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
 		frmMadeByCole = new JFrame();
+		frmMadeByCole.addWindowListener(new WindowAdapter() {
+			public void windowClosing(WindowEvent ev) {
+				try {
+					if (isWindows()) {
+							Runtime.getRuntime().exec("explorer.exe /select," + teamFolder.getAbsolutePath());
+					} else {
+						Runtime.getRuntime().exec("open /users/" + teamFolder.getAbsolutePath());
+					}
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+
+		});
 		frmMadeByCole.setTitle("Made by Cole Perry from team 5567");
 		frmMadeByCole.setResizable(false);
 		frmMadeByCole.setBounds(100, 100, 1037, 466);
@@ -239,6 +267,7 @@ public class Scouting {
 		team = new JTextField();
 		RoundNum = new JTextField();
 		RoundNum.addKeyListener(new KeyAdapter() {
+
 			@Override
 			public void keyReleased(KeyEvent e) {
 				if (isNumber(team.getText()) == false || isNumber(RoundNum.getText()) == false) {
@@ -819,7 +848,6 @@ public class Scouting {
 			BufferedWriter writer = null;
 			try {
 				writer = new BufferedWriter(new FileWriter(Desktop + sep + "scouting.txt"));
-				enter();
 				writer.write("Team number,highest cargo,higest panel,starting location,robot condition,climb level");
 			} catch (IOException e2) {
 				// TODO Auto-generated catch block

@@ -54,8 +54,11 @@ import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
 import javax.swing.DefaultComboBoxModel;
+
+
 import javax.swing.ImageIcon;
 
+import java.applet.*;
 import java.awt.ComponentOrientation;
 import java.awt.Dimension;
 import java.awt.event.KeyAdapter;
@@ -79,19 +82,14 @@ import java.awt.event.ActionListener;
 import javax.swing.JInternalFrame;
 import java.awt.GridLayout;
 
-public class Scouting {
-<<<<<<< HEAD
-
+public class Scouting extends Applet{
 	private JFrame frame;
-=======
-	private JFrame frmMadeByCole;
->>>>>>> bb1766060f4859f7183628316565e3cb6fe3c556
 	private final Action action = new Enter();
 	private JTextField team;
 	JComboBox ComboBoxClimb = new JComboBox();
 	String sep = File.separator;
-	public int[] cargoCycleTime=new int[table.getModel().getRowCount()+20];
-	public int[] panelCycleTime=cargoCycleTime;
+	//public int[] cargoCycleTime=new int[table.getModel().getRowCount()+20];
+	//public int[] panelCycleTime=cargoCycleTime;
 	JLabel timerLbl = new JLabel("150");
 	JComboBox ComboBoxPanel = new JComboBox();
 	boolean hatch=false;
@@ -106,7 +104,6 @@ public class Scouting {
 	File teamFolder = new File(Desktop+sep+"scouting");
 	public static JTable table;
 	static int selectedRow=0;
-	File sa;
 	static int interval = 150;
 	static gamePieceLocation GPL;
 	String currentTime="150";
@@ -171,8 +168,6 @@ public class Scouting {
 	public Scouting() throws IOException {
 		initialize();
 		teamFolder.mkdir();
-		sa=new File(teamFolder.getAbsolutePath()+sep+"data averages (don't open)");
-		sa.mkdir();
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		int width = (int)screenSize.getWidth();
     	int height =(int) screenSize.getHeight();
@@ -216,12 +211,6 @@ public class Scouting {
     	btnCompileData.setBounds(820, 30, 196, 29);
     	frame.getContentPane().add(btnCompileData);
     	
-    	ImageIcon icon = new ImageIcon(ImageIO.read( super.getClass().getClassLoader().getResource("background.png")));
-    	JLabel watermark = new JLabel(icon
-    			);
-    	watermark.setBounds(296, 135, 46, 14);
-    	watermark.setSize(new Dimension(icon.getIconWidth(),icon.getIconHeight()));
-    	frame.getContentPane().add(watermark);
     	
     	
     	JMenuBar menuBar = new JMenuBar();
@@ -258,7 +247,6 @@ public class Scouting {
 		frame.setBounds(100, 100, 1037, 466);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
-		frame.setContentPane(new JLabel(new ImageIcon(ImageIO.read( super.getClass().getClassLoader().getResource("background.png")))));
 		btnEnter.setForeground(Color.BLACK);
 		btnEnter.setBounds(574, 370, 115, 29);
 		btnEnter.setAction(action);
@@ -554,9 +542,6 @@ public class Scouting {
 						cargoTimes[1][x]=Integer.parseInt(getTableValue(tableModel,x, 1));
 					}
 				}
-				Writer  FWCargo = new FileWriter (sa+sep+"carogAvg.txt",true);
-				BufferedWriter writerCargo = new BufferedWriter(FW);
-				FWCargo.write(write1dArray(findAverage(cargoTimes)));
 				writer2.close();
 			} catch (FileNotFoundException | UnsupportedEncodingException e1) {
 				// TODO Auto-generated catch block
@@ -578,16 +563,6 @@ public class Scouting {
 			}
 		}
 		return value;
-	}
-	int[] colaspeArray(int[][] entrys){
-		int arr = new int[entrys[1].length]
-		double length = (double) entrys.length;
-		for(int x = 0; x < length; x++) {
-			for(int y = 0; y < length; y++) {
-				sum+= entrys[y][x];
-			}
-		}
-		return sum/length;
 	}
 	String getTableValue(TableModel table, int x, int y){
 		return (String) table.getValueAt(x, y);

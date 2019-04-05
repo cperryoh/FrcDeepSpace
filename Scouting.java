@@ -271,7 +271,8 @@ public class Scouting {
 					btnEnter.setBackground(btnFileCreationLocation.getBackground());
 				}
 				if(team.getText().equals("5667")) {
-					JOptionPane.showMessageDialog(null, "Ha ha that's my team, Have fun! You are in the presence of greatness!","Easter egg", JOptionPane.INFORMATION_MESSAGE);
+					popUpWindow 
+					
 				} 
 			}
 		});

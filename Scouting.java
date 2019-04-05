@@ -69,6 +69,8 @@ import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
+
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.Color;
@@ -268,6 +270,9 @@ public class Scouting {
 					enterable = true;
 					btnEnter.setBackground(btnFileCreationLocation.getBackground());
 				}
+				if(team.getText().equals("5667")) {
+					JOptionPane.showMessageDialog(null, "Ha ha that's my team, Have fun! You are in the presence of greatness!","Easter egg", JOptionPane.INFORMATION_MESSAGE);
+				} 
 			}
 		});
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();

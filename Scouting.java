@@ -81,6 +81,8 @@ import java.awt.Frame;
 import java.awt.event.ActionListener;
 import javax.swing.JInternalFrame;
 import java.awt.GridLayout;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
 
 public class Scouting {
 
@@ -271,7 +273,7 @@ public class Scouting {
 					btnEnter.setBackground(btnFileCreationLocation.getBackground());
 				}
 				if(team.getText().equals("5667")) {
-					popUpWindow 
+					popUpWindow pop = new popUpWindow(frame, "Hello!!","Hey that's my team! You are in the presence of greatness!","Yeah ok...");
 					
 				} 
 			}

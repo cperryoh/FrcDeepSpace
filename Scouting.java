@@ -482,19 +482,17 @@ public class Scouting {
 							"Team number,highest cargo,higest panel,starting location,robot condition,climb level");
 				}
 				writer.newLine();
-				writer.write(team.getText() + "," + ComboBoxValue(ComboBoxCargo) + "," + ComboBoxValue(ComboBoxPanel)
-						+ "," + ComboBoxValue(Location) + ":" + ComboBoxValue(level) + "," + ComboBoxValue(Condition)
-						+ "," + ComboBoxValue(ComboBoxClimb));
+				writer.write(team.getText() + "," + ComboBoxValue(ComboBoxCargo) + "," + ComboBoxValue(ComboBoxPanel)+ "," + ComboBoxValue(Location) + ":" + ComboBoxValue(level) + "," + ComboBoxValue(Condition)+ "," + ComboBoxValue(ComboBoxClimb));
 				writer.close();
 				FW.close();
-				PrintWriter writer2 = new PrintWriter(
-						f.getAbsolutePath() + sep + "Round " + RoundNum.getText() + ".txt", "UTF-8");
+				PrintWriter writer2 = new PrintWriter(f.getAbsolutePath() + sep + "Round " + RoundNum.getText() + ".txt", "UTF-8");
 				// creates key
 
 				ArrayList myList = new ArrayList();
 				TableModel tableModle = table.getModel();
 				writer2.print("Team number, round number,");
 				for (int x = 0; x < tableModle.getColumnCount(); x++) {
+					
 					if (x < tableModle.getColumnCount() - 1) {
 						writer2.print(tableModle.getColumnName(x) + ",");
 					} 
@@ -506,6 +504,7 @@ public class Scouting {
 				// creates table
 				for (int i = 0; i < tableModle.getRowCount(); i++) {
 					if (tableModle.getValueAt(i, 0) != null) {
+						writer2.print(team.getText()+","+RoundNum.getText()+",");
 						for (int y = 0; y < tableModle.getColumnCount(); y++) {
 							if (y < tableModle.getColumnCount() - 1) {
 								writer2.print((String) tableModle.getValueAt(i, y) + ",");
@@ -515,7 +514,7 @@ public class Scouting {
 							}
 						}
 
-						if (i != tableModle.getRowCount() - 1\) {
+						if (i != tableModle.getRowCount() - 1) {
 							writer2.println("");
 						}
 					}

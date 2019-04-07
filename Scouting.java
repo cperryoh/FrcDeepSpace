@@ -104,6 +104,7 @@ public class Scouting {
 	JComboBox Condition = new JComboBox();
 	JComboBox level = new JComboBox();
 	JComboBox Location = new JComboBox();
+	JComboBox failedClimb = new JComboBox();
 	File teamFolder = new File(Desktop + sep + "scouting");
 	public static JTable table;
 	static int selectedRow = 0;
@@ -463,13 +464,13 @@ public class Scouting {
 		
 		JLabel lblFaildedClimb = new JLabel("Failded Climb: ");
 		lblFaildedClimb.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblFaildedClimb.setBounds(226, 38, 77, 14);
+		lblFaildedClimb.setBounds(213, 38, 90, 14);
 		panel.add(lblFaildedClimb);
 		
-		JComboBox comboBox = new JComboBox();
-		comboBox.setModel(new DefaultComboBoxModel(new String[] {"N/a", "One", "Two", "Three"}));
-		comboBox.setBounds(308, 35, 54, 20);
-		panel.add(comboBox);
+		
+		failedClimb.setModel(new DefaultComboBoxModel(new String[] {"N/a", "One", "Two", "Three"}));
+		failedClimb.setBounds(308, 35, 72, 20);
+		panel.add(failedClimb);
 		
 		JPanel panel_4 = new JPanel();
 		CargoOrPanel.addTab("defense or defended against", null, panel_4, null);
@@ -547,10 +548,10 @@ public class Scouting {
 				BufferedWriter writer = new BufferedWriter(FW);
 				if (foundFile == false) {
 					writer.write(
-							"Team number,Round number,penaltys,foul count,defended,defeneded against,highest cargo,higest panel,starting location,robot condition,climb level");
+							"Team number,Round number,penaltys,foul count,defended,defeneded against,highest cargo,higest panel,starting location,robot condition,climb level,failedClimb");
 				}
 				writer.newLine();
-				writer.write(team.getText() + "," +RoundNum.getText()+","+ComboBoxValue(Penaltys)+","+fouls+","+ComboBoxValue(Defended)+","+ComboBoxValue(DefendedAgainst)+","+ComboBoxValue(ComboBoxCargo)+"," + ComboBoxValue(ComboBoxPanel)+ "," + ComboBoxValue(Location) + ":" + ComboBoxValue(level) + "," + ComboBoxValue(Condition)+ "," + ComboBoxValue(ComboBoxClimb));
+				writer.write(team.getText() + "," +RoundNum.getText()+","+ComboBoxValue(Penaltys)+","+fouls+","+ComboBoxValue(Defended)+","+ComboBoxValue(DefendedAgainst)+","+ComboBoxValue(ComboBoxCargo)+"," + ComboBoxValue(ComboBoxPanel)+ "," + ComboBoxValue(Location) + ":" + ComboBoxValue(level) + "," + ComboBoxValue(Condition)+ "," + ComboBoxValue(ComboBoxClimb)+","+ComboBoxValue(failedClimb));
 				writer.close();
 				FW.close();
 				PrintWriter writer2 = new PrintWriter(f.getAbsolutePath() + sep + "Round " + RoundNum.getText() + ".txt", "UTF-8");
@@ -856,6 +857,7 @@ public class Scouting {
 		resetComboBox(Penaltys);
 		resetComboBox(DefendedAgainst);
 		resetComboBox(Defended);
+		resetComboBox(failedClimb);
 		
 		fouls=0;
 
@@ -879,6 +881,7 @@ public class Scouting {
 		timerLbl.setText("150");
 		timer.cancel();
 
+		
 	}
 
 	private class SwingAction_8 extends AbstractAction {

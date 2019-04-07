@@ -57,7 +57,7 @@ public class popUpWindow {
 		
 		
 		btnEnter.setAction(action);
-		btnEnter.setBounds(172, 129, 89, 23);
+		btnEnter.setBounds(173, 100, 89, 23);
 		frame.getContentPane().add(btnEnter);
 		
 		

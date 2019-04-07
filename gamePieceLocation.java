@@ -56,7 +56,7 @@ public class gamePieceLocation {
 		frame = new JFrame();
 
 		frame.setResizable(false);
-		frame.setBounds(100, 100, 564, 388);
+		frame.setBounds(100, 100, 456, 304);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 
@@ -66,12 +66,12 @@ public class gamePieceLocation {
 				dropped("cs");
 			}
 		});
-		droppedCs.setBounds(20, 300, 114, 29);
+		droppedCs.setBounds(10, 214, 114, 29);
 		frame.getContentPane().add(droppedCs);
 
 		JButton 
 		droppedr1 = new JButton("Dropped r1");
-		droppedr1.setBounds(155, 300, 114, 29);
+		droppedr1.setBounds(155, 214, 114, 29);
 		droppedr1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				dropped("r1");
@@ -85,11 +85,11 @@ public class gamePieceLocation {
 				dropped("r2");
 			}
 		});
-		droppedR2.setBounds(290, 300, 114, 29);
+		droppedR2.setBounds(155, 174, 114, 29);
 		frame.getContentPane().add(droppedR2);
 
 		JButton droppedR3 = new JButton("Dropped r3");
-		droppedR3.setBounds(414, 300, 114, 29);
+		droppedR3.setBounds(155, 134, 114, 29);
 		droppedR3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				dropped("r3");
@@ -101,7 +101,7 @@ public class gamePieceLocation {
 		BufferedImage ref = ImageIO.read(getClass().getClassLoader().getResource("rocketRef.png"));
 		JLabel Rocket = new JLabel(icn);
 		Rocket.setSize(icn.getIconWidth(), icn.getIconHeight());
-		Rocket.setBounds(304, 69, 169, 203);
+		Rocket.setBounds(271, 24, 169, 203);
 		frame.getContentPane().add(Rocket);
 		Rocket.addMouseListener(new MouseAdapter() {
 			@Override
@@ -159,7 +159,7 @@ public class gamePieceLocation {
 				done();
 			}
 		});
-		CargoShip.setBounds(21, 113, 248, 112);
+		CargoShip.setBounds(21, 11, 248, 112);
 		frame.getContentPane().add(CargoShip);
 
 	}

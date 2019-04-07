@@ -43,6 +43,7 @@ import java.util.NoSuchElementException;
 import java.util.Scanner;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.concurrent.TimeUnit;
 
 import javax.swing.Action;
 import javax.swing.JTextField;
@@ -82,7 +83,6 @@ import java.awt.event.ActionListener;
 import javax.swing.JInternalFrame;
 import java.awt.GridLayout;
 import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
 
 public class Scouting {
 
@@ -202,7 +202,6 @@ public class Scouting {
 		btnCargo.setAction(action_8);
 
 		frame.setResizable(false);
-		System.out.println(frame.getSize().width + ", " + frame.getSize().height);
 		btnCargo.setVisible(false);
 		btnCargo.setBounds(166, 52, 146, 29);
 		frame.getContentPane().add(btnCargo);
@@ -294,7 +293,6 @@ public class Scouting {
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		int width = (int) screenSize.getWidth();
 		int height = (int) screenSize.getHeight();
-		System.out.println(width + "," + height);
 		frame.setLocation((width / 2) - (frame.getWidth() / 2), (height / 2) - (frame.getHeight() / 2));
 		btnEnter.setBackground(new Color(104, 104, 104));
 		enterable = false;
@@ -336,7 +334,12 @@ public class Scouting {
 				}
 				if (arg0.getKeyCode() == KeyEvent.VK_CONTROL) {
 					try {
-						enter();
+						try {
+							enter();
+						} catch (InterruptedException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
 					} catch (IOException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
@@ -524,13 +527,11 @@ public class Scouting {
 		panel_3.add(lblLevel);
 	}
 
-	void enter() throws IOException {
+	void enter() throws IOException, InterruptedException {
 		if (enterable) {
 			try {
 				teamFolder = new File(Desktop + sep + "scouting");
 				teamFolder.mkdir();
-				// System.out.println(teamFolder.getAbsolutePath());
-				// loops through all folders in the scouting folder
 				File f = new File(teamFolder.getAbsolutePath() + sep + team.getText());
 				f.mkdir();
 				// creates and populates text file
@@ -540,7 +541,6 @@ public class Scouting {
 				for (int i = 0; i < files.length; i++) {
 					if (files[i].getName().equals("overView.txt")) {
 						foundFile = true;
-						System.out.println(files[i].getName());
 						break;
 					}
 				}
@@ -587,6 +587,7 @@ public class Scouting {
 							writer2.println("");
 						}
 					}
+					funnyPrint();
 				}
 
 				writer2.close();
@@ -608,7 +609,12 @@ public class Scouting {
 
 		public void actionPerformed(ActionEvent e) {
 			try {
-				enter();
+				try {
+					enter();
+				} catch (InterruptedException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			} catch (IOException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
@@ -689,7 +695,6 @@ public class Scouting {
 		}
 
 		public void actionPerformed(ActionEvent e) {
-			System.out.println(selectedRow);
 			tableModel.removeRow(selectedRow);
 		}
 	}
@@ -846,7 +851,12 @@ public class Scouting {
 	String ComboBoxValue(JComboBox box) {
 		return (String) box.getModel().getElementAt(box.getSelectedIndex());
 	}
-
+	void funnyPrint() throws InterruptedException {
+		System.out.println("Beep boop bop boop");
+		System.out.println("__________________");
+		TimeUnit.SECONDS.sleep(3);
+		System.out.println("done!");
+	}
 	void reset() {
 		currentRow = 0;
 		resetComboBox(ComboBoxPanel);
@@ -902,7 +912,6 @@ public class Scouting {
 					File currentFolder = teamFolder.listFiles()[x];
 					if (currentFolder.isDirectory()) {
 						for (int i = 0; i < currentFolder.listFiles().length; i++) {
-							System.out.println(currentFolder.getName()+", "+currentFolder.listFiles()[i].getName());
 							BufferedReader r = new BufferedReader(new FileReader(currentFolder.listFiles()[i]));
 							String throwAway = r.readLine();
 							String st;
@@ -911,6 +920,12 @@ public class Scouting {
 								writer.newLine();
 							}
 						}
+					}
+					try {
+						funnyPrint();
+					} catch (InterruptedException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
 					}
 				}
 				writer.close();

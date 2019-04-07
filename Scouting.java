@@ -89,12 +89,14 @@ public class Scouting {
 	private JFrame frame;
 	private final Action action = new Enter();
 	private JTextField team;
+	int fouls=0;
 	JComboBox ComboBoxClimb = new JComboBox();
 	String sep = File.separator;
 	JLabel timerLbl = new JLabel("150");
 	JComboBox ComboBoxPanel = new JComboBox();
 	boolean hatch = false;
-
+	JComboBox Defended = new JComboBox();
+	JComboBox DefendedAgainst = new JComboBox();
 	JComboBox ComboBoxCargo = new JComboBox();
 	public int HighestCargo, HighestHatch = 0;
 	JTabbedPane CargoOrPanel = new JTabbedPane(JTabbedPane.TOP);
@@ -114,6 +116,7 @@ public class Scouting {
 	boolean hasStarted = false;
 	boolean hasGamePiece = false;
 	JButton btnCargo = new JButton("Taken cargo");
+	JComboBox Penaltys = new JComboBox();
 	JButton btnHatch = new JButton("Taken hatch");
 	JButton btnEnter = new JButton("Enter");
 	JMenuItem mntmClearRow = new JMenuItem("Clear row");
@@ -207,6 +210,15 @@ public class Scouting {
 		btnCompileData.setAction(action_9);
 		btnCompileData.setBounds(820, 30, 196, 29);
 		frame.getContentPane().add(btnCompileData);
+		
+		JButton btnAddFoul = new JButton("Add foul");
+		btnAddFoul.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				fouls++;
+			}
+		});
+		btnAddFoul.setBounds(275, 18, 89, 23);
+		frame.getContentPane().add(btnAddFoul);
 
 		JMenuBar menuBar = new JMenuBar();
 		frame.setJMenuBar(menuBar);
@@ -237,7 +249,7 @@ public class Scouting {
 	 */
 	private void initialize() throws IOException {
 		frame = new JFrame();
-		frame.setTitle("Made by Cole Perry from team 5567");
+		frame.setTitle("Made by Cole Perry from team 5667");
 		frame.setResizable(false);
 		frame.setBounds(100, 100, 1037, 467);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -305,7 +317,7 @@ public class Scouting {
 				}
 			}
 		});
-		scrollPane.setBounds(10, 219, 1011, 139);
+		scrollPane.setBounds(10, 220, 1011, 139);
 		frame.getContentPane().add(scrollPane);
 
 		table = new JTable();
@@ -393,7 +405,7 @@ public class Scouting {
 		lblRound.setHorizontalAlignment(SwingConstants.TRAILING);
 		lblRound.setBounds(409, 56, 69, 20);
 		frame.getContentPane().add(lblRound);
-		CargoOrPanel.setBounds(351, 90, 420, 121);
+		CargoOrPanel.setBounds(307, 87, 395, 121);
 		frame.getContentPane().add(CargoOrPanel);
 
 		JPanel panel_1 = new JPanel();
@@ -401,12 +413,12 @@ public class Scouting {
 		panel_1.setLayout(null);
 
 		JLabel lblHighestRocketLevel = new JLabel("Highest rocket level:");
-		lblHighestRocketLevel.setHorizontalAlignment(SwingConstants.RIGHT);
 		lblHighestRocketLevel.setBounds(0, 32, 209, 20);
+		lblHighestRocketLevel.setHorizontalAlignment(SwingConstants.RIGHT);
 		panel_1.add(lblHighestRocketLevel);
+		ComboBoxPanel.setBounds(224, 29, 86, 26);
 
 		ComboBoxPanel.setModel(new DefaultComboBoxModel(new String[] { "N/A", "One", "Two", "Three" }));
-		ComboBoxPanel.setBounds(224, 29, 86, 26);
 		panel_1.add(ComboBoxPanel);
 
 		JPanel Cargo = new JPanel();
@@ -421,6 +433,20 @@ public class Scouting {
 		ComboBoxCargo.setModel(new DefaultComboBoxModel(new String[] { "N/A", "One", "Two", "Three" }));
 		ComboBoxCargo.setBounds(214, 16, 86, 26);
 		Cargo.add(ComboBoxCargo);
+		
+		JPanel panel_5 = new JPanel();
+		CargoOrPanel.addTab("Penaltys", null, panel_5, null);
+		panel_5.setLayout(null);
+		
+		JLabel lblPenaltysRecived = new JLabel("Penaltys received:");
+		lblPenaltysRecived.setHorizontalAlignment(SwingConstants.RIGHT);
+		lblPenaltysRecived.setBounds(0, 27, 201, 14);
+		panel_5.add(lblPenaltysRecived);
+		
+		
+		Penaltys.setModel(new DefaultComboBoxModel(new String[] {"None", "Yellow", "red"}));
+		Penaltys.setBounds(211, 24, 77, 20);
+		panel_5.add(Penaltys);
 
 		JPanel panel = new JPanel();
 		CargoOrPanel.addTab("End game location", null, panel, null);
@@ -431,15 +457,47 @@ public class Scouting {
 		lblEndGameClimb.setBounds(0, 35, 127, 20);
 		panel.add(lblEndGameClimb);
 
-		ComboBoxClimb.setModel(new DefaultComboBoxModel(new String[] { "N\\A", "One", "Two", "Three" }));
+		ComboBoxClimb.setModel(new DefaultComboBoxModel(new String[] {"N/A", "One", "Two", "Three"}));
 		ComboBoxClimb.setBounds(139, 32, 77, 26);
 		panel.add(ComboBoxClimb);
+		
+		JLabel lblFaildedClimb = new JLabel("Failded Climb: ");
+		lblFaildedClimb.setHorizontalAlignment(SwingConstants.RIGHT);
+		lblFaildedClimb.setBounds(226, 38, 77, 14);
+		panel.add(lblFaildedClimb);
+		
+		JComboBox comboBox = new JComboBox();
+		comboBox.setModel(new DefaultComboBoxModel(new String[] {"N/a", "One", "Two", "Three"}));
+		comboBox.setBounds(308, 35, 54, 20);
+		panel.add(comboBox);
+		
+		JPanel panel_4 = new JPanel();
+		CargoOrPanel.addTab("defense or defended against", null, panel_4, null);
+		panel_4.setLayout(null);
+		
+		
+		DefendedAgainst.setModel(new DefaultComboBoxModel(new String[] {"No", "Yes"}));
+		DefendedAgainst.setBounds(78, 36, 77, 20);
+		panel_4.add(DefendedAgainst);
+		
+		
+		Defended.setModel(new DefaultComboBoxModel(new String[] {"No", "Yes"}));
+		Defended.setBounds(220, 36, 77, 20);
+		panel_4.add(Defended);
+		
+		JLabel lblDefendedAgainst = new JLabel("Defended against");
+		lblDefendedAgainst.setBounds(48, 11, 121, 14);
+		panel_4.add(lblDefendedAgainst);
+		
+		JLabel lblDefended = new JLabel("Defended");
+		lblDefended.setBounds(223, 11, 91, 14);
+		panel_4.add(lblDefended);
 
 		JPanel panel_2 = new JPanel();
 		CargoOrPanel.addTab("Disabilities", null, panel_2, null);
 
 		Condition.setModel(
-				new DefaultComboBoxModel(new String[] { "working", "not working at all", "broken feature", "" }));
+				new DefaultComboBoxModel(new String[] {"working", "not working at all", "broken feature"}));
 		panel_2.add(Condition);
 
 		JPanel panel_3 = new JPanel();
@@ -453,6 +511,16 @@ public class Scouting {
 		level.setModel(new DefaultComboBoxModel(new String[] { "One", "two" }));
 		level.setBounds(197, 16, 71, 26);
 		panel_3.add(level);
+		
+		JLabel lblPosition = new JLabel("Position");
+		lblPosition.setHorizontalAlignment(SwingConstants.CENTER);
+		lblPosition.setBounds(97, 52, 85, 14);
+		panel_3.add(lblPosition);
+		
+		JLabel lblLevel = new JLabel("level");
+		lblLevel.setHorizontalAlignment(SwingConstants.CENTER);
+		lblLevel.setBounds(197, 52, 71, 14);
+		panel_3.add(lblLevel);
 	}
 
 	void enter() throws IOException {
@@ -479,10 +547,10 @@ public class Scouting {
 				BufferedWriter writer = new BufferedWriter(FW);
 				if (foundFile == false) {
 					writer.write(
-							"Team number,highest cargo,higest panel,starting location,robot condition,climb level");
+							"Team number,Round number,penaltys,foul count,defended,defeneded against,highest cargo,higest panel,starting location,robot condition,climb level");
 				}
 				writer.newLine();
-				writer.write(team.getText() + "," + ComboBoxValue(ComboBoxCargo) + "," + ComboBoxValue(ComboBoxPanel)+ "," + ComboBoxValue(Location) + ":" + ComboBoxValue(level) + "," + ComboBoxValue(Condition)+ "," + ComboBoxValue(ComboBoxClimb));
+				writer.write(team.getText() + "," +RoundNum.getText()+","+ComboBoxValue(Penaltys)+","+fouls+","+ComboBoxValue(Defended)+","+ComboBoxValue(DefendedAgainst)+","+ComboBoxValue(ComboBoxCargo)+"," + ComboBoxValue(ComboBoxPanel)+ "," + ComboBoxValue(Location) + ":" + ComboBoxValue(level) + "," + ComboBoxValue(Condition)+ "," + ComboBoxValue(ComboBoxClimb));
 				writer.close();
 				FW.close();
 				PrintWriter writer2 = new PrintWriter(f.getAbsolutePath() + sep + "Round " + RoundNum.getText() + ".txt", "UTF-8");
@@ -503,7 +571,7 @@ public class Scouting {
 				writer2.println();
 				// creates table
 				for (int i = 0; i < tableModle.getRowCount(); i++) {
-					if (tableModle.getValueAt(i, 0) != null) {
+					if (tableModle.getValueAt(i,3) != null) {
 						writer2.print(team.getText()+","+RoundNum.getText()+",");
 						for (int y = 0; y < tableModle.getColumnCount(); y++) {
 							if (y < tableModle.getColumnCount() - 1) {
@@ -566,6 +634,7 @@ public class Scouting {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
+			
 		}
 	}
 
@@ -732,7 +801,7 @@ public class Scouting {
 			btnHatch.setVisible(false);
 			hatch = true;
 			btnCargo.setVisible(false);
-			GPL.frame.setLocation(frame.getX() - GPL.frame.getWidth(), frame.getY());
+			GPL.frame.setLocation(frame.getX()+400, frame.getY());
 			if (hasStarted == true) {
 				GPL.frame.setVisible(true);
 			} else {
@@ -761,7 +830,7 @@ public class Scouting {
 			btnHatch.setVisible(false);
 			hatch = false;
 			btnCargo.setVisible(false);
-			GPL.frame.setLocation(frame.getX() - GPL.frame.getWidth(), frame.getY());
+			GPL.frame.setLocation(frame.getX()+400, frame.getY());
 			if (hasStarted == true) {
 				GPL.frame.setVisible(true);
 			} else {
@@ -784,6 +853,11 @@ public class Scouting {
 		resetComboBox(ComboBoxClimb);
 		resetComboBox(Location);
 		resetComboBox(level);
+		resetComboBox(Penaltys);
+		resetComboBox(DefendedAgainst);
+		resetComboBox(Defended);
+		
+		fouls=0;
 
 		resetComboBox(Condition);
 		team.setText("");
@@ -814,23 +888,19 @@ public class Scouting {
 		}
 
 		public void actionPerformed(ActionEvent e) {
-			BufferedWriter writer = null;
+			
 			try {
-				writer = new BufferedWriter(new FileWriter(Desktop + sep + "scouting.txt"));
+				
+				BufferedWriter writer = new BufferedWriter(new FileWriter(Desktop + sep + "scouting.txt"));
 
 				writer.write("Team number,highest cargo,higest panel,starting location,robot condition,climb level");
-			} catch (IOException e2) {
-				// TODO Auto-generated catch block
-				e2.printStackTrace();
-			}
-			File[] textFiles = new File[teamFolder.listFiles().length - 1];
-			try {
-				for (int x = 0; x < textFiles.length; x++) {
-					File currentFoleder = teamFolder.listFiles()[x];
-					if (currentFoleder.isDirectory()) {
-						for (int i = 0; i < currentFoleder.listFiles().length; i++) {
-							textFiles[i] = currentFoleder.listFiles()[i];
-							BufferedReader r = new BufferedReader(new FileReader(textFiles[i]));
+				writer.newLine();
+				for (int x = 0; x < teamFolder.listFiles().length; x++) {
+					File currentFolder = teamFolder.listFiles()[x];
+					if (currentFolder.isDirectory()) {
+						for (int i = 0; i < currentFolder.listFiles().length; i++) {
+							System.out.println(currentFolder.getName()+", "+currentFolder.listFiles()[i].getName());
+							BufferedReader r = new BufferedReader(new FileReader(currentFolder.listFiles()[i]));
 							String throwAway = r.readLine();
 							String st;
 							while ((st = r.readLine()) != null) {
@@ -841,8 +911,9 @@ public class Scouting {
 					}
 				}
 				writer.close();
-			} catch (IOException e1) {
-				e1.printStackTrace();
+			} catch (IOException e2) {
+				// TODO Auto-generated catch block
+				e2.printStackTrace();
 			}
 		}
 	}

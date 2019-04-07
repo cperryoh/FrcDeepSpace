@@ -1,6 +1,8 @@
 package FrcDeepSpace;
 
+import java.awt.Color;
 import java.awt.EventQueue;
+import java.awt.Point;
 import java.awt.event.ActionEvent;
 
 import javax.imageio.ImageIO;
@@ -18,6 +20,8 @@ import java.io.IOException;
 import javax.swing.JLabel;
 import java.awt.event.WindowFocusListener;
 import java.awt.event.WindowEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class gamePieceLocation {
 
@@ -39,6 +43,8 @@ public class gamePieceLocation {
 		frame.setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
 		main = s;
 	}
+	
+	
 
 	/**
 	 * Initialize the contents of the frame.
@@ -47,38 +53,140 @@ public class gamePieceLocation {
 	 */
 	private void initialize() throws IOException {
 
-		frame = new JFrame(); 
-		
+		frame = new JFrame();
+
 		frame.setResizable(false);
-		frame.setBounds(100, 100, 239, 154);
+		frame.setBounds(100, 100, 564, 388);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 
-		JButton button = new JButton("New button");
-		button.setAction(action_9);
-		button.setBounds(15, 16, 51, 29);
-		frame.getContentPane().add(button);
+		JButton droppedCs = new JButton("Dropped cs");
+		droppedCs.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				dropped("cs");
+			}
+		});
+		droppedCs.setBounds(20, 300, 114, 29);
+		frame.getContentPane().add(droppedCs);
 
-		JButton button_1 = new JButton("New button");
-		button_1.setAction(action_10);
-		button_1.setBounds(75, 16, 93, 29);
-		frame.getContentPane().add(button_1);
+		JButton 
+		droppedr1 = new JButton("Dropped r1");
+		droppedr1.setBounds(155, 300, 114, 29);
+		droppedr1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				dropped("r1");
+			}
+		});
+		frame.getContentPane().add(droppedr1);
 
-		JButton button_2 = new JButton("New button");
-		button_2.setAction(action_11);
-		button_2.setBounds(177, 16, 51, 29);
-		frame.getContentPane().add(button_2);
+		JButton droppedR2 = new JButton("Dropped r2");
+		droppedR2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				dropped("r2");
+			}
+		});
+		droppedR2.setBounds(290, 300, 114, 29);
+		frame.getContentPane().add(droppedR2);
 
-		JButton button_3 = new JButton("New button");
-		button_3.setAction(action);
-		button_3.setBounds(177, 90, 51, 29);
-		frame.getContentPane().add(button_3);
+		JButton droppedR3 = new JButton("Dropped r3");
+		droppedR3.setBounds(414, 300, 114, 29);
+		droppedR3.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				dropped("r3");
+			}
+		});
+		frame.getContentPane().add(droppedR3);
 
-		JButton button_4 = new JButton("New button");
-		button_4.setAction(action_12);
-		button_4.setBounds(177, 53, 51, 29);
-		frame.getContentPane().add(button_4);
+		ImageIcon icn = new ImageIcon(getClass().getClassLoader().getResource("rocket.PNG"));
+		BufferedImage ref = ImageIO.read(getClass().getClassLoader().getResource("rocketRef.png"));
+		JLabel Rocket = new JLabel(icn);
+		Rocket.setSize(icn.getIconWidth(), icn.getIconHeight());
+		Rocket.setBounds(304, 69, 169, 203);
+		frame.getContentPane().add(Rocket);
+		Rocket.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mousePressed(MouseEvent arg0) {
+				Color c = GetColor(ref, arg0.getPoint());
+				if (isEqual(c, Color.white)) {
+					main.tableModel.setValueAt("R3", main.currentRow, 2);
+					if (main.hatch == false) {
+						main.HighestCargo = 3;
+						main.ComboBoxCargo.getModel().setSelectedItem(main.ComboBoxCargo.getModel().getElementAt(3));
+					}
+					if (main.hatch) {
+						main.HighestHatch = 3;
+						main.ComboBoxPanel.getModel().setSelectedItem(main.ComboBoxPanel.getModel().getElementAt(3));
+					}
+					done();
+				}
+				if (isEqual(c, Color.red)) {
+					main.tableModel.setValueAt("R2", main.currentRow, 2);
+					if (main.HighestCargo < 1 && main.hatch == false) {
+						main.HighestCargo = 2;
+						main.ComboBoxCargo.getModel().setSelectedItem(main.ComboBoxCargo.getModel().getElementAt(2));
+					}
+					if (main.HighestHatch < 1 && main.hatch) {
+						main.HighestHatch = 2;
+						main.ComboBoxPanel.getModel().setSelectedItem(main.ComboBoxPanel.getModel().getElementAt(2));
+					}
 
+					done();
+				}
+				if (isEqual(c, Color.blue)) {
+					main.tableModel.setValueAt("R1", main.currentRow, 2);
+					if (main.HighestCargo < 1 && main.hatch == false) {
+						main.HighestCargo = 1;
+						main.ComboBoxCargo.getModel().setSelectedItem(main.ComboBoxCargo.getModel().getElementAt(1));
+					}
+					if (main.HighestHatch < 1 && main.hatch) {
+						main.HighestHatch = 1;
+						main.ComboBoxPanel.getModel().setSelectedItem(main.ComboBoxPanel.getModel().getElementAt(1));
+					}
+
+					done();
+				}
+			}
+		});
+
+		ImageIcon icon = new ImageIcon(getClass().getClassLoader().getResource("cargoShip.PNG"));
+		JLabel CargoShip = new JLabel(icon);
+		CargoShip.setSize(icon.getIconWidth(), icon.getIconHeight());
+
+		CargoShip.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mousePressed(MouseEvent arg0) {
+				main.tableModel.setValueAt("CS", main.currentRow, 2);
+				done();
+			}
+		});
+		CargoShip.setBounds(21, 113, 248, 112);
+		frame.getContentPane().add(CargoShip);
+
+	}
+
+	boolean isEqual(Color one, Color two) {
+		;
+		if (one.getRed() > two.getRed() - 30 && one.getRed() < two.getRed() + 30) {
+			if (one.getBlue() > two.getBlue() - 30 && one.getBlue() < two.getBlue() + 30) {
+				if (one.getGreen() > two.getGreen() - 30 && one.getGreen() < two.getGreen() + 30) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+
+	Color GetColor(BufferedImage image, Point p) {
+		return new Color(image.getRGB(p.x, p.y));
+	}
+
+	void dropped(String location) {
+		main.tableModel.setValueAt(main.currentTime + " X", main.currentRow, 1);
+		main.tableModel.setValueAt("Failed " + location, main.currentRow, 2);
+		main.btnHatch.setVisible(true);
+		main.btnCargo.setVisible(true);
+		frame.setVisible(false);
+		main.currentRow++;
 	}
 
 	private class SwingAction_8 extends AbstractAction {
@@ -95,18 +203,13 @@ public class gamePieceLocation {
 
 	private class SwingAction_9 extends AbstractAction {
 		public SwingAction_9() {
-			putValue(NAME, "Dropped");
+			putValue(NAME, "Dropped cs");
 			putValue(SHORT_DESCRIPTION, "Some short description");
 		}
 
 		public void actionPerformed(ActionEvent e) {
-			main.tableModel.setValueAt(main.currentTime + " X", main.currentRow, 1);
-			main.tableModel.setValueAt("Failed", main.currentRow, 2);
-			main.btnHatch.setVisible(true);
-			main.btnCargo.setVisible(true);
-			frame.setVisible(false);
-			main.currentRow++;
-
+			main.tableModel.setValueAt("CS", main.currentRow, 2);
+			done();
 		}
 
 	}

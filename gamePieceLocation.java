@@ -112,6 +112,7 @@ public class gamePieceLocation {
 					if (main.hatch == false) {
 						main.HighestCargo = 3;
 						main.ComboBoxCargo.getModel().setSelectedItem(main.ComboBoxCargo.getModel().getElementAt(3));
+						
 					}
 					if (main.hatch) {
 						main.HighestHatch = 3;
@@ -129,7 +130,6 @@ public class gamePieceLocation {
 						main.HighestHatch = 2;
 						main.ComboBoxPanel.getModel().setSelectedItem(main.ComboBoxPanel.getModel().getElementAt(2));
 					}
-
 					done();
 				}
 				if (isEqual(c, Color.blue)) {
@@ -142,7 +142,6 @@ public class gamePieceLocation {
 						main.HighestHatch = 1;
 						main.ComboBoxPanel.getModel().setSelectedItem(main.ComboBoxPanel.getModel().getElementAt(1));
 					}
-
 					done();
 				}
 			}

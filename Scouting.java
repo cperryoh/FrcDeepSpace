@@ -575,7 +575,7 @@ public class Scouting {
 			reset();
 
 		} else {
-			//popup window if
+			//popup window if they didnt put in the info
 			messageBox.display(frame,"Enter info", "Please enter team and or round numbers","Ok");
 		}
 	}
@@ -601,7 +601,7 @@ public class Scouting {
 		}
 
 	}
-
+	//file chooser
 	private class SwingAction_1 extends AbstractAction {
 		public SwingAction_1() {
 			putValue(NAME, "Choose file location");
@@ -623,7 +623,7 @@ public class Scouting {
 			
 		}
 	}
-
+	//reset combo box function cuz i'm lazy
 	void resetComboBox(JComboBox box) {
 		box.getModel().setSelectedItem(box.getModel().getElementAt(0));
 	}
@@ -638,11 +638,11 @@ public class Scouting {
 			tableModel.addRow(new Object[] {});
 		}
 	}
-
+	//still lazy
 	String getCellValue(TableModel tbl, int row, int cell) {
 		return (String) tbl.getValueAt(row, cell);
 	}
-
+	//wow really lazy
 	boolean isNumber(String number) {
 		boolean isNumber = false;
 		try {

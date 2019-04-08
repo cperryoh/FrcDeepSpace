@@ -30,19 +30,22 @@ public class popUpWindow {
 	/**
 	 * Create the application.
 	 */
-	public popUpWindow(JFrame frame, String title, String message, String buttonText) {
+	public popUpWindow() {
+		initialize();                                                                                                                                         
+	}
+
+	/**
+	 * Initialize the contents of the frame.
+	 */
+	public void display(JFrame frame, String title, String message, String buttonText){
 		initialize();
 		btnEnter.setText(buttonText);
 		messageBox.setText(message);
 		this.frame.setTitle(title);
 		this.frame.setVisible(true);
 		this.frame.setLocation((frame.getWidth()/2)+(this.frame.getWidth()/2), (frame.getHeight()/2));
-		this.frame.setResizable(false);                                                                                                                                                            
+		this.frame.setResizable(false);    
 	}
-
-	/**
-	 * Initialize the contents of the frame.
-	 */
 	private void initialize() {
 		frame = new JFrame();
 		frame.addFocusListener(new FocusAdapter() {

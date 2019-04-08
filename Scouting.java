@@ -18,12 +18,9 @@ import javax.swing.JButton;
 //import javax.imageio.ImageIO;
 import javax.swing.AbstractAction;
 import java.awt.event.ActionEvent;
-import static java.nio.file.StandardCopyOption.*;
-
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileFilter;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -31,34 +28,21 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.io.Writer;
-import java.nio.file.DirectoryNotEmptyException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
-import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.NoSuchElementException;
-import java.util.Scanner;
 import java.util.Timer;
 import java.util.TimerTask;
-import java.util.concurrent.TimeUnit;
-
 import javax.swing.Action;
 import javax.swing.JTextField;
-import javax.swing.ListSelectionModel;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
-import javax.swing.JRadioButton;
 import javax.swing.JTabbedPane;
-import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
 import javax.swing.DefaultComboBoxModel;
-import javax.swing.ImageIcon;
-
-import java.awt.ComponentOrientation;
 import java.awt.Dimension;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -67,26 +51,18 @@ import javax.swing.JPopupMenu;
 import java.awt.Component;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.image.BufferedImage;
-
 import javax.swing.JMenuItem;
-import javax.swing.JOptionPane;
-
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.Color;
-import javax.swing.UIManager;
 import javax.swing.JMenuBar;
 import java.awt.Font;
-import java.awt.Frame;
 import java.awt.event.ActionListener;
-import javax.swing.JInternalFrame;
-import java.awt.GridLayout;
-import java.awt.event.FocusAdapter;
 
 public class Scouting {
 
-	 JFrame frame;
+	JFrame frame;
+	popUpWindow messageBox = new popUpWindow();
 	private final Action action = new Enter();
 	private JTextField team;
 	int fouls=0;
@@ -162,18 +138,16 @@ public class Scouting {
 		});
 	}
 
-	/**
-	 * Create the application.
-	 * 
-	 * @throws IOException
-	 */
+	
 	public Scouting() throws IOException {
 		initialize();
 		teamFolder.mkdir();
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		
+		//places window in the middle of the screen
 		int width = (int) screenSize.getWidth();
 		int height = (int) screenSize.getHeight();
-		frame.setLocation((width / 2) - (frame.getWidth() / 2), (height / 2) - (frame.getHeight()));
+		frame.setLocation((width / 2)-(frame.getWidth()/2) , (height / 2)-(frame.getHeight()/2) );
 		table.setModel(tableModel);
 		timerLbl.setHorizontalAlignment(SwingConstants.CENTER);
 		timerLbl.setFont(new Font("Tahoma", Font.PLAIN, 46));
@@ -212,6 +186,7 @@ public class Scouting {
 		frame.getContentPane().add(btnCompileData);
 		
 		JButton btnAddFoul = new JButton("Add foul");
+		//add foul action listener
 		btnAddFoul.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				fouls++;
@@ -261,6 +236,8 @@ public class Scouting {
 
 		team = new JTextField();
 		RoundNum = new JTextField();
+		
+		//key listener for enabling/disabling the finish button
 		RoundNum.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyReleased(KeyEvent e) {
@@ -274,6 +251,8 @@ public class Scouting {
 				}
 			}
 		});
+		
+		//easter egg key listener =)
 		team.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyReleased(KeyEvent arg0) {
@@ -285,7 +264,7 @@ public class Scouting {
 					btnEnter.setBackground(btnFileCreationLocation.getBackground());
 				}
 				if(team.getText().equals("5667")) {
-					popUpWindow pop = new popUpWindow(frame, "Hello!!","Hey that's my team! You are in the presence of greatness!","Yeah ok...");
+					messageBox.display(frame, "Hello!!","Hey that's my team! You are in the presence of greatness!","Yeah ok...");
 					
 				} 
 			}
@@ -293,7 +272,7 @@ public class Scouting {
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		int width = (int) screenSize.getWidth();
 		int height = (int) screenSize.getHeight();
-		frame.setLocation((width / 2) - (frame.getWidth() / 2), (height / 2) - (frame.getHeight() / 2));
+		
 		btnEnter.setBackground(new Color(104, 104, 104));
 		enterable = false;
 		team.setBounds(484, 16, 146, 26);
@@ -307,6 +286,8 @@ public class Scouting {
 
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBorder(null);
+		
+		//updates seleted row whenever mouse 2 is pressed
 		scrollPane.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -321,10 +302,14 @@ public class Scouting {
 
 		table = new JTable();
 		table.setBorder(null);
+		
+		//table selection tools
 		table.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent arg0) {
 				if (arg0.getKeyCode() == KeyEvent.VK_BACK_SPACE) {
+					
+					//selection and delete
 					int[][] seleceted = new int[][] { table.getSelectedRows(), table.getSelectedColumns() };
 					for (int x = 0; x < seleceted[0].length; x++) {
 						for (int y = 0; y < seleceted[1].length; y++) {
@@ -368,18 +353,7 @@ public class Scouting {
 		popupMenu_1.add(mntmNewMenuItem_2);
 
 		JPopupMenu popupMenu = new JPopupMenu();
-		popupMenu.addComponentListener(new ComponentAdapter() {
-			@Override
-			public void componentShown(ComponentEvent arg0) {
-				if (table.getSelectedColumns().length > 1) {
-					mntmClearRow.setText("Clear rows");
-					mntmDeleteRow.setText("Delete rows");
-				} else {
-					mntmClearRow.setText("Clear row");
-					mntmDeleteRow.setText("Delete row");
-				}
-			}
-		});
+		
 		addPopup(table, popupMenu);
 
 		mntmDeleteRow.setAction(action_3);
@@ -500,8 +474,7 @@ public class Scouting {
 		JPanel panel_2 = new JPanel();
 		CargoOrPanel.addTab("Disabilities", null, panel_2, null);
 
-		Condition.setModel(
-				new DefaultComboBoxModel(new String[] {"working", "not working at all", "broken feature"}));
+		Condition.setModel(new DefaultComboBoxModel(new String[] {"working", "not working at all", "broken feature"}));
 		panel_2.add(Condition);
 
 		JPanel panel_3 = new JPanel();
@@ -530,30 +503,34 @@ public class Scouting {
 	void enter() throws IOException, InterruptedException {
 		if (enterable) {
 			try {
+				//creates scouting folder
 				teamFolder = new File(Desktop + sep + "scouting");
 				teamFolder.mkdir();
 				File f = new File(teamFolder.getAbsolutePath() + sep + team.getText());
 				f.mkdir();
-				// creates and populates text file
+				// creates and populates the teams info text file
 
 				File[] files = teamFolder.listFiles();
 				boolean foundFile = false;
+				//figures out if there is a teams info text file
 				for (int i = 0; i < files.length; i++) {
-					if (files[i].getName().equals("overView.txt")) {
+					if (files[i].getName().equals("teams info.txt")) {
 						foundFile = true;
 						break;
 					}
 				}
-				Writer FW = new FileWriter(teamFolder.getAbsolutePath() + sep + "overView.txt", true);
+				Writer FW = new FileWriter(teamFolder.getAbsolutePath() + sep + "teams info.txt", true);
 				BufferedWriter writer = new BufferedWriter(FW);
 				if (foundFile == false) {
-					writer.write(
-							"Team number,Round number,penaltys,foul count,defended,defeneded against,highest cargo,higest panel,starting location,robot condition,climb level,failedClimb");
+					//writes header if there was no teams info.txt found
+					writer.write("Team number,Round number,penaltys,foul count,defended,defeneded against,highest cargo,higest panel,starting location,robot condition,climb level,failed climb");
 				}
 				writer.newLine();
+				//writes data
 				writer.write(team.getText() + "," +RoundNum.getText()+","+ComboBoxValue(Penaltys)+","+fouls+","+ComboBoxValue(Defended)+","+ComboBoxValue(DefendedAgainst)+","+ComboBoxValue(ComboBoxCargo)+"," + ComboBoxValue(ComboBoxPanel)+ "," + ComboBoxValue(Location) + ":" + ComboBoxValue(level) + "," + ComboBoxValue(Condition)+ "," + ComboBoxValue(ComboBoxClimb)+","+ComboBoxValue(failedClimb));
 				writer.close();
 				FW.close();
+				//writer for round text file
 				PrintWriter writer2 = new PrintWriter(f.getAbsolutePath() + sep + "Round " + RoundNum.getText() + ".txt", "UTF-8");
 				// creates key
 
@@ -561,7 +538,7 @@ public class Scouting {
 				TableModel tableModle = table.getModel();
 				writer2.print("Team number, round number,");
 				for (int x = 0; x < tableModle.getColumnCount(); x++) {
-					
+					//if last column don't add comma
 					if (x < tableModle.getColumnCount() - 1) {
 						writer2.print(tableModle.getColumnName(x) + ",");
 					} 
@@ -598,7 +575,8 @@ public class Scouting {
 			reset();
 
 		} else {
-			popUpWindow window = new popUpWindow(frame,"Enter info", "Please enter team and or round numbers","Ok");
+			//popup window if
+			messageBox.display(frame,"Enter info", "Please enter team and or round numbers","Ok");
 		}
 	}
 
@@ -898,7 +876,7 @@ public class Scouting {
 			
 			try {
 				
-				BufferedWriter writer = new BufferedWriter(new FileWriter(Desktop + sep + "scouting.txt"));
+				BufferedWriter writer = new BufferedWriter(new FileWriter(teamFolder.getAbsolutePath() + sep + "data for spreadsheet.txt"));
 
 				writer.write("Team number,highest cargo,higest panel,starting location,robot condition,climb level");
 				writer.newLine();

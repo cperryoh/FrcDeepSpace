@@ -1,25 +1,20 @@
 package FrcDeepSpace;
 
 import java.awt.Color;
-import java.awt.EventQueue;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 
 import javax.imageio.ImageIO;
 import javax.swing.AbstractAction;
-import javax.swing.Action;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.WindowConstants;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 
 import javax.swing.JLabel;
-import java.awt.event.WindowFocusListener;
-import java.awt.event.WindowEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -27,11 +22,6 @@ public class gamePieceLocation {
 
 	JFrame frame;
 	Scouting main = null;
-	private final Action action_9 = new SwingAction_8();
-	private final Action action_10 = new SwingAction_9();
-	private final Action action_11 = new SwingAction_10();
-	private final Action action_12 = new SwingAction_11();
-	private final Action action = new SwingAction();
 
 	/**
 	 * Create the application.
@@ -180,7 +170,7 @@ public class gamePieceLocation {
 	}
 
 	void dropped(String location) {
-		main.tableModel.setValueAt(main.currentTime + " X", main.currentRow, 1);
+		main.tableModel.setValueAt(main.currentTime, main.currentRow, 1);
 		main.tableModel.setValueAt("Failed " + location, main.currentRow, 2);
 		main.btnHatch.setVisible(true);
 		main.btnCargo.setVisible(true);

@@ -86,7 +86,7 @@ import java.awt.event.FocusAdapter;
 
 public class Scouting {
 
-	private JFrame frame;
+	 JFrame frame;
 	private final Action action = new Enter();
 	private JTextField team;
 	int fouls=0;

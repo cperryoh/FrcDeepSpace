@@ -65,7 +65,7 @@ public class Scouting {
 	popUpWindow messageBox = new popUpWindow();
 	private final Action action = new Enter();
 	private JTextField team;
-	int fouls=0;
+	int fouls = 0;
 	JComboBox ComboBoxClimb = new JComboBox();
 	String sep = File.separator;
 	JLabel timerLbl = new JLabel("150");
@@ -99,14 +99,10 @@ public class Scouting {
 	JMenuItem mntmClearRow = new JMenuItem("Clear row");
 	JMenuItem mntmDeleteRow = new JMenuItem("Delete row");
 	DefaultTableModel tableModel = new DefaultTableModel(
-			new Object[][] { 
-				{ null, null, null, null }, 
-				{ null, null, null, null }, 
-				{ null, null, null, null },
-				{ null, null, null, null }, 
-				{ null, null, null, null }, 
-				{ null, null, null, null }, },
-			new String[] { "Game piece grabbed time", "Delivery time", "Delivery location (CS R#)","Hatch panel or cargo" });
+			new Object[][] { { null, null, null, null }, { null, null, null, null }, { null, null, null, null },
+					{ null, null, null, null }, { null, null, null, null }, { null, null, null, null }, },
+			new String[] { "Game piece grabbed time", "Delivery time", "Delivery location (CS R#)",
+					"Hatch panel or cargo" });
 	private final Action action_1 = new SwingAction_1();
 	private JTextField RoundNum;
 	private JTextField textField;
@@ -138,16 +134,15 @@ public class Scouting {
 		});
 	}
 
-	
 	public Scouting() throws IOException {
 		initialize();
 		teamFolder.mkdir();
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-		
-		//places window in the middle of the screen
+
+		// places window in the middle of the screen
 		int width = (int) screenSize.getWidth();
 		int height = (int) screenSize.getHeight();
-		frame.setLocation((width / 2)-(frame.getWidth()/2) , (height / 2)-(frame.getHeight()/2) );
+		frame.setLocation((width / 2) - (frame.getWidth() / 2), (height / 2) - (frame.getHeight() / 2));
 		table.setModel(tableModel);
 		timerLbl.setHorizontalAlignment(SwingConstants.CENTER);
 		timerLbl.setFont(new Font("Tahoma", Font.PLAIN, 46));
@@ -184,9 +179,9 @@ public class Scouting {
 		btnCompileData.setAction(action_9);
 		btnCompileData.setBounds(820, 30, 196, 29);
 		frame.getContentPane().add(btnCompileData);
-		
+
 		JButton btnAddFoul = new JButton("Add foul");
-		//add foul action listener
+		// add foul action listener
 		btnAddFoul.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				fouls++;
@@ -236,8 +231,8 @@ public class Scouting {
 
 		team = new JTextField();
 		RoundNum = new JTextField();
-		
-		//key listener for enabling/disabling the finish button
+
+		// key listener for enabling/disabling the finish button
 		RoundNum.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyReleased(KeyEvent e) {
@@ -251,8 +246,8 @@ public class Scouting {
 				}
 			}
 		});
-		
-		//easter egg key listener =)
+
+		// easter egg key listener =)
 		team.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyReleased(KeyEvent arg0) {
@@ -263,16 +258,17 @@ public class Scouting {
 					enterable = true;
 					btnEnter.setBackground(btnFileCreationLocation.getBackground());
 				}
-				if(team.getText().equals("5667")) {
-					messageBox.display(frame, "Hello!!","Hey that's my team! You are in the presence of greatness!","Yeah ok...");
-					
-				} 
+				if (team.getText().equals("5667")) {
+					messageBox.display(frame, "Hello!!", "Hey that's my team! You are in the presence of greatness!",
+							"Yeah ok...");
+
+				}
 			}
 		});
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		int width = (int) screenSize.getWidth();
 		int height = (int) screenSize.getHeight();
-		
+
 		btnEnter.setBackground(new Color(104, 104, 104));
 		enterable = false;
 		team.setBounds(484, 16, 146, 26);
@@ -286,8 +282,8 @@ public class Scouting {
 
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBorder(null);
-		
-		//updates seleted row whenever mouse 2 is pressed
+
+		// updates seleted row whenever mouse 2 is pressed
 		scrollPane.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -302,14 +298,14 @@ public class Scouting {
 
 		table = new JTable();
 		table.setBorder(null);
-		
-		//table selection tools
+
+		// table selection tools
 		table.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent arg0) {
 				if (arg0.getKeyCode() == KeyEvent.VK_BACK_SPACE) {
-					
-					//selection and delete
+
+					// selection and delete
 					int[][] seleceted = new int[][] { table.getSelectedRows(), table.getSelectedColumns() };
 					for (int x = 0; x < seleceted[0].length; x++) {
 						for (int y = 0; y < seleceted[1].length; y++) {
@@ -353,7 +349,7 @@ public class Scouting {
 		popupMenu_1.add(mntmNewMenuItem_2);
 
 		JPopupMenu popupMenu = new JPopupMenu();
-		
+
 		addPopup(table, popupMenu);
 
 		mntmDeleteRow.setAction(action_3);
@@ -411,18 +407,17 @@ public class Scouting {
 		ComboBoxCargo.setModel(new DefaultComboBoxModel(new String[] { "N/A", "One", "Two", "Three" }));
 		ComboBoxCargo.setBounds(214, 16, 86, 26);
 		Cargo.add(ComboBoxCargo);
-		
+
 		JPanel panel_5 = new JPanel();
 		CargoOrPanel.addTab("Penaltys", null, panel_5, null);
 		panel_5.setLayout(null);
-		
+
 		JLabel lblPenaltysRecived = new JLabel("Penaltys received:");
 		lblPenaltysRecived.setHorizontalAlignment(SwingConstants.RIGHT);
 		lblPenaltysRecived.setBounds(0, 27, 201, 14);
 		panel_5.add(lblPenaltysRecived);
-		
-		
-		Penaltys.setModel(new DefaultComboBoxModel(new String[] {"None", "Yellow", "red"}));
+
+		Penaltys.setModel(new DefaultComboBoxModel(new String[] { "None", "Yellow", "red" }));
 		Penaltys.setBounds(211, 24, 77, 20);
 		panel_5.add(Penaltys);
 
@@ -435,38 +430,35 @@ public class Scouting {
 		lblEndGameClimb.setBounds(0, 35, 127, 20);
 		panel.add(lblEndGameClimb);
 
-		ComboBoxClimb.setModel(new DefaultComboBoxModel(new String[] {"N/A", "One", "Two", "Three"}));
+		ComboBoxClimb.setModel(new DefaultComboBoxModel(new String[] { "N/A", "One", "Two", "Three" }));
 		ComboBoxClimb.setBounds(139, 32, 77, 26);
 		panel.add(ComboBoxClimb);
-		
+
 		JLabel lblFaildedClimb = new JLabel("Failded Climb: ");
 		lblFaildedClimb.setHorizontalAlignment(SwingConstants.RIGHT);
 		lblFaildedClimb.setBounds(213, 38, 90, 14);
 		panel.add(lblFaildedClimb);
-		
-		
-		failedClimb.setModel(new DefaultComboBoxModel(new String[] {"N/a", "One", "Two", "Three"}));
+
+		failedClimb.setModel(new DefaultComboBoxModel(new String[] { "N/a", "One", "Two", "Three" }));
 		failedClimb.setBounds(308, 35, 72, 20);
 		panel.add(failedClimb);
-		
+
 		JPanel panel_4 = new JPanel();
 		CargoOrPanel.addTab("defense or defended against", null, panel_4, null);
 		panel_4.setLayout(null);
-		
-		
-		DefendedAgainst.setModel(new DefaultComboBoxModel(new String[] {"No", "Yes"}));
+
+		DefendedAgainst.setModel(new DefaultComboBoxModel(new String[] { "No", "Yes" }));
 		DefendedAgainst.setBounds(78, 36, 77, 20);
 		panel_4.add(DefendedAgainst);
-		
-		
-		Defended.setModel(new DefaultComboBoxModel(new String[] {"No", "Yes"}));
+
+		Defended.setModel(new DefaultComboBoxModel(new String[] { "No", "Yes" }));
 		Defended.setBounds(220, 36, 77, 20);
 		panel_4.add(Defended);
-		
+
 		JLabel lblDefendedAgainst = new JLabel("Defended against");
 		lblDefendedAgainst.setBounds(48, 11, 121, 14);
 		panel_4.add(lblDefendedAgainst);
-		
+
 		JLabel lblDefended = new JLabel("Defended");
 		lblDefended.setBounds(223, 11, 91, 14);
 		panel_4.add(lblDefended);
@@ -474,7 +466,8 @@ public class Scouting {
 		JPanel panel_2 = new JPanel();
 		CargoOrPanel.addTab("Disabilities", null, panel_2, null);
 
-		Condition.setModel(new DefaultComboBoxModel(new String[] {"working", "not working at all", "broken feature"}));
+		Condition
+				.setModel(new DefaultComboBoxModel(new String[] { "working", "not working at all", "broken feature" }));
 		panel_2.add(Condition);
 
 		JPanel panel_3 = new JPanel();
@@ -488,12 +481,12 @@ public class Scouting {
 		level.setModel(new DefaultComboBoxModel(new String[] { "One", "two" }));
 		level.setBounds(197, 16, 71, 26);
 		panel_3.add(level);
-		
+
 		JLabel lblPosition = new JLabel("Position");
 		lblPosition.setHorizontalAlignment(SwingConstants.CENTER);
 		lblPosition.setBounds(97, 52, 85, 14);
 		panel_3.add(lblPosition);
-		
+
 		JLabel lblLevel = new JLabel("level");
 		lblLevel.setHorizontalAlignment(SwingConstants.CENTER);
 		lblLevel.setBounds(197, 52, 71, 14);
@@ -503,7 +496,7 @@ public class Scouting {
 	void enter() throws IOException, InterruptedException {
 		if (enterable) {
 			try {
-				//creates scouting folder
+				// creates scouting folder
 				teamFolder = new File(Desktop + sep + "scouting");
 				teamFolder.mkdir();
 				File f = new File(teamFolder.getAbsolutePath() + sep + team.getText());
@@ -512,7 +505,7 @@ public class Scouting {
 
 				File[] files = teamFolder.listFiles();
 				boolean foundFile = false;
-				//figures out if there is a teams info text file
+				// figures out if there is a teams info text file
 				for (int i = 0; i < files.length; i++) {
 					if (files[i].getName().equals("teams info.txt")) {
 						foundFile = true;
@@ -522,41 +515,45 @@ public class Scouting {
 				Writer FW = new FileWriter(teamFolder.getAbsolutePath() + sep + "teams info.txt", true);
 				BufferedWriter writer = new BufferedWriter(FW);
 				if (foundFile == false) {
-					//writes header if there was no teams info.txt found
-					writer.write("Team number,Round number,penaltys,foul count,defended,defeneded against,highest cargo,higest panel,starting location,robot condition,climb level,failed climb");
+					// writes header if there was no teams info.txt found
+					writer.write(
+							"Team number,Round number,penaltys,foul count,defended,defeneded against,highest cargo,higest panel,starting location,robot condition,climb level,failed climb");
 				}
 				writer.newLine();
-				//writes data
-				writer.write(team.getText() + "," +RoundNum.getText()+","+ComboBoxValue(Penaltys)+","+fouls+","+ComboBoxValue(Defended)+","+ComboBoxValue(DefendedAgainst)+","+ComboBoxValue(ComboBoxCargo)+"," + ComboBoxValue(ComboBoxPanel)+ "," + ComboBoxValue(Location) + ":" + ComboBoxValue(level) + "," + ComboBoxValue(Condition)+ "," + ComboBoxValue(ComboBoxClimb)+","+ComboBoxValue(failedClimb));
+				// writes data
+				writer.write(team.getText() + "," + RoundNum.getText() + "," + ComboBoxValue(Penaltys) + "," + fouls
+						+ "," + ComboBoxValue(Defended) + "," + ComboBoxValue(DefendedAgainst) + ","
+						+ ComboBoxValue(ComboBoxCargo) + "," + ComboBoxValue(ComboBoxPanel) + ","
+						+ ComboBoxValue(Location) + ":" + ComboBoxValue(level) + "," + ComboBoxValue(Condition) + ","
+						+ ComboBoxValue(ComboBoxClimb) + "," + ComboBoxValue(failedClimb));
 				writer.close();
 				FW.close();
-				//writer for round text file
-				PrintWriter writer2 = new PrintWriter(f.getAbsolutePath() + sep + "Round " + RoundNum.getText() + ".txt", "UTF-8");
+				// writer for round text file
+				PrintWriter writer2 = new PrintWriter(
+						f.getAbsolutePath() + sep + "Round " + RoundNum.getText() + ".txt", "UTF-8");
 				// creates key
 
 				ArrayList myList = new ArrayList();
 				TableModel tableModle = table.getModel();
 				writer2.print("Team number, round number,");
 				for (int x = 0; x < tableModle.getColumnCount(); x++) {
-					//if last column don't add comma
+					// if last column don't add comma
 					if (x < tableModle.getColumnCount() - 1) {
 						writer2.print(tableModle.getColumnName(x) + ",");
-					} 
-					else {
+					} else {
 						writer2.print(tableModle.getColumnName(x) + " ");
 					}
 				}
 				writer2.println();
 				// creates table
 				for (int i = 0; i < tableModle.getRowCount(); i++) {
-					if (tableModle.getValueAt(i,3) != null) {
-						writer2.print(team.getText()+","+RoundNum.getText()+",");
+					if (tableModle.getValueAt(i, 3) != null) {
+						writer2.print(team.getText() + "," + RoundNum.getText() + ",");
 						for (int y = 0; y < tableModle.getColumnCount(); y++) {
 							if (y < tableModle.getColumnCount() - 1) {
-								writer2.print((String) tableModle.getValueAt(i, y) + ",");
-							} 
-							else {
-								writer2.print((String) tableModle.getValueAt(i, y));
+								writer2.print(getCellValue(tableModel, i, y) + ",");
+							} else {
+								writer2.print(getCellValue(tableModel, i, y) + ",");
 							}
 						}
 
@@ -575,8 +572,8 @@ public class Scouting {
 			reset();
 
 		} else {
-			//popup window if they didnt put in the info
-			messageBox.display(frame,"Enter info", "Please enter team and or round numbers","Ok");
+			// popup window if they didnt put in the info
+			messageBox.display(frame, "Enter info", "Please enter team and or round numbers", "Ok");
 		}
 	}
 
@@ -601,7 +598,8 @@ public class Scouting {
 		}
 
 	}
-	//file chooser
+
+	// file chooser
 	private class SwingAction_1 extends AbstractAction {
 		public SwingAction_1() {
 			putValue(NAME, "Choose file location");
@@ -620,10 +618,11 @@ public class Scouting {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
-			
+
 		}
 	}
-	//reset combo box function cuz i'm lazy
+
+	// reset combo box function cuz i'm lazy
 	void resetComboBox(JComboBox box) {
 		box.getModel().setSelectedItem(box.getModel().getElementAt(0));
 	}
@@ -638,11 +637,13 @@ public class Scouting {
 			tableModel.addRow(new Object[] {});
 		}
 	}
-	//still lazy
+
+	// still lazy
 	String getCellValue(TableModel tbl, int row, int cell) {
 		return (String) tbl.getValueAt(row, cell);
 	}
-	//wow really lazy
+
+	// wow really lazy
 	boolean isNumber(String number) {
 		boolean isNumber = false;
 		try {
@@ -712,8 +713,8 @@ public class Scouting {
 	}
 
 	void timer() {
-		int delay = 1000;
-		int period = 1000;
+		int delay = 1000; //how long till the timer begins
+		int period = 1000;//how long between each execution of run() inside timer task
 		timerLbl.setText("150");
 		timer = new Timer();
 		timer.scheduleAtFixedRate(new TimerTask() {
@@ -774,25 +775,7 @@ public class Scouting {
 		}
 
 		public void actionPerformed(ActionEvent e) {
-			if (currentRow == table.getRowCount()) {
-				tableModel.addRow(new Object[] {});
-			}
-			if (Integer.parseInt(currentTime) >= 135) {
-				table.setValueAt("hatch(sand storm)", currentRow, 3);
-			} else {
-				table.setValueAt("hatch", currentRow, 3);
-			}
-			btnHatch.setVisible(false);
-			hatch = true;
-			btnCargo.setVisible(false);
-			GPL.frame.setLocation(frame.getX()+400, frame.getY());
-			if (hasStarted == true) {
-				GPL.frame.setVisible(true);
-			} else {
-				GPL.frame.setVisible(false);
-			}
-			hasGamePiece = true;
-			table.setValueAt(currentTime, currentRow, 0);
+			piecePickedUp(true);
 		}
 	}
 
@@ -803,34 +786,18 @@ public class Scouting {
 		}
 
 		public void actionPerformed(ActionEvent e) {
-			if (currentRow == table.getRowCount()) {
-				tableModel.addRow(new Object[] {});
-			}
-			if (Integer.parseInt(currentTime) >= 135) {
-				table.setValueAt("cargo(sand storm)", currentRow, 3);
-			} else {
-				table.setValueAt("cargo", currentRow, 3);
-			}
-			btnHatch.setVisible(false);
-			hatch = false;
-			btnCargo.setVisible(false);
-			GPL.frame.setLocation(frame.getX()+400, frame.getY());
-			if (hasStarted == true) {
-				GPL.frame.setVisible(true);
-			} else {
-				GPL.frame.setVisible(false);
-			}
-			hasGamePiece = true;
-			table.setValueAt(currentTime, currentRow, 0);
-
+			piecePickedUp(false);
 		}
 	}
 
+	// gets the value of a combo box
 	String ComboBoxValue(JComboBox box) {
 		return (String) box.getModel().getElementAt(box.getSelectedIndex());
 	}
+
 	void reset() {
 		currentRow = 0;
+		// clears combo boxes
 		resetComboBox(ComboBoxPanel);
 		resetComboBox(ComboBoxCargo);
 		resetComboBox(ComboBoxClimb);
@@ -840,12 +807,13 @@ public class Scouting {
 		resetComboBox(DefendedAgainst);
 		resetComboBox(Defended);
 		resetComboBox(failedClimb);
-		
-		fouls=0;
-
 		resetComboBox(Condition);
+
+		fouls = 0;
+
 		team.setText("");
 		RoundNum.setText("");
+		// clears tables
 		for (int x = 0; x < tableModel.getRowCount(); x++) {
 			for (int y = 0; y < tableModel.getColumnCount(); y++) {
 				tableModel.setValueAt("", x, y);
@@ -863,9 +831,39 @@ public class Scouting {
 		timerLbl.setText("150");
 		timer.cancel();
 
-		
+	}
+	//picks up hp or cargo
+	void piecePickedUp(boolean hasHatch) {
+		if (currentRow == table.getRowCount()) {
+			tableModel.addRow(new Object[] {});
+		}
+		if (hasHatch) {
+			if (Integer.parseInt(currentTime) >= 135) {
+				table.setValueAt("hatch(sand storm)", currentRow, 3);
+			} else {
+				table.setValueAt("hatch", currentRow, 3);
+			}
+		} else {
+			if (Integer.parseInt(currentTime) >= 135) {
+				table.setValueAt("cargo(sand storm)", currentRow, 3);
+			} else {
+				table.setValueAt("cargo", currentRow, 3);
+			}
+		}
+		btnHatch.setVisible(false);
+		hatch = hasHatch;
+		btnCargo.setVisible(false);
+		GPL.frame.setLocation(frame.getX() + 400, frame.getY());
+		if (hasStarted == true) {
+			GPL.frame.setVisible(true);
+		} else {
+			GPL.frame.setVisible(false);
+		}
+		hasGamePiece = true;
+		table.setValueAt(currentTime, currentRow, 0);
 	}
 
+	// smooshes all the text files together
 	private class SwingAction_8 extends AbstractAction {
 		public SwingAction_8() {
 			putValue(NAME, "Compile data");
@@ -873,22 +871,29 @@ public class Scouting {
 		}
 
 		public void actionPerformed(ActionEvent e) {
-			
-			try {
-				
-				BufferedWriter writer = new BufferedWriter(new FileWriter(teamFolder.getAbsolutePath() + sep + "data for spreadsheet.txt"));
 
+			try {
+				// writes file
+				BufferedWriter writer = new BufferedWriter(
+						new FileWriter(teamFolder.getAbsolutePath() + sep + "data for spreadsheet.txt"));
+				// writers header
 				writer.write("Team number,highest cargo,higest panel,starting location,robot condition,climb level");
 				writer.newLine();
+
 				for (int x = 0; x < teamFolder.listFiles().length; x++) {
+					// gets the current folder
 					File currentFolder = teamFolder.listFiles()[x];
 					if (currentFolder.isDirectory()) {
+						// loops through text files in current folder
 						for (int i = 0; i < currentFolder.listFiles().length; i++) {
 							BufferedReader r = new BufferedReader(new FileReader(currentFolder.listFiles()[i]));
+							// does not print the header
 							String throwAway = r.readLine();
 							String st;
+							// prints everything in the text file
 							while ((st = r.readLine()) != null) {
 								writer.write(st);
+
 								writer.newLine();
 							}
 						}

@@ -1,10 +1,7 @@
 package FrcDeepSpace;
 
-import java.awt.EventQueue;
 
 import javax.swing.JFrame;
-import javax.swing.JTextPane;
-import java.awt.BorderLayout;
 import javax.swing.JButton;
 import javax.swing.AbstractAction;
 import java.awt.event.ActionEvent;
@@ -13,7 +10,6 @@ import java.awt.event.FocusEvent;
 
 import javax.swing.Action;
 import javax.swing.JLabel;
-import java.awt.Component;
 import javax.swing.SwingConstants;
 
 public class popUpWindow {
@@ -43,7 +39,7 @@ public class popUpWindow {
 		messageBox.setText(message);
 		this.frame.setTitle(title);
 		this.frame.setVisible(true);
-		this.frame.setLocation((frame.getWidth()/2)+(this.frame.getWidth()/2), (frame.getHeight()/2));
+		this.frame.setLocation((frame.getWidth()/2)+(this.frame.getWidth()/2), (frame.getHeight()/2)+(this.frame.getHeight()));
 		this.frame.setResizable(false);    
 	}
 	private void initialize() {

@@ -2,20 +2,20 @@
 package FrcDeepSpace;
 
 import java.awt.EventQueue;
-import java.awt.List;
+//import java.awt.List;
 import java.awt.Toolkit;
 
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
-import java.awt.BorderLayout;
+//import java.awt.BorderLayout;
 import javax.swing.JTable;
-import javax.swing.table.DefaultTableCellRenderer;
+//import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
-import javax.tools.DocumentationTool.Location;
+//import javax.tools.DocumentationTool.Location;
 import javax.swing.JPanel;
 import javax.swing.JButton;
-import javax.imageio.ImageIO;
+//import javax.imageio.ImageIO;
 import javax.swing.AbstractAction;
 import java.awt.event.ActionEvent;
 import static java.nio.file.StandardCopyOption.*;
@@ -587,7 +587,6 @@ public class Scouting {
 							writer2.println("");
 						}
 					}
-					funnyPrint();
 				}
 
 				writer2.close();
@@ -598,12 +597,14 @@ public class Scouting {
 			}
 			reset();
 
+		} else {
+			popUpWindow window = new popUpWindow(frame,"Enter info", "Please enter team and or round numbers","Ok");
 		}
 	}
 
 	private class Enter extends AbstractAction {
 		public Enter() {
-			putValue(NAME, "Enter");
+			putValue(NAME, "Finish match");
 			putValue(SHORT_DESCRIPTION, "Some short description");
 		}
 
@@ -784,7 +785,6 @@ public class Scouting {
 					GPL.frame.setVisible(true);
 				}
 				btnStartMatch.setVisible(false);
-				btnStartMatch.setText("Pick up game piece");
 			}
 		}
 	}
@@ -851,12 +851,6 @@ public class Scouting {
 	String ComboBoxValue(JComboBox box) {
 		return (String) box.getModel().getElementAt(box.getSelectedIndex());
 	}
-	void funnyPrint() throws InterruptedException {
-		System.out.println("Beep boop bop boop");
-		System.out.println("__________________");
-		TimeUnit.SECONDS.sleep(3);
-		System.out.println("done!");
-	}
 	void reset() {
 		currentRow = 0;
 		resetComboBox(ComboBoxPanel);
@@ -920,12 +914,6 @@ public class Scouting {
 								writer.newLine();
 							}
 						}
-					}
-					try {
-						funnyPrint();
-					} catch (InterruptedException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
 					}
 				}
 				writer.close();

@@ -37,6 +37,7 @@ public class popUpWindow {
 		this.frame.setTitle(title);
 		this.frame.setVisible(true);
 		this.frame.setLocation((frame.getWidth()/2)+(this.frame.getWidth()/2), (frame.getHeight()/2));
+		this.frame.setResizable(false);                                                                                                                                                            
 	}
 
 	/**

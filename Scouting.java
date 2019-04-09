@@ -52,8 +52,6 @@ import java.awt.Component;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.JMenuItem;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
 import java.awt.Color;
 import javax.swing.JMenuBar;
 import java.awt.Font;
@@ -259,8 +257,7 @@ public class Scouting {
 					btnEnter.setBackground(btnFileCreationLocation.getBackground());
 				}
 				if (team.getText().equals("5667")) {
-					messageBox.display(frame, "Hello!!", "Hey that's my team! You are in the presence of greatness!",
-							"Yeah ok...");
+					messageBox.display(frame, "Hello!!", "Hey that's my team! You are in the presence of greatness!","Yeah ok...");
 
 				}
 			}
@@ -810,7 +807,7 @@ public class Scouting {
 		resetComboBox(Condition);
 
 		fouls = 0;
-
+		btnEnter.setBackground(new Color(100, 100, 100));
 		team.setText("");
 		RoundNum.setText("");
 		// clears tables

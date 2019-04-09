@@ -52,7 +52,7 @@ public class popUpWindow {
 			}
 		});
 		frame.setBounds(100, 100, 450, 191);
-		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
 		
@@ -68,10 +68,10 @@ public class popUpWindow {
 	private class SwingAction extends AbstractAction {
 		public SwingAction() {
 			putValue(NAME, btnEnter.getText());
-			putValue(SHORT_DESCRIPTION, "Some short description");
+			
 		}
 		public void actionPerformed(ActionEvent e) {
-			frame.setVisible(false);
+			frame.dispose();
 		}
 	}
 }

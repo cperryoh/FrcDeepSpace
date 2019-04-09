@@ -112,16 +112,13 @@ public class gamePieceLocation {
 	}
 	void rocket(String levelString){
 		int level = Character.getNumericValue(levelString.charAt(1));
-		System.out.println(level);
 		main.tableModel.setValueAt(levelString, main.currentRow, 2);
 		if (main.HighestCargo <= level && main.hatch == false) {
 			main.HighestCargo = level;
-			System.out.println("Hit 1");
 			main.ComboBoxCargo.getModel().setSelectedItem(main.ComboBoxCargo.getModel().getElementAt(level));
 		}
 		if (main.HighestHatch <= level && main.hatch) {
 			main.HighestHatch = level;
-			System.out.println("Hit 2");
 			main.ComboBoxPanel.getModel().setSelectedItem(main.ComboBoxPanel.getModel().getElementAt(level));
 		}
 

@@ -303,7 +303,7 @@ public class Scouting {
 				if (arg0.getKeyCode() == KeyEvent.VK_BACK_SPACE) {
 
 					// selection and delete
-					int[][] seleceted = new int[][] { table.getSelectedRows(), table.getSelectedColumns() };
+					int[][] seleceted = new int[][] { table.getSelectedRows(), table.getSelectedColumns()};
 					for (int x = 0; x < seleceted[0].length; x++) {
 						for (int y = 0; y < seleceted[1].length; y++) {
 							tableModel.setValueAt(null, seleceted[0][x], seleceted[1][y]);
@@ -818,6 +818,8 @@ public class Scouting {
 		}
 		GPL.frame.setVisible(false);
 		btnHatch.setVisible(false);
+		HighestCargo=0;
+		HighestHatch=0;
 		btnCargo.setVisible(false);
 		btnStartMatch.setVisible(true);
 		btnStartMatch.setText("Start match");

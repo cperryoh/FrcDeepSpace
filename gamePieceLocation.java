@@ -22,25 +22,11 @@ public class gamePieceLocation {
 
 	JFrame frame;
 	Scouting main = null;
-
-	/**
-	 * Create the application.
-	 * 
-	 * @throws IOException
-	 */
 	public gamePieceLocation(Scouting s) throws IOException {
 		initialize();
 		frame.setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
 		main = s;
 	}
-	
-	
-
-	/**
-	 * Initialize the contents of the frame.
-	 * 
-	 * @throws IOException
-	 */
 	private void initialize() throws IOException {
 
 		frame = new JFrame();
@@ -98,41 +84,13 @@ public class gamePieceLocation {
 			public void mousePressed(MouseEvent arg0) {
 				Color c = GetColor(ref, arg0.getPoint());
 				if (isEqual(c, Color.white)) {
-					main.tableModel.setValueAt("R3", main.currentRow, 2);
-					if (main.hatch == false) {
-						main.HighestCargo = 3;
-						main.ComboBoxCargo.getModel().setSelectedItem(main.ComboBoxCargo.getModel().getElementAt(3));
-						
-					}
-					if (main.hatch) {
-						main.HighestHatch = 3;
-						main.ComboBoxPanel.getModel().setSelectedItem(main.ComboBoxPanel.getModel().getElementAt(3));
-					}
-					done();
+					rocket("R3");
 				}
 				if (isEqual(c, Color.red)) {
-					main.tableModel.setValueAt("R2", main.currentRow, 2);
-					if (main.HighestCargo < 1 && main.hatch == false) {
-						main.HighestCargo = 2;
-						main.ComboBoxCargo.getModel().setSelectedItem(main.ComboBoxCargo.getModel().getElementAt(2));
-					}
-					if (main.HighestHatch < 1 && main.hatch) {
-						main.HighestHatch = 2;
-						main.ComboBoxPanel.getModel().setSelectedItem(main.ComboBoxPanel.getModel().getElementAt(2));
-					}
-					done();
+					rocket("R2");
 				}
 				if (isEqual(c, Color.blue)) {
-					main.tableModel.setValueAt("R1", main.currentRow, 2);
-					if (main.HighestCargo < 1 && main.hatch == false) {
-						main.HighestCargo = 1;
-						main.ComboBoxCargo.getModel().setSelectedItem(main.ComboBoxCargo.getModel().getElementAt(1));
-					}
-					if (main.HighestHatch < 1 && main.hatch) {
-						main.HighestHatch = 1;
-						main.ComboBoxPanel.getModel().setSelectedItem(main.ComboBoxPanel.getModel().getElementAt(1));
-					}
-					done();
+					rocket("R1");
 				}
 			}
 		});
@@ -152,7 +110,20 @@ public class gamePieceLocation {
 		frame.getContentPane().add(CargoShip);
 
 	}
+	void rocket(String levelString){
+		int level = Character.getNumericValue(levelString.charAt(1))-1;
+		main.tableModel.setValueAt(levelString, main.currentRow, 2);
+		if (main.HighestCargo <= level && main.hatch == false) {
+			main.HighestCargo = level;
+			main.ComboBoxCargo.getModel().setSelectedItem(main.ComboBoxCargo.getModel().getElementAt(level+1));
+		}
+		if (main.HighestHatch <= level && main.hatch) {
+			main.HighestHatch = level;
+			main.ComboBoxPanel.getModel().setSelectedItem(main.ComboBoxPanel.getModel().getElementAt(level+1));
+		}
 
+		done();
+	}
 	boolean isEqual(Color one, Color two) {
 		;
 		if (one.getRed() > two.getRed() - 30 && one.getRed() < two.getRed() + 30) {
@@ -181,7 +152,7 @@ public class gamePieceLocation {
 	private class SwingAction_8 extends AbstractAction {
 		public SwingAction_8() {
 			putValue(NAME, "CS");
-			putValue(SHORT_DESCRIPTION, "Some short description");
+			
 		}
 
 		public void actionPerformed(ActionEvent e) {
@@ -193,7 +164,7 @@ public class gamePieceLocation {
 	private class SwingAction_9 extends AbstractAction {
 		public SwingAction_9() {
 			putValue(NAME, "Dropped cs");
-			putValue(SHORT_DESCRIPTION, "Some short description");
+			
 		}
 
 		public void actionPerformed(ActionEvent e) {
@@ -205,9 +176,7 @@ public class gamePieceLocation {
 
 	private class SwingAction_10 extends AbstractAction {
 		public SwingAction_10() {
-
 			putValue(NAME, "R1");
-			putValue(SHORT_DESCRIPTION, "Some short description");
 		}
 
 		public void actionPerformed(ActionEvent e) {
@@ -229,7 +198,6 @@ public class gamePieceLocation {
 	private class SwingAction_11 extends AbstractAction {
 		public SwingAction_11() {
 			putValue(NAME, "R2");
-			putValue(SHORT_DESCRIPTION, "Some short description");
 		}
 
 		public void actionPerformed(ActionEvent e) {
@@ -246,11 +214,9 @@ public class gamePieceLocation {
 			done();
 		}
 	}
-
 	private class SwingAction extends AbstractAction {
 		public SwingAction() {
 			putValue(NAME, "R3");
-			putValue(SHORT_DESCRIPTION, "Some short description");
 		}
 
 		public void actionPerformed(ActionEvent e) {

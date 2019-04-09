@@ -72,7 +72,7 @@ public class Scouting {
 	JComboBox Defended = new JComboBox();
 	JComboBox DefendedAgainst = new JComboBox();
 	JComboBox ComboBoxCargo = new JComboBox();
-	public int HighestCargo, HighestHatch = 0;
+	public int HighestCargo=0, HighestHatch = 0;
 	JTabbedPane CargoOrPanel = new JTabbedPane(JTabbedPane.TOP);
 	String Desktop = System.getProperty("user.home") + sep + "Desktop";
 	JComboBox Condition = new JComboBox();

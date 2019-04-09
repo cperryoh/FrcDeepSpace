@@ -52,7 +52,7 @@ public class popUpWindow {
 			}
 		});
 		frame.setBounds(100, 100, 450, 191);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
 		

@@ -62,6 +62,7 @@ public class Scouting {
 	JFrame frame;
 	popUpWindow messageBox = new popUpWindow();
 	private final Action action = new Enter();
+	JButton btnAddFoul = new JButton("Add foul");
 	private JTextField team;
 	int fouls = 0;
 	JComboBox ComboBoxClimb = new JComboBox();
@@ -97,8 +98,13 @@ public class Scouting {
 	JMenuItem mntmClearRow = new JMenuItem("Clear row");
 	JMenuItem mntmDeleteRow = new JMenuItem("Delete row");
 	DefaultTableModel tableModel = new DefaultTableModel(
-			new Object[][] { { null, null, null, null }, { null, null, null, null }, { null, null, null, null },
-					{ null, null, null, null }, { null, null, null, null }, { null, null, null, null }, },
+			new Object[][] { 
+				{ null, null, null, null }, 
+				{ null, null, null, null }, 
+				{ null, null, null, null },
+				{ null, null, null, null }, 
+				{ null, null, null, null }, 
+				{ null, null, null, null }, },
 			new String[] { "Game piece grabbed time", "Delivery time", "Delivery location (CS R#)",
 					"Hatch panel or cargo" });
 	private final Action action_1 = new SwingAction_1();
@@ -114,10 +120,6 @@ public class Scouting {
 	private final Action action_7 = new SwingAction_6();
 	private final Action action_8 = new SwingAction_7();
 	private final Action action_9 = new SwingAction_8();
-
-	/**
-	 * Launch the application.
-	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -178,14 +180,24 @@ public class Scouting {
 		btnCompileData.setBounds(820, 30, 196, 29);
 		frame.getContentPane().add(btnCompileData);
 
-		JButton btnAddFoul = new JButton("Add foul");
+		
+		btnAddFoul.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mousePressed(MouseEvent e) {
+				btnAddFoul.setText("Foul added");
+			}
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				btnAddFoul.setText("Add foul");
+			}
+		});
 		// add foul action listener
 		btnAddFoul.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				fouls++;
 			}
 		});
-		btnAddFoul.setBounds(275, 18, 89, 23);
+		btnAddFoul.setBounds(275, 18, 125, 23);
 		frame.getContentPane().add(btnAddFoul);
 
 		JMenuBar menuBar = new JMenuBar();
@@ -257,7 +269,7 @@ public class Scouting {
 					btnEnter.setBackground(btnFileCreationLocation.getBackground());
 				}
 				if (team.getText().equals("5667")) {
-					messageBox.display(frame, "Hello!!", "Hey that's my team! You are in the presence of greatness!","Yeah ok...");
+					messageBox.display(frame, "Hello!!", "Hey that's my team You are in the presence of greatness!","Yeah ok...");
 
 				}
 			}

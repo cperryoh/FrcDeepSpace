@@ -35,6 +35,8 @@ import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.concurrent.TimeUnit;
+
 import javax.swing.Action;
 import javax.swing.JTextField;
 import javax.swing.JLabel;
@@ -188,6 +190,7 @@ public class Scouting {
 			}
 			@Override
 			public void mouseReleased(MouseEvent e) {
+				
 				btnAddFoul.setText("Add foul");
 			}
 		});

@@ -69,6 +69,7 @@ public class Scouting {
 	int fouls = 0;
 	JComboBox ComboBoxClimb = new JComboBox();
 	String sep = File.separator;
+	JMenu mnStartingGamePiece = new JMenu("Starting game piece");
 	JLabel timerLbl = new JLabel("150");
 	JComboBox ComboBoxPanel = new JComboBox();
 	boolean hatch = false;
@@ -206,7 +207,7 @@ public class Scouting {
 		JMenuBar menuBar = new JMenuBar();
 		frame.setJMenuBar(menuBar);
 
-		JMenu mnStartingGamePiece = new JMenu("Starting game piece");
+		
 		menuBar.add(mnStartingGamePiece);
 
 		JMenuItem mntmCargo = new JMenuItem("Cargo");
@@ -559,13 +560,12 @@ public class Scouting {
 				writer2.println();
 				// creates table
 				for (int i = 0; i < tableModle.getRowCount(); i++) {
-					if (tableModle.getValueAt(i, 3) != null) {
+					if (tableModle.getValueAt(i, 2)!=null&&tableModle.getValueAt(i, 3) != null) {
 						writer2.print(team.getText() + "," + RoundNum.getText() + ",");
 						for (int y = 0; y < tableModle.getColumnCount(); y++) {
 							if (y < tableModle.getColumnCount() - 1) {
 								writer2.print(getCellValue(tableModel, i, y) + ",");
 							} else {
-								writer2.print(getCellValue(tableModel, i, y) + ",");
 							}
 						}
 
@@ -775,6 +775,7 @@ public class Scouting {
 					btnHatch.setVisible(false);
 					GPL.frame.setVisible(true);
 				}
+				mnStartingGamePiece.setVisible(false);
 				btnStartMatch.setVisible(false);
 			}
 		}
@@ -820,10 +821,10 @@ public class Scouting {
 		resetComboBox(Defended);
 		resetComboBox(failedClimb);
 		resetComboBox(Condition);
-
 		fouls = 0;
 		btnEnter.setBackground(new Color(100, 100, 100));
 		team.setText("");
+		mnStartingGamePiece.setVisible(true);
 		RoundNum.setText("");
 		// clears tables
 		for (int x = 0; x < tableModel.getRowCount(); x++) {

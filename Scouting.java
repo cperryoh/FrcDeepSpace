@@ -69,6 +69,7 @@ public class Scouting {
 	int fouls = 0;
 	JComboBox ComboBoxClimb = new JComboBox();
 	String sep = File.separator;
+	JMenu mnStartingGamePiece = new JMenu("Starting game piece");
 	JLabel timerLbl = new JLabel("150");
 	JComboBox ComboBoxPanel = new JComboBox();
 	boolean hatch = false;
@@ -206,7 +207,7 @@ public class Scouting {
 		JMenuBar menuBar = new JMenuBar();
 		frame.setJMenuBar(menuBar);
 
-		JMenu mnStartingGamePiece = new JMenu("Starting game piece");
+		
 		menuBar.add(mnStartingGamePiece);
 
 		JMenuItem mntmCargo = new JMenuItem("Cargo");
@@ -559,7 +560,6 @@ public class Scouting {
 				// creates table
 				for (int i = 0; i < tableModle.getRowCount(); i++) {
 					if (tableModle.getValueAt(i, 3) != null) {
-						//prints team and round numbers at the top
 						writer2.print(team.getText() + "," + RoundNum.getText() + ",");
 						
 						//creates columns
@@ -769,6 +769,7 @@ public class Scouting {
 					btnHatch.setVisible(false);
 					GPL.frame.setVisible(true);
 				}
+				mnStartingGamePiece.setVisible(false);
 				btnStartMatch.setVisible(false);
 			}
 		}
@@ -814,10 +815,10 @@ public class Scouting {
 		resetComboBox(Defended);
 		resetComboBox(failedClimb);
 		resetComboBox(Condition);
-
 		fouls = 0;
 		btnEnter.setBackground(new Color(100, 100, 100));
 		team.setText("");
+		mnStartingGamePiece.setVisible(true);
 		RoundNum.setText("");
 		// clears tables
 		for (int x = 0; x < tableModel.getRowCount(); x++) {

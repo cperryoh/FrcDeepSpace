@@ -478,8 +478,7 @@ public class Scouting {
 		JPanel panel_2 = new JPanel();
 		CargoOrPanel.addTab("Disabilities", null, panel_2, null);
 
-		Condition
-				.setModel(new DefaultComboBoxModel(new String[] { "working", "not working at all", "broken feature" }));
+		Condition.setModel(new DefaultComboBoxModel(new String[] { "working", "not working at all", "broken feature" }));
 		panel_2.add(Condition);
 
 		JPanel panel_3 = new JPanel();
@@ -541,10 +540,10 @@ public class Scouting {
 				writer.close();
 				FW.close();
 				// writer for round text file
-				PrintWriter writer2 = new PrintWriter(
-						f.getAbsolutePath() + sep + "Round " + RoundNum.getText() + ".txt", "UTF-8");
-				// creates key
-
+				PrintWriter writer2 = new PrintWriter(f.getAbsolutePath() + sep + "Round " + RoundNum.getText() + ".txt", "UTF-8");
+				
+				
+				//creates top columns
 				ArrayList myList = new ArrayList();
 				TableModel tableModle = table.getModel();
 				writer2.print("Team number, round number,");
@@ -560,21 +559,20 @@ public class Scouting {
 				// creates table
 				for (int i = 0; i < tableModle.getRowCount(); i++) {
 					if (tableModle.getValueAt(i, 3) != null) {
+						//prints team and round numbers at the top
 						writer2.print(team.getText() + "," + RoundNum.getText() + ",");
+						
+						//creates columns
 						for (int y = 0; y < tableModle.getColumnCount(); y++) {
 							if (y < tableModle.getColumnCount() - 1) {
 								writer2.print(getCellValue(tableModel, i, y) + ",");
 							} else {
-								writer2.print(getCellValue(tableModel, i, y) + ",");
+								writer2.print(getCellValue(tableModel, i, y));
 							}
 						}
-
-						if (i != tableModle.getRowCount() - 1) {
-							writer2.println("");
-						}
+						writer2.println("");
 					}
 				}
-
 				writer2.close();
 			} catch (FileNotFoundException | UnsupportedEncodingException e1) {
 				// TODO Auto-generated catch block
@@ -597,13 +595,11 @@ public class Scouting {
 
 		public void actionPerformed(ActionEvent e) {
 			try {
-				try {
-					enter();
-				} catch (InterruptedException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
+				enter();
 			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			} catch (InterruptedException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
@@ -690,7 +686,7 @@ public class Scouting {
 			tableModel.removeRow(selectedRow);
 		}
 	}
-
+	//popup menu
 	private static void addPopup(Component component, final JPopupMenu popup) {
 		component.addMouseListener(new MouseAdapter() {
 			public void mousePressed(MouseEvent e) {
@@ -700,7 +696,6 @@ public class Scouting {
 					showMenu(e);
 				}
 			}
-
 			public void mouseReleased(MouseEvent e) {
 				if (e.isPopupTrigger()) {
 					showMenu(e);
@@ -712,7 +707,7 @@ public class Scouting {
 			}
 		});
 	}
-
+	//resets the program
 	private class SwingAction_4 extends AbstractAction {
 		public SwingAction_4() {
 			putValue(NAME, "Clear all fields");
@@ -743,7 +738,6 @@ public class Scouting {
 					GPL.frame.setVisible(false);
 					btnHatch.setVisible(false);
 					btnCargo.setVisible(false);
-
 				}
 
 			}

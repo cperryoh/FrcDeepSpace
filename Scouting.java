@@ -897,7 +897,14 @@ public class Scouting {
 			BufferedWriter writer = new BufferedWriter(
 					new FileWriter(teamFolder.getAbsolutePath() + sep + "data for spreadsheet.txt"));
 			// writers header
-			writer.write("Team number,highest cargo,highest panel,starting location,robot condition,climb level");
+			for (int x = 0; x < tableModel.getColumnCount(); x++) {
+				// if last column don't add comma
+				if (x < tableModel.getColumnCount() - 1) {
+					writer.write(tableModel.getColumnName(x) + ",");
+				} else {
+					writer.write(tableModel.getColumnName(x) + " ");
+				}
+			}
 			writer.newLine();
 
 			for (int x = 0; x < teamFolder.listFiles().length; x++) {

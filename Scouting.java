@@ -59,6 +59,12 @@ import java.awt.Color;
 import javax.swing.JMenuBar;
 import java.awt.Font;
 import java.awt.event.ActionListener;
+import javax.swing.JTextPane;
+import javax.swing.border.MatteBorder;
+import javax.swing.border.CompoundBorder;
+import javax.swing.border.LineBorder;
+import javax.swing.border.SoftBevelBorder;
+import javax.swing.border.BevelBorder;
 
 public class Scouting {
 
@@ -69,6 +75,7 @@ public class Scouting {
 	private JTextField team;
 	int fouls = 0;
 	JComboBox ComboBoxClimb = new JComboBox();
+	JTextPane TPComments = new JTextPane();
 	String sep = File.separator;
 	JButton btnReset = new JButton("Reset");
 	JMenu mnStartingGamePiece = new JMenu("Starting game piece");
@@ -165,7 +172,7 @@ public class Scouting {
 
 			}
 		});
-		btnReset.setBounds(106, 152, 115, 29);
+		btnReset.setBounds(105, 152, 115, 29);
 		frame.getContentPane().add(btnReset);
 		btnHatch.setAction(action_7);
 
@@ -195,6 +202,14 @@ public class Scouting {
 		});
 		btnAddFoul.setBounds(275, 18, 125, 23);
 		frame.getContentPane().add(btnAddFoul);
+		
+		TPComments.setBorder(new SoftBevelBorder(BevelBorder.RAISED, null, null, null, null));
+		TPComments.setBounds(780, 30, 217, 168);
+		frame.getContentPane().add(TPComments);
+		
+		JLabel lblCommentsno = new JLabel("Comments (No commas):");
+		lblCommentsno.setBounds(780, 5, 165, 14);
+		frame.getContentPane().add(lblCommentsno);
 
 		JMenuBar menuBar = new JMenuBar();
 		frame.setJMenuBar(menuBar);
@@ -239,7 +254,6 @@ public class Scouting {
 		btnEnter.setBounds(413, 381, 115, 29);
 		btnEnter.setAction(action);
 		frame.getContentPane().add(btnEnter);
-
 		team = new JTextField();
 		RoundNum = new JTextField();
 
@@ -248,7 +262,7 @@ public class Scouting {
 			@Override
 			public void keyReleased(KeyEvent e) {
 				if (isNumber(team.getText()) == false || isNumber(RoundNum.getText()) == false) {
-					btnEnter.setBackground(new Color(100, 100, 100));
+					btnEnter.setBackground(new Color(99, 100, 100));
 					enterable = false;
 
 				} else {
@@ -257,7 +271,6 @@ public class Scouting {
 				}
 			}
 		});
-
 		// easter egg key listener =)
 		team.addKeyListener(new KeyAdapter() {
 			@Override
@@ -389,19 +402,6 @@ public class Scouting {
 		CargoOrPanel.setBounds(318, 89, 420, 121);
 		frame.getContentPane().add(CargoOrPanel);
 
-		JPanel Cargo = new JPanel();
-		CargoOrPanel.addTab("Cargo", null, Cargo, null);
-		Cargo.setLayout(null);
-
-		JLabel lblRocketLevel = new JLabel("Highest rocket level:");
-		lblRocketLevel.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblRocketLevel.setBounds(0, 19, 204, 20);
-		Cargo.add(lblRocketLevel);
-
-		ComboBoxCargo.setModel(new DefaultComboBoxModel(new String[] { "N/A", "One", "Two", "Three" }));
-		ComboBoxCargo.setBounds(214, 16, 86, 26);
-		Cargo.add(ComboBoxCargo);
-
 		JPanel panel_5 = new JPanel();
 		CargoOrPanel.addTab("Penaltys", null, panel_5, null);
 		panel_5.setLayout(null);
@@ -446,7 +446,7 @@ public class Scouting {
 		lblFaildedClimb.setBounds(213, 38, 90, 14);
 		panel.add(lblFaildedClimb);
 
-		failedClimb.setModel(new DefaultComboBoxModel(new String[] { "N/a", "One", "Two", "Three" }));
+		failedClimb.setModel(new DefaultComboBoxModel(new String[] { "N/A", "One", "Two", "Three" }));
 		failedClimb.setBounds(308, 35, 72, 20);
 		panel.add(failedClimb);
 
@@ -497,6 +497,19 @@ public class Scouting {
 		lblLevel.setHorizontalAlignment(SwingConstants.CENTER);
 		lblLevel.setBounds(197, 52, 71, 14);
 		panel_3.add(lblLevel);
+		
+				JPanel Cargo = new JPanel();
+				CargoOrPanel.addTab("Cargo", null, Cargo, null);
+				Cargo.setLayout(null);
+				
+						JLabel lblRocketLevel = new JLabel("Highest rocket level:");
+						lblRocketLevel.setHorizontalAlignment(SwingConstants.RIGHT);
+						lblRocketLevel.setBounds(0, 19, 204, 20);
+						Cargo.add(lblRocketLevel);
+						
+								ComboBoxCargo.setModel(new DefaultComboBoxModel(new String[] { "N/A", "One", "Two", "Three" }));
+								ComboBoxCargo.setBounds(214, 16, 86, 26);
+								Cargo.add(ComboBoxCargo);
 	}
 
 	void enter() throws IOException, InterruptedException {
@@ -523,7 +536,7 @@ public class Scouting {
 				if (foundFile == false) {
 					// writes header if there was no teams info.txt found
 					writer.write(
-							"Team number,Round number,penalties,foul count,defended,defeneded against,highest cargo,higest panel,starting location,robot condition,climb level,failed climb");
+							"Team number,Round number,penalties,foul count,defended,defeneded against,highest cargo,higest panel,starting location,robot condition,climb level,failed climb,comments");
 				}
 				writer.newLine();
 				// writes data
@@ -531,7 +544,7 @@ public class Scouting {
 						+ "," + ComboBoxValue(Defended) + "," + ComboBoxValue(DefendedAgainst) + ","
 						+ ComboBoxValue(ComboBoxCargo) + "," + ComboBoxValue(ComboBoxPanel) + ","
 						+ ComboBoxValue(Location) + ":" + ComboBoxValue(level) + "," + ComboBoxValue(Condition) + ","
-						+ ComboBoxValue(ComboBoxClimb) + "," + ComboBoxValue(failedClimb));
+						+ ComboBoxValue(ComboBoxClimb) + "," + ComboBoxValue(failedClimb)+","+TPComments.getText());
 				writer.close();
 				FW.close();
 				// writer for round text file
@@ -559,7 +572,7 @@ public class Scouting {
 						//creates columns
 						for (int y = 0; y < tableModle.getColumnCount(); y++) {
 							if (y < tableModle.getColumnCount() - 1) {
-								writer2.print(getCellValue(tableModel, i, y) + ",");
+
 							} else {
 								writer2.print(getCellValue(tableModel, i, y));
 							}
@@ -805,6 +818,7 @@ public class Scouting {
 			}
 		}
 		GPL.frame.setVisible(false);
+		TPComments.setText("");
 		btnHatch.setVisible(false);
 		HighestCargo=0;
 		HighestHatch=0;

@@ -29,7 +29,9 @@ public class popUpWindow {
 	public popUpWindow() {
 		initialize();                                                                                                                                         
 	}
-
+	JFrame getFrame() {
+		return frame;
+	}
 	/**
 	 * Initialize the contents of the frame.
 	 */

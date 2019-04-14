@@ -187,14 +187,11 @@ public class Scouting {
 			public void mousePressed(MouseEvent e) {
 				popUpWindow msg = new popUpWindow();
 				msg.display(frame,"", "Foul added", "Ok");
-				msg.getFrame().setLocation(frame.getWidth()+msg.getFrame().getWidth(),frame.getY());
-			}
-		});
-		// add foul action listener
-		btnAddFoul.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
 				fouls++;
-			}
+				msg.getFrame().setLocation(frame.getWidth()+msg.getFrame().getWidth(),frame.getY());
+				Timer timer = new Timer();
+					timer.schedule(new TimerTask(){@Override public void run() { msg.getFrame().setVisible(false);}},2*1000);
+			    }
 		});
 		btnAddFoul.setBounds(275, 18, 125, 23);
 		frame.getContentPane().add(btnAddFoul);
@@ -389,7 +386,7 @@ public class Scouting {
 		lblRound.setBounds(445, 55, 69, 20);
 		frame.getContentPane().add(lblRound);
 		CargoOrPanel.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		CargoOrPanel.setBounds(246, 88, 566, 121);
+		CargoOrPanel.setBounds(318, 89, 420, 121);
 		frame.getContentPane().add(CargoOrPanel);
 
 		JPanel Cargo = new JPanel();
@@ -480,7 +477,7 @@ public class Scouting {
 		panel_2.add(Condition);
 
 		JPanel panel_3 = new JPanel();
-		CargoOrPanel.addTab("Staring location", null, panel_3, null);
+		CargoOrPanel.addTab("Starting location", null, panel_3, null);
 		panel_3.setLayout(null);
 
 		Location.setModel(new DefaultComboBoxModel(new String[] { "Left", "middle", "right" }));
@@ -705,7 +702,6 @@ public class Scouting {
 		timerLbl.setText("150");
 		timer = new Timer();
 		timer.scheduleAtFixedRate(new TimerTask() {
-
 			public void run() {
 				if (hasStarted == true) {
 					currentTime = Integer.toString(setInterval());

@@ -235,11 +235,11 @@ public class Scouting {
 		frame = new JFrame();
 		frame.setTitle("Made by Cole Perry from team 5667");
 		frame.setResizable(false);
-		frame.setBounds(100, 100, 1037, 467);
+		frame.setBounds(100, 100, 1037, 501);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		btnEnter.setForeground(Color.BLACK);
-		btnEnter.setBounds(434, 377, 115, 29);
+		btnEnter.setBounds(413, 381, 115, 29);
 		btnEnter.setAction(action);
 		frame.getContentPane().add(btnEnter);
 

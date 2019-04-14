@@ -104,7 +104,7 @@ public class Scouting {
 	boolean hasStarted = false;
 	boolean hasGamePiece = false;
 	JButton btnCargo = new JButton("Taken cargo");
-	JComboBox Penaltys = new JComboBox();
+	JComboBox Penalties = new JComboBox();
 	JButton btnHatch = new JButton("Taken hatch");
 	JButton btnEnter = new JButton("Enter");
 	JMenuItem mntmClearRow = new JMenuItem("Clear row");
@@ -158,12 +158,14 @@ public class Scouting {
 		timerLbl.setHorizontalAlignment(SwingConstants.CENTER);
 		timerLbl.setFont(new Font("Tahoma", Font.PLAIN, 46));
 
-		timerLbl.setBounds(10, 59, 298, 90);
+		timerLbl.setBounds(10, 78, 298, 79);
 		frame.getContentPane().add(timerLbl);
+		btnStartMatch.setFont(new Font("Tahoma", Font.PLAIN, 13));
 
 		btnStartMatch.setAction(action_6);
-		btnStartMatch.setBounds(69, 15, 177, 29);
+		btnStartMatch.setBounds(29, 15, 236, 29);
 		frame.getContentPane().add(btnStartMatch);
+		btnReset.setFont(new Font("Tahoma", Font.PLAIN, 13));
 
 		
 		btnReset.addActionListener(new ActionListener() {
@@ -174,17 +176,20 @@ public class Scouting {
 		});
 		btnReset.setBounds(105, 152, 115, 29);
 		frame.getContentPane().add(btnReset);
+		btnHatch.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		btnHatch.setAction(action_7);
 
 		btnHatch.setVisible(false);
 		btnHatch.setBounds(0, 52, 146, 29);
 		frame.getContentPane().add(btnHatch);
+		btnCargo.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		btnCargo.setAction(action_8);
 
 		frame.setResizable(false);
 		btnCargo.setVisible(false);
 		btnCargo.setBounds(166, 52, 146, 29);
 		frame.getContentPane().add(btnCargo);
+		btnAddFoul.setFont(new Font("Tahoma", Font.PLAIN, 13));
 
 		
 
@@ -200,14 +205,16 @@ public class Scouting {
 					timer.schedule(new TimerTask(){@Override public void run() { msg.getFrame().setVisible(false);}},2*1000);
 			    }
 		});
-		btnAddFoul.setBounds(275, 18, 125, 23);
+		btnAddFoul.setBounds(270, 17, 154, 27);
 		frame.getContentPane().add(btnAddFoul);
+		TPComments.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		
 		TPComments.setBorder(new SoftBevelBorder(BevelBorder.RAISED, null, null, null, null));
-		TPComments.setBounds(780, 30, 217, 168);
+		TPComments.setBounds(759, 30, 217, 168);
 		frame.getContentPane().add(TPComments);
 		
 		JLabel lblCommentsno = new JLabel("Comments (No commas):");
+		lblCommentsno.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		lblCommentsno.setBounds(780, 5, 165, 14);
 		frame.getContentPane().add(lblCommentsno);
 
@@ -255,7 +262,9 @@ public class Scouting {
 		btnEnter.setAction(action);
 		frame.getContentPane().add(btnEnter);
 		team = new JTextField();
+		team.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		RoundNum = new JTextField();
+		RoundNum.setFont(new Font("Tahoma", Font.PLAIN, 13));
 
 		// key listener for enabling/disabling the finish button
 		RoundNum.addKeyListener(new KeyAdapter() {
@@ -299,11 +308,13 @@ public class Scouting {
 		team.setColumns(10);
 
 		JLabel lblTeam = new JLabel("Team:");
+		lblTeam.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		lblTeam.setBounds(410, 18, 106, 20);
 		lblTeam.setHorizontalAlignment(SwingConstants.TRAILING);
 		frame.getContentPane().add(lblTeam);
 
 		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		
 		scrollPane.setBorder(null);
 
@@ -321,6 +332,7 @@ public class Scouting {
 		frame.getContentPane().add(scrollPane);
 
 		table = new JTable();
+		table.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		table.setBorder(null);
 
 		// table selection tools
@@ -395,35 +407,38 @@ public class Scouting {
 		RoundNum.setColumns(10);
 
 		JLabel lblRound = new JLabel("Round:");
+		lblRound.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		lblRound.setHorizontalAlignment(SwingConstants.TRAILING);
 		lblRound.setBounds(445, 55, 69, 20);
 		frame.getContentPane().add(lblRound);
-		CargoOrPanel.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		CargoOrPanel.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		CargoOrPanel.setBounds(318, 89, 420, 121);
 		frame.getContentPane().add(CargoOrPanel);
 
 		JPanel panel_5 = new JPanel();
-		CargoOrPanel.addTab("Penaltys", null, panel_5, null);
+		CargoOrPanel.addTab("Penalties", null, panel_5, null);
 		panel_5.setLayout(null);
 
-		JLabel lblPenaltysRecived = new JLabel("Penaltys received:");
-		lblPenaltysRecived.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblPenaltysRecived.setBounds(0, 27, 201, 14);
-		panel_5.add(lblPenaltysRecived);
+		JLabel lblPenaltiesRecived = new JLabel("Penalties received:");
+		lblPenaltiesRecived.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		lblPenaltiesRecived.setHorizontalAlignment(SwingConstants.RIGHT);
+		lblPenaltiesRecived.setBounds(0, 31, 201, 14);
+		panel_5.add(lblPenaltiesRecived);
 
-		Penaltys.setModel(new DefaultComboBoxModel(new String[] { "None", "Yellow", "red" }));
-		Penaltys.setBounds(211, 24, 77, 20);
-		panel_5.add(Penaltys);
+		Penalties.setModel(new DefaultComboBoxModel(new String[] { "None", "Yellow", "red" }));
+		Penalties.setBounds(211, 24, 107, 28);
+		panel_5.add(Penalties);
 		
 				JPanel panel_1 = new JPanel();
 				CargoOrPanel.addTab("Panel", null, panel_1, null);
 				panel_1.setLayout(null);
 				
 						JLabel lblHighestRocketLevel = new JLabel("Highest rocket level:");
+						lblHighestRocketLevel.setFont(new Font("Tahoma", Font.PLAIN, 13));
 						lblHighestRocketLevel.setBounds(0, 32, 209, 20);
 						lblHighestRocketLevel.setHorizontalAlignment(SwingConstants.RIGHT);
 						panel_1.add(lblHighestRocketLevel);
-						ComboBoxPanel.setBounds(224, 29, 86, 26);
+						ComboBoxPanel.setBounds(224, 29, 112, 26);
 						
 								ComboBoxPanel.setModel(new DefaultComboBoxModel(new String[] { "N/A", "One", "Two", "Three" }));
 								panel_1.add(ComboBoxPanel);
@@ -433,18 +448,22 @@ public class Scouting {
 		panel.setLayout(null);
 
 		JLabel lblEndGameClimb = new JLabel("End game climb:");
+		lblEndGameClimb.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		lblEndGameClimb.setHorizontalAlignment(SwingConstants.TRAILING);
 		lblEndGameClimb.setBounds(0, 35, 127, 20);
 		panel.add(lblEndGameClimb);
+		ComboBoxClimb.setFont(new Font("Tahoma", Font.PLAIN, 13));
 
 		ComboBoxClimb.setModel(new DefaultComboBoxModel(new String[] { "N/A", "One", "Two", "Three" }));
 		ComboBoxClimb.setBounds(139, 32, 77, 26);
 		panel.add(ComboBoxClimb);
 
 		JLabel lblFaildedClimb = new JLabel("Failed Climb: ");
+		lblFaildedClimb.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		lblFaildedClimb.setHorizontalAlignment(SwingConstants.RIGHT);
 		lblFaildedClimb.setBounds(213, 38, 90, 14);
 		panel.add(lblFaildedClimb);
+		failedClimb.setFont(new Font("Tahoma", Font.PLAIN, 13));
 
 		failedClimb.setModel(new DefaultComboBoxModel(new String[] { "N/A", "One", "Two", "Three" }));
 		failedClimb.setBounds(308, 35, 72, 20);
@@ -453,25 +472,30 @@ public class Scouting {
 		JPanel panel_4 = new JPanel();
 		CargoOrPanel.addTab("Defense or Defended Against", null, panel_4, null);
 		panel_4.setLayout(null);
+		DefendedAgainst.setFont(new Font("Tahoma", Font.PLAIN, 13));
 
 		DefendedAgainst.setModel(new DefaultComboBoxModel(new String[] { "No", "Yes" }));
 		DefendedAgainst.setBounds(78, 36, 77, 20);
 		panel_4.add(DefendedAgainst);
+		Defended.setFont(new Font("Tahoma", Font.PLAIN, 13));
 
 		Defended.setModel(new DefaultComboBoxModel(new String[] { "No", "Yes" }));
 		Defended.setBounds(220, 36, 77, 20);
 		panel_4.add(Defended);
 
 		JLabel lblDefendedAgainst = new JLabel("Defended against");
-		lblDefendedAgainst.setBounds(48, 11, 121, 14);
+		lblDefendedAgainst.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		lblDefendedAgainst.setBounds(71, 11, 121, 14);
 		panel_4.add(lblDefendedAgainst);
 
 		JLabel lblDefended = new JLabel("Defended");
+		lblDefended.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		lblDefended.setBounds(223, 11, 91, 14);
 		panel_4.add(lblDefended);
 
 		JPanel panel_2 = new JPanel();
 		CargoOrPanel.addTab("Disabilities", null, panel_2, null);
+		Condition.setFont(new Font("Tahoma", Font.PLAIN, 13));
 
 		Condition.setModel(new DefaultComboBoxModel(new String[] { "working", "not working at all", "broken feature" }));
 		panel_2.add(Condition);
@@ -503,9 +527,11 @@ public class Scouting {
 				Cargo.setLayout(null);
 				
 						JLabel lblRocketLevel = new JLabel("Highest rocket level:");
+						lblRocketLevel.setFont(new Font("Tahoma", Font.PLAIN, 13));
 						lblRocketLevel.setHorizontalAlignment(SwingConstants.RIGHT);
-						lblRocketLevel.setBounds(0, 19, 204, 20);
+						lblRocketLevel.setBounds(10, 19, 204, 20);
 						Cargo.add(lblRocketLevel);
+								ComboBoxCargo.setFont(new Font("Tahoma", Font.PLAIN, 13));
 						
 								ComboBoxCargo.setModel(new DefaultComboBoxModel(new String[] { "N/A", "One", "Two", "Three" }));
 								ComboBoxCargo.setBounds(214, 16, 86, 26);
@@ -536,11 +562,11 @@ public class Scouting {
 				if (foundFile == false) {
 					// writes header if there was no teams info.txt found
 					writer.write(
-							"Team number,Round number,penalties,foul count,defended,defeneded against,highest cargo,higest panel,starting location,robot condition,climb level,failed climb,comments");
+							"Team number,Round number,penalties,foul count,defended,defeneded against,highest cargo,highest panel,starting location,robot condition,climb level,failed climb,comments");
 				}
 				writer.newLine();
 				// writes data
-				writer.write(team.getText() + "," + RoundNum.getText() + "," + ComboBoxValue(Penaltys) + "," + fouls
+				writer.write(team.getText() + "," + RoundNum.getText() + "," + ComboBoxValue(Penalties) + "," + fouls
 						+ "," + ComboBoxValue(Defended) + "," + ComboBoxValue(DefendedAgainst) + ","
 						+ ComboBoxValue(ComboBoxCargo) + "," + ComboBoxValue(ComboBoxPanel) + ","
 						+ ComboBoxValue(Location) + ":" + ComboBoxValue(level) + "," + ComboBoxValue(Condition) + ","
@@ -801,7 +827,7 @@ public class Scouting {
 		resetComboBox(ComboBoxClimb);
 		resetComboBox(Location);
 		resetComboBox(level);
-		resetComboBox(Penaltys);
+		resetComboBox(Penalties);
 		resetComboBox(DefendedAgainst);
 		resetComboBox(Defended);
 		resetComboBox(failedClimb);
@@ -871,7 +897,7 @@ public class Scouting {
 			BufferedWriter writer = new BufferedWriter(
 					new FileWriter(teamFolder.getAbsolutePath() + sep + "data for spreadsheet.txt"));
 			// writers header
-			writer.write("Team number,highest cargo,higest panel,starting location,robot condition,climb level");
+			writer.write("Team number,highest cargo,highest panel,starting location,robot condition,climb level");
 			writer.newLine();
 
 			for (int x = 0; x < teamFolder.listFiles().length; x++) {

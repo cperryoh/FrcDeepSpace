@@ -11,6 +11,7 @@ import java.awt.event.FocusEvent;
 import javax.swing.Action;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
+import java.awt.Font;
 
 public class popUpWindow {
 
@@ -56,11 +57,13 @@ public class popUpWindow {
 		frame.setBounds(100, 100, 450, 191);
 		frame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
+		btnEnter.setFont(new Font("Tahoma", Font.BOLD, 13));
 		
 		
 		btnEnter.setAction(action);
-		btnEnter.setBounds(173, 100, 89, 23);
+		btnEnter.setBounds(166, 118, 136, 23);
 		frame.getContentPane().add(btnEnter);
+		messageBox.setFont(new Font("Tahoma", Font.BOLD, 13));
 		
 		
 		messageBox.setHorizontalAlignment(SwingConstants.CENTER);

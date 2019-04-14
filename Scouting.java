@@ -156,16 +156,16 @@ public class Scouting {
 		frame.setLocation((width / 2) - (frame.getWidth() / 2), (height / 2) - (frame.getHeight() / 2));
 		table.setModel(tableModel);
 		timerLbl.setHorizontalAlignment(SwingConstants.CENTER);
-		timerLbl.setFont(new Font("Tahoma", Font.PLAIN, 46));
+		timerLbl.setFont(new Font("Tahoma", Font.BOLD, 46));
 
 		timerLbl.setBounds(10, 78, 298, 79);
 		frame.getContentPane().add(timerLbl);
-		btnStartMatch.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		btnStartMatch.setFont(new Font("Tahoma", Font.BOLD, 13));
 
 		btnStartMatch.setAction(action_6);
 		btnStartMatch.setBounds(29, 15, 236, 29);
 		frame.getContentPane().add(btnStartMatch);
-		btnReset.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		btnReset.setFont(new Font("Tahoma", Font.BOLD, 13));
 
 		
 		btnReset.addActionListener(new ActionListener() {
@@ -176,20 +176,20 @@ public class Scouting {
 		});
 		btnReset.setBounds(105, 152, 115, 29);
 		frame.getContentPane().add(btnReset);
-		btnHatch.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		btnHatch.setFont(new Font("Tahoma", Font.BOLD, 13));
 		btnHatch.setAction(action_7);
 
 		btnHatch.setVisible(false);
 		btnHatch.setBounds(0, 52, 146, 29);
 		frame.getContentPane().add(btnHatch);
-		btnCargo.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		btnCargo.setFont(new Font("Tahoma", Font.BOLD, 13));
 		btnCargo.setAction(action_8);
 
 		frame.setResizable(false);
 		btnCargo.setVisible(false);
 		btnCargo.setBounds(166, 52, 146, 29);
 		frame.getContentPane().add(btnCargo);
-		btnAddFoul.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		btnAddFoul.setFont(new Font("Tahoma", Font.BOLD, 13));
 
 		
 
@@ -207,31 +207,31 @@ public class Scouting {
 		});
 		btnAddFoul.setBounds(270, 17, 154, 27);
 		frame.getContentPane().add(btnAddFoul);
-		TPComments.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		TPComments.setFont(new Font("Tahoma", Font.BOLD, 13));
 		
 		TPComments.setBorder(new SoftBevelBorder(BevelBorder.RAISED, null, null, null, null));
-		TPComments.setBounds(759, 30, 217, 168);
+		TPComments.setBounds(790, 30, 217, 52);
 		frame.getContentPane().add(TPComments);
 		
 		JLabel lblCommentsno = new JLabel("Comments (No commas):");
-		lblCommentsno.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		lblCommentsno.setBounds(780, 5, 165, 14);
+		lblCommentsno.setFont(new Font("Tahoma", Font.BOLD, 13));
+		lblCommentsno.setBounds(801, 5, 165, 14);
 		frame.getContentPane().add(lblCommentsno);
 
 		JMenuBar menuBar = new JMenuBar();
 		frame.setJMenuBar(menuBar);
-		mnStartingGamePiece.setFont(new Font("Segoe UI", Font.PLAIN, 16));
+		mnStartingGamePiece.setFont(new Font("Segoe UI", Font.BOLD, 16));
 
 		
 		menuBar.add(mnStartingGamePiece);
 
 		JMenuItem mntmCargo = new JMenuItem("Cargo");
-		mntmCargo.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+		mntmCargo.setFont(new Font("Segoe UI", Font.BOLD, 14));
 		mntmCargo.setAction(action_8);
 		mnStartingGamePiece.add(mntmCargo);
 
 		JMenuItem mntmHatch = new JMenuItem("Hatch");
-		mntmHatch.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+		mntmHatch.setFont(new Font("Segoe UI", Font.BOLD, 14));
 		mntmHatch.setAction(action_7);
 		mnStartingGamePiece.add(mntmHatch);
 
@@ -257,14 +257,15 @@ public class Scouting {
 		frame.setBounds(100, 100, 1037, 501);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
+		btnEnter.setFont(new Font("Tahoma", Font.BOLD, 13));
 		btnEnter.setForeground(Color.BLACK);
-		btnEnter.setBounds(413, 381, 115, 29);
+		btnEnter.setBounds(455, 388, 146, 35);
 		btnEnter.setAction(action);
 		frame.getContentPane().add(btnEnter);
 		team = new JTextField();
-		team.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		team.setFont(new Font("Tahoma", Font.BOLD, 13));
 		RoundNum = new JTextField();
-		RoundNum.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		RoundNum.setFont(new Font("Tahoma", Font.BOLD, 13));
 
 		// key listener for enabling/disabling the finish button
 		RoundNum.addKeyListener(new KeyAdapter() {
@@ -308,13 +309,13 @@ public class Scouting {
 		team.setColumns(10);
 
 		JLabel lblTeam = new JLabel("Team:");
-		lblTeam.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		lblTeam.setFont(new Font("Tahoma", Font.BOLD, 13));
 		lblTeam.setBounds(410, 18, 106, 20);
 		lblTeam.setHorizontalAlignment(SwingConstants.TRAILING);
 		frame.getContentPane().add(lblTeam);
 
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		scrollPane.setFont(new Font("Tahoma", Font.BOLD, 13));
 		
 		scrollPane.setBorder(null);
 
@@ -332,7 +333,7 @@ public class Scouting {
 		frame.getContentPane().add(scrollPane);
 
 		table = new JTable();
-		table.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		table.setFont(new Font("Tahoma", Font.BOLD, 13));
 		table.setBorder(null);
 
 		// table selection tools
@@ -407,34 +408,20 @@ public class Scouting {
 		RoundNum.setColumns(10);
 
 		JLabel lblRound = new JLabel("Round:");
-		lblRound.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		lblRound.setFont(new Font("Tahoma", Font.BOLD, 13));
 		lblRound.setHorizontalAlignment(SwingConstants.TRAILING);
 		lblRound.setBounds(445, 55, 69, 20);
 		frame.getContentPane().add(lblRound);
-		CargoOrPanel.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		CargoOrPanel.setBounds(318, 89, 420, 121);
+		CargoOrPanel.setFont(new Font("Tahoma", Font.BOLD, 13));
+		CargoOrPanel.setBounds(230, 89, 700, 121);
 		frame.getContentPane().add(CargoOrPanel);
-
-		JPanel panel_5 = new JPanel();
-		CargoOrPanel.addTab("Penalties", null, panel_5, null);
-		panel_5.setLayout(null);
-
-		JLabel lblPenaltiesRecived = new JLabel("Penalties received:");
-		lblPenaltiesRecived.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		lblPenaltiesRecived.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblPenaltiesRecived.setBounds(0, 31, 201, 14);
-		panel_5.add(lblPenaltiesRecived);
-
-		Penalties.setModel(new DefaultComboBoxModel(new String[] { "None", "Yellow", "red" }));
-		Penalties.setBounds(211, 24, 107, 28);
-		panel_5.add(Penalties);
 		
 				JPanel panel_1 = new JPanel();
 				CargoOrPanel.addTab("Panel", null, panel_1, null);
 				panel_1.setLayout(null);
 				
 						JLabel lblHighestRocketLevel = new JLabel("Highest rocket level:");
-						lblHighestRocketLevel.setFont(new Font("Tahoma", Font.PLAIN, 13));
+						lblHighestRocketLevel.setFont(new Font("Tahoma", Font.BOLD, 13));
 						lblHighestRocketLevel.setBounds(0, 32, 209, 20);
 						lblHighestRocketLevel.setHorizontalAlignment(SwingConstants.RIGHT);
 						panel_1.add(lblHighestRocketLevel);
@@ -442,100 +429,118 @@ public class Scouting {
 						
 								ComboBoxPanel.setModel(new DefaultComboBoxModel(new String[] { "N/A", "One", "Two", "Three" }));
 								panel_1.add(ComboBoxPanel);
-
-		JPanel panel = new JPanel();
-		CargoOrPanel.addTab("End game location", null, panel, null);
-		panel.setLayout(null);
-
-		JLabel lblEndGameClimb = new JLabel("End game climb:");
-		lblEndGameClimb.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		lblEndGameClimb.setHorizontalAlignment(SwingConstants.TRAILING);
-		lblEndGameClimb.setBounds(0, 35, 127, 20);
-		panel.add(lblEndGameClimb);
-		ComboBoxClimb.setFont(new Font("Tahoma", Font.PLAIN, 13));
-
-		ComboBoxClimb.setModel(new DefaultComboBoxModel(new String[] { "N/A", "One", "Two", "Three" }));
-		ComboBoxClimb.setBounds(139, 32, 77, 26);
-		panel.add(ComboBoxClimb);
-
-		JLabel lblFaildedClimb = new JLabel("Failed Climb: ");
-		lblFaildedClimb.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		lblFaildedClimb.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblFaildedClimb.setBounds(213, 38, 90, 14);
-		panel.add(lblFaildedClimb);
-		failedClimb.setFont(new Font("Tahoma", Font.PLAIN, 13));
-
-		failedClimb.setModel(new DefaultComboBoxModel(new String[] { "N/A", "One", "Two", "Three" }));
-		failedClimb.setBounds(308, 35, 72, 20);
-		panel.add(failedClimb);
-
-		JPanel panel_4 = new JPanel();
-		CargoOrPanel.addTab("Defense or Defended Against", null, panel_4, null);
-		panel_4.setLayout(null);
-		DefendedAgainst.setFont(new Font("Tahoma", Font.PLAIN, 13));
-
-		DefendedAgainst.setModel(new DefaultComboBoxModel(new String[] { "No", "Yes" }));
-		DefendedAgainst.setBounds(78, 36, 77, 20);
-		panel_4.add(DefendedAgainst);
-		Defended.setFont(new Font("Tahoma", Font.PLAIN, 13));
-
-		Defended.setModel(new DefaultComboBoxModel(new String[] { "No", "Yes" }));
-		Defended.setBounds(220, 36, 77, 20);
-		panel_4.add(Defended);
-
-		JLabel lblDefendedAgainst = new JLabel("Defended against");
-		lblDefendedAgainst.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		lblDefendedAgainst.setBounds(71, 11, 121, 14);
-		panel_4.add(lblDefendedAgainst);
-
-		JLabel lblDefended = new JLabel("Defended");
-		lblDefended.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		lblDefended.setBounds(223, 11, 91, 14);
-		panel_4.add(lblDefended);
-
-		JPanel panel_2 = new JPanel();
-		CargoOrPanel.addTab("Disabilities", null, panel_2, null);
-		Condition.setFont(new Font("Tahoma", Font.PLAIN, 13));
-
-		Condition.setModel(new DefaultComboBoxModel(new String[] { "working", "not working at all", "broken feature" }));
-		panel_2.add(Condition);
-
-		JPanel panel_3 = new JPanel();
-		CargoOrPanel.addTab("Starting location", null, panel_3, null);
-		panel_3.setLayout(null);
-
-		Location.setModel(new DefaultComboBoxModel(new String[] { "Left", "middle", "right" }));
-		Location.setBounds(97, 16, 85, 26);
-		panel_3.add(Location);
-
-		level.setModel(new DefaultComboBoxModel(new String[] { "One", "two" }));
-		level.setBounds(197, 16, 71, 26);
-		panel_3.add(level);
-
-		JLabel lblPosition = new JLabel("Position");
-		lblPosition.setHorizontalAlignment(SwingConstants.CENTER);
-		lblPosition.setBounds(97, 52, 85, 14);
-		panel_3.add(lblPosition);
-
-		JLabel lblLevel = new JLabel("level");
-		lblLevel.setHorizontalAlignment(SwingConstants.CENTER);
-		lblLevel.setBounds(197, 52, 71, 14);
-		panel_3.add(lblLevel);
 		
 				JPanel Cargo = new JPanel();
 				CargoOrPanel.addTab("Cargo", null, Cargo, null);
 				Cargo.setLayout(null);
 				
 						JLabel lblRocketLevel = new JLabel("Highest rocket level:");
-						lblRocketLevel.setFont(new Font("Tahoma", Font.PLAIN, 13));
+						lblRocketLevel.setFont(new Font("Tahoma", Font.BOLD, 13));
 						lblRocketLevel.setHorizontalAlignment(SwingConstants.RIGHT);
-						lblRocketLevel.setBounds(10, 19, 204, 20);
+						lblRocketLevel.setBounds(86, 39, 204, 20);
 						Cargo.add(lblRocketLevel);
-								ComboBoxCargo.setFont(new Font("Tahoma", Font.PLAIN, 13));
+						ComboBoxCargo.setFont(new Font("Tahoma", Font.BOLD, 13));
 						
 								ComboBoxCargo.setModel(new DefaultComboBoxModel(new String[] { "N/A", "One", "Two", "Three" }));
-								ComboBoxCargo.setBounds(214, 16, 86, 26);
+								ComboBoxCargo.setBounds(290, 36, 86, 26);
 								Cargo.add(ComboBoxCargo);
+
+		JPanel panel = new JPanel();
+		CargoOrPanel.addTab("End game location", null, panel, null);
+		panel.setLayout(null);
+
+		JLabel lblEndGameClimb = new JLabel("End game climb:");
+		lblEndGameClimb.setFont(new Font("Tahoma", Font.BOLD, 13));
+		lblEndGameClimb.setHorizontalAlignment(SwingConstants.TRAILING);
+		lblEndGameClimb.setBounds(0, 35, 127, 20);
+		panel.add(lblEndGameClimb);
+		ComboBoxClimb.setFont(new Font("Tahoma", Font.BOLD, 13));
+
+		ComboBoxClimb.setModel(new DefaultComboBoxModel(new String[] { "N/A", "One", "Two", "Three" }));
+		ComboBoxClimb.setBounds(139, 32, 77, 26);
+		panel.add(ComboBoxClimb);
+
+		JLabel lblFaildedClimb = new JLabel("Failed Climb: ");
+		lblFaildedClimb.setFont(new Font("Tahoma", Font.BOLD, 13));
+		lblFaildedClimb.setHorizontalAlignment(SwingConstants.RIGHT);
+		lblFaildedClimb.setBounds(213, 38, 90, 14);
+		panel.add(lblFaildedClimb);
+		failedClimb.setFont(new Font("Tahoma", Font.BOLD, 13));
+
+		failedClimb.setModel(new DefaultComboBoxModel(new String[] { "N/A", "One", "Two", "Three" }));
+		failedClimb.setBounds(308, 35, 72, 20);
+		panel.add(failedClimb);
+		
+				JPanel panel_3 = new JPanel();
+				CargoOrPanel.addTab("Starting location", null, panel_3, null);
+				panel_3.setLayout(null);
+				Location.setFont(new Font("Tahoma", Font.BOLD, 11));
+				
+						Location.setModel(new DefaultComboBoxModel(new String[] { "Left", "middle", "right" }));
+						Location.setBounds(184, 11, 85, 26);
+						panel_3.add(Location);
+						level.setFont(new Font("Tahoma", Font.BOLD, 11));
+						
+								level.setModel(new DefaultComboBoxModel(new String[] { "One", "two" }));
+								level.setBounds(284, 11, 71, 26);
+								panel_3.add(level);
+								
+										JLabel lblPosition = new JLabel("Position");
+										lblPosition.setFont(new Font("Tahoma", Font.BOLD, 11));
+										lblPosition.setHorizontalAlignment(SwingConstants.CENTER);
+										lblPosition.setBounds(184, 47, 85, 14);
+										panel_3.add(lblPosition);
+										
+												JLabel lblLevel = new JLabel("level");
+												lblLevel.setFont(new Font("Tahoma", Font.BOLD, 11));
+												lblLevel.setHorizontalAlignment(SwingConstants.CENTER);
+												lblLevel.setBounds(284, 47, 71, 14);
+												panel_3.add(lblLevel);
+
+		JPanel panel_4 = new JPanel();
+		CargoOrPanel.addTab("Defense or Defended Against", null, panel_4, null);
+		panel_4.setLayout(null);
+		DefendedAgainst.setFont(new Font("Tahoma", Font.BOLD, 13));
+
+		DefendedAgainst.setModel(new DefaultComboBoxModel(new String[] { "No", "Yes" }));
+		DefendedAgainst.setBounds(78, 36, 77, 20);
+		panel_4.add(DefendedAgainst);
+		Defended.setFont(new Font("Tahoma", Font.BOLD, 13));
+
+		Defended.setModel(new DefaultComboBoxModel(new String[] { "No", "Yes" }));
+		Defended.setBounds(220, 36, 77, 20);
+		panel_4.add(Defended);
+
+		JLabel lblDefendedAgainst = new JLabel("Defended against");
+		lblDefendedAgainst.setFont(new Font("Tahoma", Font.BOLD, 13));
+		lblDefendedAgainst.setBounds(71, 11, 121, 14);
+		panel_4.add(lblDefendedAgainst);
+
+		JLabel lblDefended = new JLabel("Defended");
+		lblDefended.setFont(new Font("Tahoma", Font.BOLD, 13));
+		lblDefended.setBounds(223, 11, 91, 14);
+		panel_4.add(lblDefended);
+		
+				JPanel panel_5 = new JPanel();
+				CargoOrPanel.addTab("Penalties", null, panel_5, null);
+				panel_5.setLayout(null);
+				
+						JLabel lblPenaltiesRecived = new JLabel("Penalties received:");
+						lblPenaltiesRecived.setFont(new Font("Tahoma", Font.BOLD, 13));
+						lblPenaltiesRecived.setHorizontalAlignment(SwingConstants.RIGHT);
+						lblPenaltiesRecived.setBounds(0, 31, 201, 14);
+						panel_5.add(lblPenaltiesRecived);
+						
+								Penalties.setModel(new DefaultComboBoxModel(new String[] { "None", "Yellow", "red" }));
+								Penalties.setBounds(211, 24, 107, 28);
+								panel_5.add(Penalties);
+
+		JPanel panel_2 = new JPanel();
+		CargoOrPanel.addTab("Disabilities", null, panel_2, null);
+		Condition.setFont(new Font("Tahoma", Font.BOLD, 13));
+
+		Condition.setModel(new DefaultComboBoxModel(new String[] { "working", "not working at all", "broken feature" }));
+		panel_2.add(Condition);
 	}
 
 	void enter() throws IOException, InterruptedException {

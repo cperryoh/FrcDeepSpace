@@ -17,6 +17,7 @@ import java.io.IOException;
 import javax.swing.JLabel;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.Font;
 
 public class gamePieceLocation {
 
@@ -37,6 +38,7 @@ public class gamePieceLocation {
 		frame.getContentPane().setLayout(null);
 
 		JButton droppedCs = new JButton("Dropped cs");
+		droppedCs.setFont(new Font("Tahoma", Font.BOLD, 13));
 		droppedCs.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				dropped("cs");
@@ -47,6 +49,7 @@ public class gamePieceLocation {
 
 		JButton 
 		droppedr1 = new JButton("Dropped r1");
+		droppedr1.setFont(new Font("Tahoma", Font.BOLD, 13));
 		droppedr1.setBounds(155, 214, 114, 29);
 		droppedr1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -56,6 +59,7 @@ public class gamePieceLocation {
 		frame.getContentPane().add(droppedr1);
 
 		JButton droppedR2 = new JButton("Dropped r2");
+		droppedR2.setFont(new Font("Tahoma", Font.BOLD, 13));
 		droppedR2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				dropped("r2");
@@ -65,6 +69,7 @@ public class gamePieceLocation {
 		frame.getContentPane().add(droppedR2);
 
 		JButton droppedR3 = new JButton("Dropped r3");
+		droppedR3.setFont(new Font("Tahoma", Font.BOLD, 13));
 		droppedR3.setBounds(155, 134, 114, 29);
 		droppedR3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {

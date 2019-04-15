@@ -244,16 +244,7 @@ public class Scouting {
 		popupMenu.add(mntmNewMenuItem_3);
 		
 		table.getTableHeader().setReorderingAllowed(false);
-		try {
-		    for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
-		        if ("Nimbus".equals(info.getName())) {
-		            UIManager.setLookAndFeel(info.getClassName());
-		            break;
-		        }
-		    }
-		} catch (Exception e) {
-		    // If Nimbus is not available, you can set the GUI to another look and feel.
-		}
+		
 	}
 
 	/**
@@ -657,6 +648,7 @@ public class Scouting {
 			try {
 				enter();
 			} catch (IOException e1) {
+		
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			} catch (InterruptedException e1) {

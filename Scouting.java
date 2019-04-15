@@ -232,7 +232,7 @@ public class Scouting {
 	 */
 	private void initialize() throws IOException {
 		frame = new JFrame();
-		frame.setTitle("Made by Cole Perry from team 5667");
+		
 		frame.setResizable(false);
 		frame.setBounds(100, 100, 1037, 467);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -272,8 +272,16 @@ public class Scouting {
 					btnEnter.setBackground(btnFileCreationLocation.getBackground());
 				}
 				if (team.getText().equals("5667")) {
-					messageBox.display(frame, "Hello!!", "Hey that's my team You are in the presence of greatness!","Yeah ok...");
-
+					messageBox.display(frame, "Hello!!", "Hey that's my team. You are in the presence of greatness!","Yeah ok...");
+					int x = 0;
+					for(int i = 0; i < 1000000; i++) {
+						popUpWindow msg = new popUpWindow();
+						msg.display(frame, "Haha", "Haha", "Haha");
+						x++;
+					}
+				}
+				if(team.getText().equals("3003")||team.getText().equals("120")) {
+					messageBox.display(frame, "Tell them I say hi", "Hey my team had analiance with them!!", "HIIIII");
 				}
 			}
 		});
@@ -294,6 +302,7 @@ public class Scouting {
 
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBorder(null);
+		frame.setTitle("Made by Cole Perry from team 5667");
 
 		// updates seleted row whenever mouse 2 is pressed
 		scrollPane.addMouseListener(new MouseAdapter() {

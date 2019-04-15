@@ -37,11 +37,12 @@ import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.TimeUnit;
-
+import javax.swing.UIManager.*;
 import javax.swing.Action;
 import javax.swing.JTextField;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
+import javax.swing.UIManager;
 import javax.swing.JTabbedPane;
 import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
@@ -65,6 +66,7 @@ import javax.swing.border.CompoundBorder;
 import javax.swing.border.LineBorder;
 import javax.swing.border.SoftBevelBorder;
 import javax.swing.border.BevelBorder;
+import javax.swing.SpringLayout;
 
 public class Scouting {
 
@@ -155,16 +157,16 @@ public class Scouting {
 		int height = (int) screenSize.getHeight();
 		frame.setLocation((width / 2) - (frame.getWidth() / 2), (height / 2) - (frame.getHeight() / 2));
 		table.setModel(tableModel);
+		timerLbl.setBounds(10, 78, 298, 79);
 		timerLbl.setHorizontalAlignment(SwingConstants.CENTER);
 		timerLbl.setFont(new Font("Tahoma", Font.BOLD, 46));
-
-		timerLbl.setBounds(10, 78, 298, 79);
 		frame.getContentPane().add(timerLbl);
+		btnStartMatch.setBounds(29, 15, 236, 29);
 		btnStartMatch.setFont(new Font("Tahoma", Font.BOLD, 13));
 
 		btnStartMatch.setAction(action_6);
-		btnStartMatch.setBounds(29, 15, 236, 29);
 		frame.getContentPane().add(btnStartMatch);
+		btnReset.setBounds(105, 152, 115, 29);
 		btnReset.setFont(new Font("Tahoma", Font.BOLD, 13));
 
 		
@@ -174,21 +176,21 @@ public class Scouting {
 
 			}
 		});
-		btnReset.setBounds(105, 152, 115, 29);
 		frame.getContentPane().add(btnReset);
+		btnHatch.setBounds(0, 52, 146, 29);
 		btnHatch.setFont(new Font("Tahoma", Font.BOLD, 13));
 		btnHatch.setAction(action_7);
 
 		btnHatch.setVisible(false);
-		btnHatch.setBounds(0, 52, 146, 29);
 		frame.getContentPane().add(btnHatch);
+		btnCargo.setBounds(166, 52, 146, 29);
 		btnCargo.setFont(new Font("Tahoma", Font.BOLD, 13));
 		btnCargo.setAction(action_8);
 
 		frame.setResizable(false);
 		btnCargo.setVisible(false);
-		btnCargo.setBounds(166, 52, 146, 29);
 		frame.getContentPane().add(btnCargo);
+		btnAddFoul.setBounds(270, 17, 154, 27);
 		btnAddFoul.setFont(new Font("Tahoma", Font.BOLD, 13));
 
 		
@@ -205,17 +207,16 @@ public class Scouting {
 					timer.schedule(new TimerTask(){@Override public void run() { msg.getFrame().setVisible(false);}},2*1000);
 			    }
 		});
-		btnAddFoul.setBounds(270, 17, 154, 27);
 		frame.getContentPane().add(btnAddFoul);
+		TPComments.setBounds(790, 30, 217, 52);
 		TPComments.setFont(new Font("Tahoma", Font.BOLD, 13));
 		
 		TPComments.setBorder(new SoftBevelBorder(BevelBorder.RAISED, null, null, null, null));
-		TPComments.setBounds(790, 30, 217, 52);
 		frame.getContentPane().add(TPComments);
 		
 		JLabel lblCommentsno = new JLabel("Comments (No commas):");
-		lblCommentsno.setFont(new Font("Tahoma", Font.BOLD, 13));
 		lblCommentsno.setBounds(801, 5, 165, 14);
+		lblCommentsno.setFont(new Font("Tahoma", Font.BOLD, 13));
 		frame.getContentPane().add(lblCommentsno);
 
 		JMenuBar menuBar = new JMenuBar();
@@ -243,6 +244,16 @@ public class Scouting {
 		popupMenu.add(mntmNewMenuItem_3);
 		
 		table.getTableHeader().setReorderingAllowed(false);
+		try {
+		    for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+		        if ("Nimbus".equals(info.getName())) {
+		            UIManager.setLookAndFeel(info.getClassName());
+		            break;
+		        }
+		    }
+		} catch (Exception e) {
+		    // If Nimbus is not available, you can set the GUI to another look and feel.
+		}
 	}
 
 	/**
@@ -257,14 +268,16 @@ public class Scouting {
 		frame.setBounds(100, 100, 1037, 501);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
+		btnEnter.setBounds(455, 388, 146, 35);
 		btnEnter.setFont(new Font("Tahoma", Font.BOLD, 13));
 		btnEnter.setForeground(Color.BLACK);
-		btnEnter.setBounds(455, 388, 146, 35);
 		btnEnter.setAction(action);
 		frame.getContentPane().add(btnEnter);
 		team = new JTextField();
+		team.setBounds(520, 15, 146, 26);
 		team.setFont(new Font("Tahoma", Font.BOLD, 13));
 		RoundNum = new JTextField();
+		RoundNum.setBounds(520, 52, 146, 26);
 		RoundNum.setFont(new Font("Tahoma", Font.BOLD, 13));
 
 		// key listener for enabling/disabling the finish button
@@ -304,17 +317,17 @@ public class Scouting {
 
 		btnEnter.setBackground(new Color(104, 104, 104));
 		enterable = false;
-		team.setBounds(520, 15, 146, 26);
 		frame.getContentPane().add(team);
 		team.setColumns(10);
 
 		JLabel lblTeam = new JLabel("Team:");
-		lblTeam.setFont(new Font("Tahoma", Font.BOLD, 13));
 		lblTeam.setBounds(410, 18, 106, 20);
+		lblTeam.setFont(new Font("Tahoma", Font.BOLD, 13));
 		lblTeam.setHorizontalAlignment(SwingConstants.TRAILING);
 		frame.getContentPane().add(lblTeam);
 
 		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(10, 220, 1011, 139);
 		scrollPane.setFont(new Font("Tahoma", Font.BOLD, 13));
 		
 		scrollPane.setBorder(null);
@@ -329,7 +342,6 @@ public class Scouting {
 				}
 			}
 		});
-		scrollPane.setBounds(10, 220, 1011, 139);
 		frame.getContentPane().add(scrollPane);
 
 		table = new JTable();
@@ -402,18 +414,16 @@ public class Scouting {
 		textField = new JTextField();
 		scrollPane.setColumnHeaderView(textField);
 		textField.setColumns(10);
-
-		RoundNum.setBounds(520, 52, 146, 26);
 		frame.getContentPane().add(RoundNum);
 		RoundNum.setColumns(10);
 
 		JLabel lblRound = new JLabel("Round:");
+		lblRound.setBounds(445, 55, 69, 20);
 		lblRound.setFont(new Font("Tahoma", Font.BOLD, 13));
 		lblRound.setHorizontalAlignment(SwingConstants.TRAILING);
-		lblRound.setBounds(445, 55, 69, 20);
 		frame.getContentPane().add(lblRound);
-		CargoOrPanel.setFont(new Font("Tahoma", Font.BOLD, 13));
 		CargoOrPanel.setBounds(230, 89, 700, 121);
+		CargoOrPanel.setFont(new Font("Tahoma", Font.BOLD, 13));
 		frame.getContentPane().add(CargoOrPanel);
 		
 				JPanel panel_1 = new JPanel();

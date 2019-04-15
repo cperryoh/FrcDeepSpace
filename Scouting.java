@@ -11,6 +11,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 //import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumnModel;
 import javax.swing.table.TableModel;
 //import javax.tools.DocumentationTool.Location;
 import javax.swing.JPanel;
@@ -36,11 +37,12 @@ import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.TimeUnit;
-
+import javax.swing.UIManager.*;
 import javax.swing.Action;
 import javax.swing.JTextField;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
+import javax.swing.UIManager;
 import javax.swing.JTabbedPane;
 import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
@@ -58,6 +60,13 @@ import java.awt.Color;
 import javax.swing.JMenuBar;
 import java.awt.Font;
 import java.awt.event.ActionListener;
+import javax.swing.JTextPane;
+import javax.swing.border.MatteBorder;
+import javax.swing.border.CompoundBorder;
+import javax.swing.border.LineBorder;
+import javax.swing.border.SoftBevelBorder;
+import javax.swing.border.BevelBorder;
+import javax.swing.SpringLayout;
 
 public class Scouting {
 
@@ -68,7 +77,10 @@ public class Scouting {
 	private JTextField team;
 	int fouls = 0;
 	JComboBox ComboBoxClimb = new JComboBox();
+	JTextPane TPComments = new JTextPane();
 	String sep = File.separator;
+	JButton btnReset = new JButton("Reset");
+	JMenu mnStartingGamePiece = new JMenu("Starting game piece");
 	JLabel timerLbl = new JLabel("150");
 	JComboBox ComboBoxPanel = new JComboBox();
 	boolean hatch = false;
@@ -94,11 +106,12 @@ public class Scouting {
 	boolean hasStarted = false;
 	boolean hasGamePiece = false;
 	JButton btnCargo = new JButton("Taken cargo");
-	JComboBox Penaltys = new JComboBox();
+	JComboBox Penalties = new JComboBox();
 	JButton btnHatch = new JButton("Taken hatch");
 	JButton btnEnter = new JButton("Enter");
 	JMenuItem mntmClearRow = new JMenuItem("Clear row");
 	JMenuItem mntmDeleteRow = new JMenuItem("Delete row");
+	
 	DefaultTableModel tableModel = new DefaultTableModel(
 			new Object[][] { 
 				{ null, null, null, null }, 
@@ -109,11 +122,9 @@ public class Scouting {
 				{ null, null, null, null }, },
 			new String[] { "Game piece grabbed time", "Delivery time", "Delivery location (CS R#)",
 					"Hatch panel or cargo" });
-	private final Action action_1 = new SwingAction_1();
 	private JTextField RoundNum;
 	private JTextField textField;
 	boolean enterable = false;
-	JButton btnFileCreationLocation = new JButton("File creation location");
 	private final Action action_2 = new SwingAction();
 	private final Action action_3 = new SwingAction_2();
 	private final Action action_4 = new SwingAction_3();
@@ -121,13 +132,13 @@ public class Scouting {
 	private final Action action_6 = new SwingAction_5();
 	private final Action action_7 = new SwingAction_6();
 	private final Action action_8 = new SwingAction_7();
-	private final Action action_9 = new SwingAction_8();
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
 					Scouting window = new Scouting();
 					GPL = new gamePieceLocation(window);
+					GPL.frame.setAlwaysOnTop(true);
 					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -146,74 +157,82 @@ public class Scouting {
 		int height = (int) screenSize.getHeight();
 		frame.setLocation((width / 2) - (frame.getWidth() / 2), (height / 2) - (frame.getHeight() / 2));
 		table.setModel(tableModel);
+		timerLbl.setBounds(10, 78, 298, 79);
 		timerLbl.setHorizontalAlignment(SwingConstants.CENTER);
-		timerLbl.setFont(new Font("Tahoma", Font.PLAIN, 46));
-
-		timerLbl.setBounds(10, 59, 298, 90);
+		timerLbl.setFont(new Font("Tahoma", Font.BOLD, 46));
 		frame.getContentPane().add(timerLbl);
+		btnStartMatch.setBounds(29, 15, 236, 29);
+		btnStartMatch.setFont(new Font("Tahoma", Font.BOLD, 13));
 
 		btnStartMatch.setAction(action_6);
-		btnStartMatch.setBounds(69, 15, 177, 29);
 		frame.getContentPane().add(btnStartMatch);
+		btnReset.setBounds(105, 152, 115, 29);
+		btnReset.setFont(new Font("Tahoma", Font.BOLD, 13));
 
-		JButton btnReset = new JButton("Reset");
+		
 		btnReset.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				reset();
 
 			}
 		});
-		btnReset.setBounds(106, 152, 115, 29);
 		frame.getContentPane().add(btnReset);
+		btnHatch.setBounds(0, 52, 146, 29);
+		btnHatch.setFont(new Font("Tahoma", Font.BOLD, 13));
 		btnHatch.setAction(action_7);
 
 		btnHatch.setVisible(false);
-		btnHatch.setBounds(0, 52, 146, 29);
 		frame.getContentPane().add(btnHatch);
+		btnCargo.setBounds(166, 52, 146, 29);
+		btnCargo.setFont(new Font("Tahoma", Font.BOLD, 13));
 		btnCargo.setAction(action_8);
 
 		frame.setResizable(false);
 		btnCargo.setVisible(false);
-		btnCargo.setBounds(166, 52, 146, 29);
 		frame.getContentPane().add(btnCargo);
+		btnAddFoul.setBounds(270, 17, 154, 27);
+		btnAddFoul.setFont(new Font("Tahoma", Font.BOLD, 13));
 
-		JButton btnCompileData = new JButton("Compile data");
-		btnCompileData.setAction(action_9);
-		btnCompileData.setBounds(820, 30, 196, 29);
-		frame.getContentPane().add(btnCompileData);
+		
 
 		
 		btnAddFoul.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent e) {
-				btnAddFoul.setText("Foul added");
-			}
-			@Override
-			public void mouseReleased(MouseEvent e) {
-				
-				btnAddFoul.setText("Add foul");
-			}
-		});
-		// add foul action listener
-		btnAddFoul.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
+				popUpWindow msg = new popUpWindow();
+				msg.display(frame,"", "Foul added", "Ok");
 				fouls++;
-			}
+				msg.getFrame().setLocation(frame.getWidth()+msg.getFrame().getWidth(),frame.getY());
+				Timer timer = new Timer();
+					timer.schedule(new TimerTask(){@Override public void run() { msg.getFrame().setVisible(false);}},2*1000);
+			    }
 		});
-		btnAddFoul.setBounds(275, 18, 125, 23);
 		frame.getContentPane().add(btnAddFoul);
+		TPComments.setBounds(790, 30, 217, 52);
+		TPComments.setFont(new Font("Tahoma", Font.BOLD, 13));
+		
+		TPComments.setBorder(new SoftBevelBorder(BevelBorder.RAISED, null, null, null, null));
+		frame.getContentPane().add(TPComments);
+		
+		JLabel lblCommentsno = new JLabel("Comments (No commas):");
+		lblCommentsno.setBounds(801, 5, 165, 14);
+		lblCommentsno.setFont(new Font("Tahoma", Font.BOLD, 13));
+		frame.getContentPane().add(lblCommentsno);
 
 		JMenuBar menuBar = new JMenuBar();
 		frame.setJMenuBar(menuBar);
+		mnStartingGamePiece.setFont(new Font("Segoe UI", Font.BOLD, 16));
 
-		JMenu mnStartingGamePiece = new JMenu("Starting game piece");
+		
 		menuBar.add(mnStartingGamePiece);
 
 		JMenuItem mntmCargo = new JMenuItem("Cargo");
+		mntmCargo.setFont(new Font("Segoe UI", Font.BOLD, 14));
 		mntmCargo.setAction(action_8);
 		mnStartingGamePiece.add(mntmCargo);
 
 		JMenuItem mntmHatch = new JMenuItem("Hatch");
+		mntmHatch.setFont(new Font("Segoe UI", Font.BOLD, 14));
 		mntmHatch.setAction(action_7);
 		mnStartingGamePiece.add(mntmHatch);
 
@@ -223,6 +242,18 @@ public class Scouting {
 		JMenuItem mntmNewMenuItem_3 = new JMenuItem("New menu item");
 		mntmNewMenuItem_3.setAction(action_5);
 		popupMenu.add(mntmNewMenuItem_3);
+		
+		table.getTableHeader().setReorderingAllowed(false);
+		try {
+		    for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+		        if ("Nimbus".equals(info.getName())) {
+		            UIManager.setLookAndFeel(info.getClassName());
+		            break;
+		        }
+		    }
+		} catch (Exception e) {
+		    // If Nimbus is not available, you can set the GUI to another look and feel.
+		}
 	}
 
 	/**
@@ -234,32 +265,35 @@ public class Scouting {
 		frame = new JFrame();
 		
 		frame.setResizable(false);
-		frame.setBounds(100, 100, 1037, 467);
+		frame.setBounds(100, 100, 1037, 501);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
+		btnEnter.setBounds(455, 388, 146, 35);
+		btnEnter.setFont(new Font("Tahoma", Font.BOLD, 13));
 		btnEnter.setForeground(Color.BLACK);
-		btnEnter.setBounds(574, 370, 115, 29);
 		btnEnter.setAction(action);
 		frame.getContentPane().add(btnEnter);
-
 		team = new JTextField();
+		team.setBounds(520, 15, 146, 26);
+		team.setFont(new Font("Tahoma", Font.BOLD, 13));
 		RoundNum = new JTextField();
+		RoundNum.setBounds(520, 52, 146, 26);
+		RoundNum.setFont(new Font("Tahoma", Font.BOLD, 13));
 
 		// key listener for enabling/disabling the finish button
 		RoundNum.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyReleased(KeyEvent e) {
 				if (isNumber(team.getText()) == false || isNumber(RoundNum.getText()) == false) {
-					btnEnter.setBackground(new Color(100, 100, 100));
+					btnEnter.setBackground(new Color(99, 100, 100));
 					enterable = false;
 
 				} else {
 					enterable = true;
-					btnEnter.setBackground(btnFileCreationLocation.getBackground());
+					btnEnter.setBackground(btnReset.getBackground());
 				}
 			}
 		});
-
 		// easter egg key listener =)
 		team.addKeyListener(new KeyAdapter() {
 			@Override
@@ -269,7 +303,7 @@ public class Scouting {
 					enterable = false;
 				} else {
 					enterable = true;
-					btnEnter.setBackground(btnFileCreationLocation.getBackground());
+					btnEnter.setBackground(btnReset.getBackground());
 				}
 				if (team.getText().equals("5667")) {
 					messageBox.display(frame, "Hello!!", "Hey that's my team. You are in the presence of greatness!","Yeah ok...");
@@ -291,16 +325,19 @@ public class Scouting {
 
 		btnEnter.setBackground(new Color(104, 104, 104));
 		enterable = false;
-		team.setBounds(484, 16, 146, 26);
 		frame.getContentPane().add(team);
 		team.setColumns(10);
 
 		JLabel lblTeam = new JLabel("Team:");
-		lblTeam.setBounds(374, 19, 106, 20);
+		lblTeam.setBounds(410, 18, 106, 20);
+		lblTeam.setFont(new Font("Tahoma", Font.BOLD, 13));
 		lblTeam.setHorizontalAlignment(SwingConstants.TRAILING);
 		frame.getContentPane().add(lblTeam);
 
 		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(10, 220, 1011, 139);
+		scrollPane.setFont(new Font("Tahoma", Font.BOLD, 13));
+		
 		scrollPane.setBorder(null);
 		frame.setTitle("Made by Cole Perry from team 5667");
 
@@ -314,10 +351,10 @@ public class Scouting {
 				}
 			}
 		});
-		scrollPane.setBounds(10, 220, 1011, 139);
 		frame.getContentPane().add(scrollPane);
 
 		table = new JTable();
+		table.setFont(new Font("Tahoma", Font.BOLD, 13));
 		table.setBorder(null);
 
 		// table selection tools
@@ -386,132 +423,143 @@ public class Scouting {
 		textField = new JTextField();
 		scrollPane.setColumnHeaderView(textField);
 		textField.setColumns(10);
-		btnFileCreationLocation.setBackground(new Color(240, 240, 240));
-
-		btnFileCreationLocation.setAction(action_1);
-		btnFileCreationLocation.setBounds(296, 370, 247, 29);
-		frame.getContentPane().add(btnFileCreationLocation);
-
-		RoundNum.setBounds(484, 53, 146, 26);
 		frame.getContentPane().add(RoundNum);
 		RoundNum.setColumns(10);
 
 		JLabel lblRound = new JLabel("Round:");
+		lblRound.setBounds(445, 55, 69, 20);
+		lblRound.setFont(new Font("Tahoma", Font.BOLD, 13));
 		lblRound.setHorizontalAlignment(SwingConstants.TRAILING);
-		lblRound.setBounds(409, 56, 69, 20);
 		frame.getContentPane().add(lblRound);
-		CargoOrPanel.setBounds(307, 87, 395, 121);
+		CargoOrPanel.setBounds(230, 89, 700, 121);
+		CargoOrPanel.setFont(new Font("Tahoma", Font.BOLD, 13));
 		frame.getContentPane().add(CargoOrPanel);
-
-		JPanel panel_1 = new JPanel();
-		CargoOrPanel.addTab("Panel", null, panel_1, null);
-		panel_1.setLayout(null);
-
-		JLabel lblHighestRocketLevel = new JLabel("Highest rocket level:");
-		lblHighestRocketLevel.setBounds(0, 32, 209, 20);
-		lblHighestRocketLevel.setHorizontalAlignment(SwingConstants.RIGHT);
-		panel_1.add(lblHighestRocketLevel);
-		ComboBoxPanel.setBounds(224, 29, 86, 26);
-
-		ComboBoxPanel.setModel(new DefaultComboBoxModel(new String[] { "N/A", "One", "Two", "Three" }));
-		panel_1.add(ComboBoxPanel);
-
-		JPanel Cargo = new JPanel();
-		CargoOrPanel.addTab("Cargo", null, Cargo, null);
-		Cargo.setLayout(null);
-
-		JLabel lblRocketLevel = new JLabel("Highest rocket level:");
-		lblRocketLevel.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblRocketLevel.setBounds(0, 19, 204, 20);
-		Cargo.add(lblRocketLevel);
-
-		ComboBoxCargo.setModel(new DefaultComboBoxModel(new String[] { "N/A", "One", "Two", "Three" }));
-		ComboBoxCargo.setBounds(214, 16, 86, 26);
-		Cargo.add(ComboBoxCargo);
-
-		JPanel panel_5 = new JPanel();
-		CargoOrPanel.addTab("Penaltys", null, panel_5, null);
-		panel_5.setLayout(null);
-
-		JLabel lblPenaltysRecived = new JLabel("Penaltys received:");
-		lblPenaltysRecived.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblPenaltysRecived.setBounds(0, 27, 201, 14);
-		panel_5.add(lblPenaltysRecived);
-
-		Penaltys.setModel(new DefaultComboBoxModel(new String[] { "None", "Yellow", "red" }));
-		Penaltys.setBounds(211, 24, 77, 20);
-		panel_5.add(Penaltys);
+		
+				JPanel panel_1 = new JPanel();
+				CargoOrPanel.addTab("Panel", null, panel_1, null);
+				panel_1.setLayout(null);
+				
+						JLabel lblHighestRocketLevel = new JLabel("Highest rocket level:");
+						lblHighestRocketLevel.setFont(new Font("Tahoma", Font.BOLD, 13));
+						lblHighestRocketLevel.setBounds(0, 32, 209, 20);
+						lblHighestRocketLevel.setHorizontalAlignment(SwingConstants.RIGHT);
+						panel_1.add(lblHighestRocketLevel);
+						ComboBoxPanel.setBounds(224, 29, 112, 26);
+						
+								ComboBoxPanel.setModel(new DefaultComboBoxModel(new String[] { "N/A", "One", "Two", "Three" }));
+								panel_1.add(ComboBoxPanel);
+		
+				JPanel Cargo = new JPanel();
+				CargoOrPanel.addTab("Cargo", null, Cargo, null);
+				Cargo.setLayout(null);
+				
+						JLabel lblRocketLevel = new JLabel("Highest rocket level:");
+						lblRocketLevel.setFont(new Font("Tahoma", Font.BOLD, 13));
+						lblRocketLevel.setHorizontalAlignment(SwingConstants.RIGHT);
+						lblRocketLevel.setBounds(86, 39, 204, 20);
+						Cargo.add(lblRocketLevel);
+						ComboBoxCargo.setFont(new Font("Tahoma", Font.BOLD, 13));
+						
+								ComboBoxCargo.setModel(new DefaultComboBoxModel(new String[] { "N/A", "One", "Two", "Three" }));
+								ComboBoxCargo.setBounds(290, 36, 86, 26);
+								Cargo.add(ComboBoxCargo);
 
 		JPanel panel = new JPanel();
 		CargoOrPanel.addTab("End game location", null, panel, null);
 		panel.setLayout(null);
 
 		JLabel lblEndGameClimb = new JLabel("End game climb:");
+		lblEndGameClimb.setFont(new Font("Tahoma", Font.BOLD, 13));
 		lblEndGameClimb.setHorizontalAlignment(SwingConstants.TRAILING);
 		lblEndGameClimb.setBounds(0, 35, 127, 20);
 		panel.add(lblEndGameClimb);
+		ComboBoxClimb.setFont(new Font("Tahoma", Font.BOLD, 13));
 
 		ComboBoxClimb.setModel(new DefaultComboBoxModel(new String[] { "N/A", "One", "Two", "Three" }));
 		ComboBoxClimb.setBounds(139, 32, 77, 26);
 		panel.add(ComboBoxClimb);
 
-		JLabel lblFaildedClimb = new JLabel("Failded Climb: ");
+		JLabel lblFaildedClimb = new JLabel("Failed Climb: ");
+		lblFaildedClimb.setFont(new Font("Tahoma", Font.BOLD, 13));
 		lblFaildedClimb.setHorizontalAlignment(SwingConstants.RIGHT);
 		lblFaildedClimb.setBounds(213, 38, 90, 14);
 		panel.add(lblFaildedClimb);
+		failedClimb.setFont(new Font("Tahoma", Font.BOLD, 13));
 
-		failedClimb.setModel(new DefaultComboBoxModel(new String[] { "N/a", "One", "Two", "Three" }));
+		failedClimb.setModel(new DefaultComboBoxModel(new String[] { "N/A", "One", "Two", "Three" }));
 		failedClimb.setBounds(308, 35, 72, 20);
 		panel.add(failedClimb);
+		
+				JPanel panel_3 = new JPanel();
+				CargoOrPanel.addTab("Starting location", null, panel_3, null);
+				panel_3.setLayout(null);
+				Location.setFont(new Font("Tahoma", Font.BOLD, 11));
+				
+						Location.setModel(new DefaultComboBoxModel(new String[] { "Left", "middle", "right" }));
+						Location.setBounds(184, 11, 85, 26);
+						panel_3.add(Location);
+						level.setFont(new Font("Tahoma", Font.BOLD, 11));
+						
+								level.setModel(new DefaultComboBoxModel(new String[] { "One", "two" }));
+								level.setBounds(284, 11, 71, 26);
+								panel_3.add(level);
+								
+										JLabel lblPosition = new JLabel("Position");
+										lblPosition.setFont(new Font("Tahoma", Font.BOLD, 11));
+										lblPosition.setHorizontalAlignment(SwingConstants.CENTER);
+										lblPosition.setBounds(184, 47, 85, 14);
+										panel_3.add(lblPosition);
+										
+												JLabel lblLevel = new JLabel("level");
+												lblLevel.setFont(new Font("Tahoma", Font.BOLD, 11));
+												lblLevel.setHorizontalAlignment(SwingConstants.CENTER);
+												lblLevel.setBounds(284, 47, 71, 14);
+												panel_3.add(lblLevel);
 
 		JPanel panel_4 = new JPanel();
-		CargoOrPanel.addTab("defense or defended against", null, panel_4, null);
+		CargoOrPanel.addTab("Defense or Defended Against", null, panel_4, null);
 		panel_4.setLayout(null);
+		DefendedAgainst.setFont(new Font("Tahoma", Font.BOLD, 13));
 
 		DefendedAgainst.setModel(new DefaultComboBoxModel(new String[] { "No", "Yes" }));
 		DefendedAgainst.setBounds(78, 36, 77, 20);
 		panel_4.add(DefendedAgainst);
+		Defended.setFont(new Font("Tahoma", Font.BOLD, 13));
 
 		Defended.setModel(new DefaultComboBoxModel(new String[] { "No", "Yes" }));
 		Defended.setBounds(220, 36, 77, 20);
 		panel_4.add(Defended);
 
 		JLabel lblDefendedAgainst = new JLabel("Defended against");
-		lblDefendedAgainst.setBounds(48, 11, 121, 14);
+		lblDefendedAgainst.setFont(new Font("Tahoma", Font.BOLD, 13));
+		lblDefendedAgainst.setBounds(71, 11, 121, 14);
 		panel_4.add(lblDefendedAgainst);
 
 		JLabel lblDefended = new JLabel("Defended");
+		lblDefended.setFont(new Font("Tahoma", Font.BOLD, 13));
 		lblDefended.setBounds(223, 11, 91, 14);
 		panel_4.add(lblDefended);
+		
+				JPanel panel_5 = new JPanel();
+				CargoOrPanel.addTab("Penalties", null, panel_5, null);
+				panel_5.setLayout(null);
+				
+						JLabel lblPenaltiesRecived = new JLabel("Penalties received:");
+						lblPenaltiesRecived.setFont(new Font("Tahoma", Font.BOLD, 13));
+						lblPenaltiesRecived.setHorizontalAlignment(SwingConstants.RIGHT);
+						lblPenaltiesRecived.setBounds(0, 31, 201, 14);
+						panel_5.add(lblPenaltiesRecived);
+						
+								Penalties.setModel(new DefaultComboBoxModel(new String[] { "None", "Yellow", "red" }));
+								Penalties.setBounds(211, 24, 107, 28);
+								panel_5.add(Penalties);
 
 		JPanel panel_2 = new JPanel();
 		CargoOrPanel.addTab("Disabilities", null, panel_2, null);
+		Condition.setFont(new Font("Tahoma", Font.BOLD, 13));
 
-		Condition
-				.setModel(new DefaultComboBoxModel(new String[] { "working", "not working at all", "broken feature" }));
+		Condition.setModel(new DefaultComboBoxModel(new String[] { "working", "not working at all", "broken feature" }));
 		panel_2.add(Condition);
-
-		JPanel panel_3 = new JPanel();
-		CargoOrPanel.addTab("Staring location", null, panel_3, null);
-		panel_3.setLayout(null);
-
-		Location.setModel(new DefaultComboBoxModel(new String[] { "Left", "middle", "right" }));
-		Location.setBounds(97, 16, 85, 26);
-		panel_3.add(Location);
-
-		level.setModel(new DefaultComboBoxModel(new String[] { "One", "two" }));
-		level.setBounds(197, 16, 71, 26);
-		panel_3.add(level);
-
-		JLabel lblPosition = new JLabel("Position");
-		lblPosition.setHorizontalAlignment(SwingConstants.CENTER);
-		lblPosition.setBounds(97, 52, 85, 14);
-		panel_3.add(lblPosition);
-
-		JLabel lblLevel = new JLabel("level");
-		lblLevel.setHorizontalAlignment(SwingConstants.CENTER);
-		lblLevel.setBounds(197, 52, 71, 14);
-		panel_3.add(lblLevel);
 	}
 
 	void enter() throws IOException, InterruptedException {
@@ -538,31 +586,34 @@ public class Scouting {
 				if (foundFile == false) {
 					// writes header if there was no teams info.txt found
 					writer.write(
-							"Team number,Round number,penaltys,foul count,defended,defeneded against,highest cargo,higest panel,starting location,robot condition,climb level,failed climb");
+							"Team number,Round number,penalties,foul count,defended,defeneded against,highest cargo,highest panel,starting location,robot condition,climb level,failed climb,comments");
 				}
 				writer.newLine();
+				if(TPComments.getText().equals("")) {
+					TPComments.setText("None");
+				}
 				// writes data
-				writer.write(team.getText() + "," + RoundNum.getText() + "," + ComboBoxValue(Penaltys) + "," + fouls
+				writer.write(team.getText() + "," + RoundNum.getText() + "," + ComboBoxValue(Penalties) + "," + fouls
 						+ "," + ComboBoxValue(Defended) + "," + ComboBoxValue(DefendedAgainst) + ","
 						+ ComboBoxValue(ComboBoxCargo) + "," + ComboBoxValue(ComboBoxPanel) + ","
 						+ ComboBoxValue(Location) + ":" + ComboBoxValue(level) + "," + ComboBoxValue(Condition) + ","
-						+ ComboBoxValue(ComboBoxClimb) + "," + ComboBoxValue(failedClimb));
+						+ ComboBoxValue(ComboBoxClimb) + "," + ComboBoxValue(failedClimb)+","+TPComments.getText());
 				writer.close();
 				FW.close();
 				// writer for round text file
-				PrintWriter writer2 = new PrintWriter(
-						f.getAbsolutePath() + sep + "Round " + RoundNum.getText() + ".txt", "UTF-8");
-				// creates key
-
+				PrintWriter writer2 = new PrintWriter(f.getAbsolutePath() + sep + "Round " + RoundNum.getText() + ".txt", "UTF-8");
+				
+				
+				//creates top columns
 				ArrayList myList = new ArrayList();
 				TableModel tableModle = table.getModel();
 				writer2.print("Team number, round number,");
 				for (int x = 0; x < tableModle.getColumnCount(); x++) {
 					// if last column don't add comma
 					if (x < tableModle.getColumnCount() - 1) {
-						writer2.print(tableModle.getColumnName(x) + ",");
+						writer2.print(tableModle.getColumnName(x)+",");
 					} else {
-						writer2.print(tableModle.getColumnName(x) + " ");
+						writer2.print(tableModle.getColumnName(x));
 					}
 				}
 				writer2.println();
@@ -570,21 +621,19 @@ public class Scouting {
 				for (int i = 0; i < tableModle.getRowCount(); i++) {
 					if (tableModle.getValueAt(i, 3) != null) {
 						writer2.print(team.getText() + "," + RoundNum.getText() + ",");
+						//creates columns
 						for (int y = 0; y < tableModle.getColumnCount(); y++) {
 							if (y < tableModle.getColumnCount() - 1) {
-								writer2.print(getCellValue(tableModel, i, y) + ",");
+								writer2.print(getCellValue(tableModel, i, y)+",");
 							} else {
-								writer2.print(getCellValue(tableModel, i, y) + ",");
+								writer2.print(getCellValue(tableModel, i, y));
 							}
 						}
-
-						if (i != tableModle.getRowCount() - 1) {
-							writer2.println("");
-						}
+						writer2.println("");
 					}
 				}
-
 				writer2.close();
+				compileData();
 			} catch (FileNotFoundException | UnsupportedEncodingException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
@@ -606,13 +655,11 @@ public class Scouting {
 
 		public void actionPerformed(ActionEvent e) {
 			try {
-				try {
-					enter();
-				} catch (InterruptedException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
+				enter();
 			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			} catch (InterruptedException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
@@ -621,27 +668,7 @@ public class Scouting {
 	}
 
 	// file chooser
-	private class SwingAction_1 extends AbstractAction {
-		public SwingAction_1() {
-			putValue(NAME, "Choose file location");
-			putValue(SHORT_DESCRIPTION, "Some short description");
-		}
-
-		public void actionPerformed(ActionEvent e) {
-			JFileChooser chooser = new JFileChooser(Desktop);
-			chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-			chooser.showDialog(frame, "Choose folder");
-			String path = chooser.getSelectedFile().getAbsolutePath();
-			Path folder = Paths.get(path + sep + "scouting");
-			try {
-				Files.move(teamFolder.toPath(), folder, StandardCopyOption.REPLACE_EXISTING);
-			} catch (IOException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
-
-		}
-	}
+	
 
 	// reset combo box function cuz i'm lazy
 	void resetComboBox(JComboBox box) {
@@ -699,7 +726,7 @@ public class Scouting {
 			tableModel.removeRow(selectedRow);
 		}
 	}
-
+	//popup menu
 	private static void addPopup(Component component, final JPopupMenu popup) {
 		component.addMouseListener(new MouseAdapter() {
 			public void mousePressed(MouseEvent e) {
@@ -709,7 +736,6 @@ public class Scouting {
 					showMenu(e);
 				}
 			}
-
 			public void mouseReleased(MouseEvent e) {
 				if (e.isPopupTrigger()) {
 					showMenu(e);
@@ -721,7 +747,9 @@ public class Scouting {
 			}
 		});
 	}
-
+	
+	//test
+	//resets the program
 	private class SwingAction_4 extends AbstractAction {
 		public SwingAction_4() {
 			putValue(NAME, "Clear all fields");
@@ -739,7 +767,6 @@ public class Scouting {
 		timerLbl.setText("150");
 		timer = new Timer();
 		timer.scheduleAtFixedRate(new TimerTask() {
-
 			public void run() {
 				if (hasStarted == true) {
 					currentTime = Integer.toString(setInterval());
@@ -750,9 +777,9 @@ public class Scouting {
 					btnStartMatch.setText("Start match");
 					btnStartMatch.setVisible(true);
 					GPL.frame.setVisible(false);
+					
 					btnHatch.setVisible(false);
 					btnCargo.setVisible(false);
-
 				}
 
 			}
@@ -783,7 +810,9 @@ public class Scouting {
 					btnCargo.setVisible(false);
 					btnHatch.setVisible(false);
 					GPL.frame.setVisible(true);
+					
 				}
+				mnStartingGamePiece.setVisible(false);
 				btnStartMatch.setVisible(false);
 			}
 		}
@@ -796,6 +825,7 @@ public class Scouting {
 		}
 
 		public void actionPerformed(ActionEvent e) {
+			
 			piecePickedUp(true);
 		}
 	}
@@ -824,15 +854,15 @@ public class Scouting {
 		resetComboBox(ComboBoxClimb);
 		resetComboBox(Location);
 		resetComboBox(level);
-		resetComboBox(Penaltys);
+		resetComboBox(Penalties);
 		resetComboBox(DefendedAgainst);
 		resetComboBox(Defended);
 		resetComboBox(failedClimb);
 		resetComboBox(Condition);
-
 		fouls = 0;
 		btnEnter.setBackground(new Color(100, 100, 100));
 		team.setText("");
+		mnStartingGamePiece.setVisible(true);
 		RoundNum.setText("");
 		// clears tables
 		for (int x = 0; x < tableModel.getRowCount(); x++) {
@@ -841,6 +871,7 @@ public class Scouting {
 			}
 		}
 		GPL.frame.setVisible(false);
+		TPComments.setText("");
 		btnHatch.setVisible(false);
 		HighestCargo=0;
 		HighestHatch=0;
@@ -887,46 +918,44 @@ public class Scouting {
 	}
 
 	// smooshes all the text files together
-	private class SwingAction_8 extends AbstractAction {
-		public SwingAction_8() {
-			putValue(NAME, "Compile data");
-			putValue(SHORT_DESCRIPTION, "Some short description");
-		}
+	void compileData(){
+		try {
+			// writes file
+			BufferedWriter writer = new BufferedWriter(
+					new FileWriter(teamFolder.getAbsolutePath() + sep + "data for spreadsheet.txt"));
+			// writers header
+			for (int x = 0; x < tableModel.getColumnCount(); x++) {
+				// if last column don't add comma
+				if (x < tableModel.getColumnCount() - 1) {
+					writer.write(tableModel.getColumnName(x) + ",");
+				} else {
+					writer.write(tableModel.getColumnName(x) + " ");
+				}
+			}
+			writer.newLine();
 
-		public void actionPerformed(ActionEvent e) {
-
-			try {
-				// writes file
-				BufferedWriter writer = new BufferedWriter(
-						new FileWriter(teamFolder.getAbsolutePath() + sep + "data for spreadsheet.txt"));
-				// writers header
-				writer.write("Team number,highest cargo,higest panel,starting location,robot condition,climb level");
-				writer.newLine();
-
-				for (int x = 0; x < teamFolder.listFiles().length; x++) {
-					// gets the current folder
-					File currentFolder = teamFolder.listFiles()[x];
-					if (currentFolder.isDirectory()) {
-						// loops through text files in current folder
-						for (int i = 0; i < currentFolder.listFiles().length; i++) {
-							BufferedReader r = new BufferedReader(new FileReader(currentFolder.listFiles()[i]));
-							// does not print the header
-							String throwAway = r.readLine();
-							String st;
-							// prints everything in the text file
-							while ((st = r.readLine()) != null) {
-								writer.write(st);
-
-								writer.newLine();
-							}
+			for (int x = 0; x < teamFolder.listFiles().length; x++) {
+				// gets the current folder
+				File currentFolder = teamFolder.listFiles()[x];
+				if (currentFolder.isDirectory()) {
+					// loops through text files in current folder
+					for (int i = 0; i < currentFolder.listFiles().length; i++) {
+						BufferedReader r = new BufferedReader(new FileReader(currentFolder.listFiles()[i]));
+						// does not print the header
+						String throwAway = r.readLine();
+						String st;
+						// prints everything in the text file
+						while ((st = r.readLine()) != null) {
+							writer.write(st);
+							writer.newLine();
 						}
 					}
 				}
-				writer.close();
-			} catch (IOException e2) {
-				// TODO Auto-generated catch block
-				e2.printStackTrace();
 			}
+			writer.close();
+		} catch (IOException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
 		}
 	}
 }

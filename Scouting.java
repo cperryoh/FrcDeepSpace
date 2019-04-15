@@ -589,9 +589,9 @@ public class Scouting {
 				for (int x = 0; x < tableModle.getColumnCount(); x++) {
 					// if last column don't add comma
 					if (x < tableModle.getColumnCount() - 1) {
-						writer2.print(tableModle.getColumnName(x) + ",");
+						writer2.print(tableModle.getColumnName(x)+",");
 					} else {
-						writer2.print(tableModle.getColumnName(x) + " ");
+						writer2.print(tableModle.getColumnName(x));
 					}
 				}
 				writer2.println();
@@ -599,11 +599,10 @@ public class Scouting {
 				for (int i = 0; i < tableModle.getRowCount(); i++) {
 					if (tableModle.getValueAt(i, 3) != null) {
 						writer2.print(team.getText() + "," + RoundNum.getText() + ",");
-						
 						//creates columns
 						for (int y = 0; y < tableModle.getColumnCount(); y++) {
 							if (y < tableModle.getColumnCount() - 1) {
-
+								writer2.print(getCellValue(tableModel, i, y)+",");
 							} else {
 								writer2.print(getCellValue(tableModel, i, y));
 							}

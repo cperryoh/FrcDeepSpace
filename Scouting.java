@@ -570,6 +570,9 @@ public class Scouting {
 							"Team number,Round number,penalties,foul count,defended,defeneded against,highest cargo,highest panel,starting location,robot condition,climb level,failed climb,comments");
 				}
 				writer.newLine();
+				if(TPComments.getText().equals("")) {
+					TPComments.setText("None");
+				}
 				// writes data
 				writer.write(team.getText() + "," + RoundNum.getText() + "," + ComboBoxValue(Penalties) + "," + fouls
 						+ "," + ComboBoxValue(Defended) + "," + ComboBoxValue(DefendedAgainst) + ","
@@ -803,6 +806,7 @@ public class Scouting {
 		}
 
 		public void actionPerformed(ActionEvent e) {
+			
 			piecePickedUp(true);
 		}
 	}
@@ -924,7 +928,6 @@ public class Scouting {
 						// prints everything in the text file
 						while ((st = r.readLine()) != null) {
 							writer.write(st);
-
 							writer.newLine();
 						}
 					}

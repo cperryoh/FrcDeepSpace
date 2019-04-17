@@ -68,6 +68,7 @@ import javax.swing.border.CompoundBorder;
 import javax.swing.border.LineBorder;
 import javax.swing.border.SoftBevelBorder;
 import javax.swing.plaf.FontUIResource;
+import javax.swing.plaf.basic.BasicInternalFrameTitlePane.SystemMenuBar;
 import javax.swing.border.BevelBorder;
 import javax.swing.SpringLayout;
 import java.awt.GridBagConstraints;
@@ -77,6 +78,7 @@ import java.awt.Rectangle;
 import net.miginfocom.swing.MigLayout;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import javax.swing.JTextArea;
 
 public class Scouting {
 
@@ -99,7 +101,6 @@ public class Scouting {
 	JLabel lblHighestRocketLevel = new JLabel("Highest rocket level:");
 	JLabel lblPenaltiesRecived = new JLabel("Penalties received:");
 	JComboBox ComboBoxClimb = new JComboBox();
-	JTextPane TPComments = new JTextPane();
 	String sep = File.separator;
 	JButton btnReset = new JButton("Reset");
 	JMenu mnStartingGamePiece = new JMenu("Starting game piece");
@@ -157,6 +158,7 @@ public class Scouting {
 	private final Action action_6 = new SwingAction_5();
 	private final Action action_7 = new SwingAction_6();
 	private final Action action_8 = new SwingAction_7();
+	private final JTextArea TPComments = new JTextArea();
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -190,11 +192,11 @@ public class Scouting {
 		timerLbl.setHorizontalAlignment(SwingConstants.CENTER);
 		
 		
-		frame.getContentPane().add(timerLbl, "cell 2 7 1 3,grow");
+		frame.getContentPane().add(timerLbl, "cell 2 5 1 2,grow");
 		
 		
 		
-		frame.getContentPane().add(btnReset, "cell 2 11,grow");
+		frame.getContentPane().add(btnReset, "cell 2 8,grow");
 		frame.addComponentListener(new a());
 		btnReset.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -204,7 +206,7 @@ public class Scouting {
 		});
 
 		
-		frame.getContentPane().add(scrollPane, "cell 0 12 13 1,grow");
+		frame.getContentPane().add(scrollPane, "cell 0 9 13 1,grow");
 		
 
 		scrollPane.setBorder(null);
@@ -285,13 +287,11 @@ public class Scouting {
 		mntmNewMenuItem_2.setAction(action_4);
 
 		btnStartMatch.setAction(action_6);
-
-		TPComments.setBorder(new SoftBevelBorder(BevelBorder.RAISED, null, null, null, null));
 		btnEnter.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 			}
 		});
-		frame.getContentPane().add(btnEnter, "cell 9 13,grow");
+		frame.getContentPane().add(btnEnter, "cell 8 10,grow");
 
 		btnAddFoul.addMouseListener(new MouseAdapter() {
 			@Override
@@ -348,20 +348,18 @@ public class Scouting {
 		frame = new JFrame();
 		
 		
-		frame.setBounds(100, 100, 1380, 601);
+		frame.setBounds(100, 100, 1417, 601);
 		oldAvg = (frame.getWidth() +frame.getHeight()) / 2;
 		ratio=frame.getWidth()/frame.getHeight();
 		
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.getContentPane().setLayout(new MigLayout("", "[152px,grow][5px][111px,grow][5px][119px,grow][5px][72px,grow][5px][111px,grow][grow][grow][152px,grow][452px,grow]", "[16px,grow][23px,grow][grow][5px][25px,grow][5px][27px,grow][27px,grow][5px][74px,grow][5px][25px,grow][134px,grow][35px,grow]"));
-
-		frame.getContentPane().add(lblCommentsno, "cell 12 0,grow");
-
-		frame.getContentPane().add(lblTeam, "cell 6 2,grow");
-
-		lblTeam.setHorizontalAlignment(SwingConstants.TRAILING);
+		frame.getContentPane().setLayout(new MigLayout("", "[152px][5px][111px][5px][119px][5px][72px][111px][][][152px][grow][452px,grow]", "[16px,grow][23px][][25px][27px][27px][74px][5px][25px][134px,grow][35px,grow]"));
+		
+				frame.getContentPane().add(lblTeam, "cell 8 1,grow");
+				
+						lblTeam.setHorizontalAlignment(SwingConstants.TRAILING);
 		team = new JTextField();
-		frame.getContentPane().add(team, "cell 8 2 3 1,grow");
+		frame.getContentPane().add(team, "cell 9 1,grow");
 		
 		// easter egg key listener =)
 		team.addKeyListener(new KeyAdapter() {
@@ -384,13 +382,15 @@ public class Scouting {
 			}
 		});
 		team.setColumns(10);
-		frame.getContentPane().add(btnAddFoul, "cell 2 4,grow");
 
-		frame.getContentPane().add(lblRound, "cell 6 4,grow");
-
-		lblRound.setHorizontalAlignment(SwingConstants.TRAILING);
+		frame.getContentPane().add(lblCommentsno, "cell 10 1,grow");
+		frame.getContentPane().add(btnAddFoul, "cell 2 3,grow");
+		
+				frame.getContentPane().add(lblRound, "cell 8 3,grow");
+				
+						lblRound.setHorizontalAlignment(SwingConstants.TRAILING);
 		RoundNum = new JTextField();
-		frame.getContentPane().add(RoundNum, "cell 8 4 3 1,grow");
+		frame.getContentPane().add(RoundNum, "cell 9 3,grow");
 
 		// key listener for enabling/disabling the finish button
 		RoundNum.addKeyListener(new KeyAdapter() {
@@ -407,18 +407,20 @@ public class Scouting {
 			}
 		});
 		RoundNum.setColumns(10);
-		frame.getContentPane().add(btnStartMatch, "cell 2 6,grow");
-		frame.getContentPane().add(TPComments, "cell 12 1 1 5,grow");
-		frame.getContentPane().add(btnHatch, "cell 0 7,grow");
-		frame.getContentPane().add(btnCargo, "cell 4 7,grow");
-		frame.getContentPane().add(CargoOrPanel, "cell 6 6 6 6,grow");
+		
+		frame.getContentPane().add(TPComments, "cell 10 2 1 2,grow");
+		TPComments.setLineWrap(true);
+		frame.getContentPane().add(btnStartMatch, "cell 2 4,grow");
+		frame.getContentPane().add(btnHatch, "cell 0 5,grow");
+		frame.getContentPane().add(btnCargo, "cell 4 5,grow");
+		frame.getContentPane().add(CargoOrPanel, "cell 6 4 5 5,grow");
 
 		JPanel Cargo = new JPanel();
 		CargoOrPanel.addTab("Cargo", null, Cargo, null);
 		GridBagLayout gbl_Cargo = new GridBagLayout();
 		gbl_Cargo.columnWidths = new int[] { 86, 204, 0, 86, 0 };
 		gbl_Cargo.rowHeights = new int[] { 36, 26, 0 };
-		gbl_Cargo.columnWeights = new double[] { 1.0, 1.0, 1.0, 1.0, Double.MIN_VALUE };
+		gbl_Cargo.columnWeights = new double[] { 1.0, 1.0, 0.0, 1.0, Double.MIN_VALUE };
 		gbl_Cargo.rowWeights = new double[] { 0.0, 1.0, Double.MIN_VALUE };
 		Cargo.setLayout(gbl_Cargo);
 
@@ -443,9 +445,9 @@ public class Scouting {
 		GridBagLayout gbl_panel_4 = new GridBagLayout();
 		gbl_panel_4.columnWidths = new int[] { 94, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 		gbl_panel_4.rowHeights = new int[] { 14, 20, 0, 0, 0, 0 };
-		gbl_panel_4.columnWeights = new double[] { 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0,
+		gbl_panel_4.columnWeights = new double[] { 1.0, 1.0, 1.0, 0.0, 1.0, 1.0, 1.0, 0.0, 1.0, 1.0, 1.0, 1.0, 1.0,
 				Double.MIN_VALUE };
-		gbl_panel_4.rowWeights = new double[] { 0.0, 0.0, 0.0, 1.0, 1.0, Double.MIN_VALUE };
+		gbl_panel_4.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE };
 		panel_4.setLayout(gbl_panel_4);
 		frame.setResizable(true);
 		GridBagConstraints gbc_lblDefendedAgainst = new GridBagConstraints();
@@ -599,7 +601,6 @@ public class Scouting {
 		gbc_ComboBoxPanel.gridx = 2;
 		gbc_ComboBoxPanel.gridy = 1;
 		panel_1.add(ComboBoxPanel, gbc_ComboBoxPanel);
-
 		ComboBoxPanel.setModel(new DefaultComboBoxModel(new String[] { "N/A", "One", "Two", "Three" }));
 
 		JPanel panel_2 = new JPanel();
@@ -635,8 +636,7 @@ public class Scouting {
 		gbc_Condition.gridy = 3;
 		panel_2.add(Condition, gbc_Condition);
 
-		Condition
-				.setModel(new DefaultComboBoxModel(new String[] { "working", "not working at all", "broken feature" }));
+		Condition.setModel(new DefaultComboBoxModel(new String[] { "working", "not working at all", "broken feature" }));
 
 		btnEnter.setForeground(Color.BLACK);
 		btnEnter.setAction(action);
@@ -661,9 +661,10 @@ public class Scouting {
 			int newAvg = (frame.getWidth() + frame.getHeight()) / 2;
 			f = new Font("Tahoma", Font.BOLD, (13 * newAvg) / oldAvg);
 			setFonts();
-			//frame.setSize( frame.getWidth(), frame.getWidth()/ratio);
-			table.setRowHeight(table.getWidth()/(1380/16));
-			GPL.frame.setSize((frame.getWidth()/1380)*456, (frame.getHeight()/690)*304);
+			System.out.println(frame.getSize().toString());
+			GPL.frame.setSize((int)(((double)frame.getWidth()/1380.0)*456.0), (int)(((double)frame.getHeight()/601.0)*304.0));
+			frame.setSize( frame.getWidth(), frame.getWidth()/ratio);
+			table.setRowHeight((int)((double)table.getWidth()/(1380.0/16.0)));
 		}
 	}
 	void enter() throws IOException, InterruptedException {
@@ -793,7 +794,7 @@ public class Scouting {
 		mntmHatch.setFont(f);
 		mntmCargo.setFont(f);
 		mnStartingGamePiece.setFont(f);
-		table.setFont(medFont);
+		table.setFont(f);
 		RoundNum.setFont(medFont);
 		lblRound.setFont(medFont);
 		team.setFont(medFont);

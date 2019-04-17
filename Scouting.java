@@ -447,7 +447,7 @@ public class Scouting {
 				Double.MIN_VALUE };
 		gbl_panel_4.rowWeights = new double[] { 0.0, 0.0, 0.0, 1.0, 1.0, Double.MIN_VALUE };
 		panel_4.setLayout(gbl_panel_4);
-
+		frame.setResizable(true);
 		GridBagConstraints gbc_lblDefendedAgainst = new GridBagConstraints();
 		gbc_lblDefendedAgainst.fill = GridBagConstraints.BOTH;
 		gbc_lblDefendedAgainst.insets = new Insets(0, 0, 5, 5);
@@ -661,7 +661,7 @@ public class Scouting {
 			int newAvg = (frame.getWidth() + frame.getHeight()) / 2;
 			f = new Font("Tahoma", Font.BOLD, (13 * newAvg) / oldAvg);
 			setFonts();
-			frame.setSize( frame.getWidth(), frame.getWidth()/ratio);
+			//frame.setSize( frame.getWidth(), frame.getWidth()/ratio);
 			table.setRowHeight(table.getWidth()/(1380/16));
 			GPL.frame.setSize((frame.getWidth()/1380)*456, (frame.getHeight()/690)*304);
 		}
@@ -775,6 +775,7 @@ public class Scouting {
 		TPComments.setFont(f);
 		btnEnter.setFont(f);
 		Condition.setFont(f);
+		
 		DefendedAgainst.setFont(f);
 		failedClimb.setFont(f);
 		lblFaildedClimb.setFont(f);
@@ -794,10 +795,10 @@ public class Scouting {
 		mnStartingGamePiece.setFont(f);
 		table.setFont(medFont);
 		RoundNum.setFont(medFont);
-		timerLbl.setFont(new Font("Tahoma", Font.BOLD, f.getSize() * (46 / 13)));
 		lblRound.setFont(medFont);
 		team.setFont(medFont);
 		lblTeam.setFont(medFont);
+		timerLbl.setFont(new Font("Tahoma", Font.BOLD, (46/13)*f.getSize()));
 		lblCommentsno.setFont(f);
 		lblPenaltiesRecived.setFont(f);
 		lblHighestRocketLevel.setFont(f);

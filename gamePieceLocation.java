@@ -18,11 +18,17 @@ import javax.swing.JLabel;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.Font;
+import net.miginfocom.swing.MigLayout;
 
 public class gamePieceLocation {
 
-	JFrame frame;
+	JFrame frame;	
+	JButton droppedR3 = new JButton("Dropped r3");
+	JButton droppedR2 = new JButton("Dropped r2");
+	JButton droppedr1 = new JButton("Dropped r1");
+	JButton droppedCs = new JButton("Dropped cs");
 	Scouting main = null;
+	int heightRatio,widthRatio;
 	public gamePieceLocation(Scouting s) throws IOException {
 		initialize();
 		frame.setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
@@ -32,58 +38,52 @@ public class gamePieceLocation {
 
 		frame = new JFrame();
 
-		frame.setResizable(false);
+		frame.setResizable(true);
 		frame.setBounds(100, 100, 456, 304);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.getContentPane().setLayout(null);
 
-		JButton droppedCs = new JButton("Dropped cs");
-		droppedCs.setFont(new Font("Tahoma", Font.BOLD, 13));
+		
+		
+		
 		droppedCs.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				dropped("cs");
 			}
 		});
-		droppedCs.setBounds(10, 214, 114, 29);
-		frame.getContentPane().add(droppedCs);
+		frame.getContentPane().setLayout(new MigLayout("", "[114px,grow][31px,grow][114px,grow][169px,grow]", "[112px,grow][11px][29px,grow][11px][29px,grow][11px][29px,grow]"));
+		frame.getContentPane().add(droppedCs, "cell 0 6,grow");
 
-		JButton 
-		droppedr1 = new JButton("Dropped r1");
-		droppedr1.setFont(new Font("Tahoma", Font.BOLD, 13));
-		droppedr1.setBounds(155, 214, 114, 29);
+		
+		
 		droppedr1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				dropped("r1");
 			}
 		});
-		frame.getContentPane().add(droppedr1);
+		frame.getContentPane().add(droppedr1, "cell 2 6,grow");
 
-		JButton droppedR2 = new JButton("Dropped r2");
-		droppedR2.setFont(new Font("Tahoma", Font.BOLD, 13));
+		
+		
 		droppedR2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				dropped("r2");
 			}
 		});
-		droppedR2.setBounds(155, 174, 114, 29);
-		frame.getContentPane().add(droppedR2);
+		frame.getContentPane().add(droppedR2, "cell 2 4,grow");
 
-		JButton droppedR3 = new JButton("Dropped r3");
-		droppedR3.setFont(new Font("Tahoma", Font.BOLD, 13));
-		droppedR3.setBounds(155, 134, 114, 29);
+		
+		
 		droppedR3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				dropped("r3");
 			}
 		});
-		frame.getContentPane().add(droppedR3);
+		frame.getContentPane().add(droppedR3, "cell 2 2,grow");
 
 		ImageIcon icn = new ImageIcon(getClass().getClassLoader().getResource("rocket.PNG"));
 		BufferedImage ref = ImageIO.read(getClass().getClassLoader().getResource("rocketRef.png"));
 		JLabel Rocket = new JLabel(icn);
-		Rocket.setSize(icn.getIconWidth(), icn.getIconHeight());
-		Rocket.setBounds(271, 24, 169, 203);
-		frame.getContentPane().add(Rocket);
+		frame.getContentPane().add(Rocket, "cell 3 0 1 7,growx,aligny center");
 		Rocket.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent arg0) {
@@ -102,7 +102,6 @@ public class gamePieceLocation {
 
 		ImageIcon icon = new ImageIcon(getClass().getClassLoader().getResource("cargoShip.PNG"));
 		JLabel CargoShip = new JLabel(icon);
-		CargoShip.setSize(icon.getIconWidth(), icon.getIconHeight());
 
 		CargoShip.addMouseListener(new MouseAdapter() {
 			@Override
@@ -111,9 +110,7 @@ public class gamePieceLocation {
 				done();
 			}
 		});
-		CargoShip.setBounds(21, 11, 248, 112);
-		frame.getContentPane().add(CargoShip);
-
+		frame.getContentPane().add(CargoShip, "cell 0 0 3 1,grow");
 	}
 	void rocket(String levelString){
 		int level = Character.getNumericValue(levelString.charAt(1));

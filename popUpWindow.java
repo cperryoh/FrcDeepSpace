@@ -28,7 +28,7 @@ public class popUpWindow {
 	JButton btnEnter = new JButton("New button");
 	int ratio;
 	private final Action action = new SwingAction();
-	final JTextArea messageBox = new JTextArea();
+	final JTextPane messageBox = new JTextPane();
 
 	/**
 	 * Launch the application.
@@ -77,6 +77,7 @@ public class popUpWindow {
 			public void actionPerformed(ActionEvent arg0) {
 			}
 		});
+		messageBox.setEditable(false);
 		
 		frame.getContentPane().add(messageBox, "cell 0 0,grow");
 		

@@ -85,6 +85,7 @@ public class Scouting {
 	JButton btnAddFoul = new JButton("Add foul");
 	int ratio;
 	private JTextField team;
+	int oldRowHeight;
 	JLabel lblDefended = new JLabel("Defended");
 	JMenuItem mntmCargo = new JMenuItem("Cargo");
 	JMenuItem mntmHatch = new JMenuItem("Hatch");
@@ -187,8 +188,9 @@ public class Scouting {
 		int height = (int) screenSize.getHeight();
 		frame.setLocation((width / 2) - (frame.getWidth() / 2), (height / 2) - (frame.getHeight() / 2));
 		timerLbl.setHorizontalAlignment(SwingConstants.CENTER);
-		timerLbl.setFont(new Font("Tahoma", Font.BOLD, f.getSize() * (46 / 13)));
-		frame.getContentPane().add(timerLbl, "cell 2 9,grow");
+		
+		
+		frame.getContentPane().add(timerLbl, "cell 2 7 1 3,grow");
 		
 		
 		
@@ -202,7 +204,7 @@ public class Scouting {
 		});
 
 		
-		frame.getContentPane().add(scrollPane, "cell 0 12 12 1,grow");
+		frame.getContentPane().add(scrollPane, "cell 0 12 13 1,grow");
 		
 
 		scrollPane.setBorder(null);
@@ -213,7 +215,6 @@ public class Scouting {
 			public void mouseClicked(MouseEvent e) {
 				if (e.getButton() == MouseEvent.BUTTON2) {
 					selectedRow = table.rowAtPoint(e.getPoint());
-					System.out.print(selectedRow);
 				}
 			}
 		});
@@ -286,11 +287,16 @@ public class Scouting {
 		btnStartMatch.setAction(action_6);
 
 		TPComments.setBorder(new SoftBevelBorder(BevelBorder.RAISED, null, null, null, null));
+		btnEnter.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+			}
+		});
 		frame.getContentPane().add(btnEnter, "cell 9 13,grow");
 
 		btnAddFoul.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent e) {
+				
 				
 				
 				msg.display(frame, "", "Foul added", "Ok");
@@ -331,7 +337,6 @@ public class Scouting {
 		mntmNewMenuItem_3.setAction(action_5);
 		popupMenu.add(mntmNewMenuItem_3);
 		originalSize=frame.getSize();
-		
 	}
 
 	/**
@@ -346,21 +351,18 @@ public class Scouting {
 		frame.setBounds(100, 100, 1380, 601);
 		oldAvg = (frame.getWidth() +frame.getHeight()) / 2;
 		ratio=frame.getWidth()/frame.getHeight();
-		System.out.println(ratio+" ratio "+frame.getWidth()+" "+frame.getHeight());
 		
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.getContentPane().setLayout(new MigLayout("",
-				"[152px,grow][5px][111px,grow][5px][119px,grow][5px][72px,grow][5px][111px,grow][grow][152px,grow][452px,grow]",
-				"[16px,grow][23px,grow][grow][5px][25px,grow][5px][27px,grow][27px,grow][5px][74px,grow][5px][25px,grow][134px,grow][35px,grow]"));
+		frame.getContentPane().setLayout(new MigLayout("", "[152px,grow][5px][111px,grow][5px][119px,grow][5px][72px,grow][5px][111px,grow][grow][grow][152px,grow][452px,grow]", "[16px,grow][23px,grow][grow][5px][25px,grow][5px][27px,grow][27px,grow][5px][74px,grow][5px][25px,grow][134px,grow][35px,grow]"));
 
-		frame.getContentPane().add(lblCommentsno, "cell 11 0,grow");
+		frame.getContentPane().add(lblCommentsno, "cell 12 0,grow");
 
 		frame.getContentPane().add(lblTeam, "cell 6 2,grow");
 
 		lblTeam.setHorizontalAlignment(SwingConstants.TRAILING);
 		team = new JTextField();
-		frame.getContentPane().add(team, "cell 8 2 2 1,grow");
-
+		frame.getContentPane().add(team, "cell 8 2 3 1,grow");
+		
 		// easter egg key listener =)
 		team.addKeyListener(new KeyAdapter() {
 			@Override
@@ -378,6 +380,7 @@ public class Scouting {
 				if (team.getText().equals("3003") || team.getText().equals("120")) {
 					msg.display(frame, "Tell them I say hi", "Hey my team had analiance with them!!", "HIIIII");
 				}
+				
 			}
 		});
 		team.setColumns(10);
@@ -387,7 +390,7 @@ public class Scouting {
 
 		lblRound.setHorizontalAlignment(SwingConstants.TRAILING);
 		RoundNum = new JTextField();
-		frame.getContentPane().add(RoundNum, "cell 8 4 2 1,grow");
+		frame.getContentPane().add(RoundNum, "cell 8 4 3 1,grow");
 
 		// key listener for enabling/disabling the finish button
 		RoundNum.addKeyListener(new KeyAdapter() {
@@ -405,10 +408,10 @@ public class Scouting {
 		});
 		RoundNum.setColumns(10);
 		frame.getContentPane().add(btnStartMatch, "cell 2 6,grow");
-		frame.getContentPane().add(TPComments, "cell 11 1 1 5,grow");
+		frame.getContentPane().add(TPComments, "cell 12 1 1 5,grow");
 		frame.getContentPane().add(btnHatch, "cell 0 7,grow");
 		frame.getContentPane().add(btnCargo, "cell 4 7,grow");
-		frame.getContentPane().add(CargoOrPanel, "cell 6 6 5 6,grow");
+		frame.getContentPane().add(CargoOrPanel, "cell 6 6 6 6,grow");
 
 		JPanel Cargo = new JPanel();
 		CargoOrPanel.addTab("Cargo", null, Cargo, null);
@@ -560,7 +563,7 @@ public class Scouting {
 		gbc_failedClimb.gridx = 7;
 		gbc_failedClimb.gridy = 2;
 		panel.add(failedClimb, gbc_failedClimb);
-
+		msg.getFrame().setSize((frame.getWidth()/1380)*574, (frame.getHeight()/690)*191);
 		failedClimb.setModel(new DefaultComboBoxModel(new String[] { "N/A", "One", "Two", "Three" }));
 
 		JPanel panel_5 = new JPanel();
@@ -659,9 +662,7 @@ public class Scouting {
 			f = new Font("Tahoma", Font.BOLD, (13 * newAvg) / oldAvg);
 			setFonts();
 			frame.setSize( frame.getWidth(), frame.getWidth()/ratio);
-			System.out.println(frame.getSize().toString());
-			System.out.println(GPL.frame.getSize().toString());
-			msg.getFrame().setSize((frame.getWidth()/1380)*574, (frame.getHeight()/690)*191);
+			table.setRowHeight(table.getWidth()/(1380/16));
 			GPL.frame.setSize((frame.getWidth()/1380)*456, (frame.getHeight()/690)*304);
 		}
 	}
@@ -754,7 +755,6 @@ public class Scouting {
 
 	void setFonts() {
 		Font medFont = new Font("Tahoma", Font.BOLD, (int) ((double)13*1.5));
-		System.out.println(f.getSize());
 		msg.messageBox.setFont(f);
 		ComboBoxPanel.setFont(f);
 		
@@ -781,21 +781,21 @@ public class Scouting {
 		CargoOrPanel.setFont(f);
 		lblDefended.setFont(f);
 		lblDefendedAgainst.setFont(f);
-		lblLevel.setFont(f);
+		lblLevel.setFont(medFont);
 		ComboBoxClimb.setFont(f);
 		lblEndGameClimb.setFont(f);
 		ComboBoxCargo.setFont(f);
 		Penalties.setFont(f);
 		lblRocketLevel.setFont(f);
 		Location.setFont(f);
-		lblPosition.setFont(f);
+		lblPosition.setFont(medFont);
 		mntmHatch.setFont(f);
 		mntmCargo.setFont(f);
 		mnStartingGamePiece.setFont(f);
+		table.setFont(medFont);
 		RoundNum.setFont(medFont);
-		
+		timerLbl.setFont(new Font("Tahoma", Font.BOLD, f.getSize() * (46 / 13)));
 		lblRound.setFont(medFont);
-		
 		team.setFont(medFont);
 		lblTeam.setFont(medFont);
 		lblCommentsno.setFont(f);

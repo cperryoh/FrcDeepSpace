@@ -352,7 +352,7 @@ public class Scouting {
 		ratio=frame.getWidth()/frame.getHeight();
 		
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.getContentPane().setLayout(new MigLayout("", "[152px][111px][119px][72px][111px][][grow][152px][grow][452px,grow]", "[][16px,grow][23px][][25px][27px][27px][74px][25px][134px,grow][35px]"));
+		frame.getContentPane().setLayout(new MigLayout("", "[152px][111px][119px][72px][111px][][grow][152px][grow][452px,grow]", "[][16px][23px][][25px][27px][27px][74px][25px][134px,grow][35px]"));
 				
 						frame.getContentPane().add(lblCommentsno, "cell 5 0,grow");
 				TPComments.setBorder(new LineBorder(new Color(0, 0, 0), 3, true));
@@ -490,42 +490,42 @@ public class Scouting {
 				Double.MIN_VALUE };
 		gbl_panel_3.rowWeights = new double[] { 0.0, 0.0, 0.0, 1.0, 0.0, 1.0, Double.MIN_VALUE };
 		panel_3.setLayout(gbl_panel_3);
-
 		
-
-		lblPosition.setHorizontalAlignment(SwingConstants.CENTER);
-		GridBagConstraints gbc_lblPosition = new GridBagConstraints();
-		gbc_lblPosition.anchor = GridBagConstraints.NORTH;
-		gbc_lblPosition.fill = GridBagConstraints.HORIZONTAL;
-		gbc_lblPosition.insets = new Insets(0, 0, 5, 5);
-		gbc_lblPosition.gridx = 6;
-		gbc_lblPosition.gridy = 3;
-		panel_3.add(lblPosition, gbc_lblPosition);
-
-		lblLevel.setHorizontalAlignment(SwingConstants.CENTER);
-		GridBagConstraints gbc_lblLevel = new GridBagConstraints();
-		gbc_lblLevel.insets = new Insets(0, 0, 5, 5);
-		gbc_lblLevel.anchor = GridBagConstraints.NORTH;
-		gbc_lblLevel.fill = GridBagConstraints.HORIZONTAL;
-		gbc_lblLevel.gridx = 9;
-		gbc_lblLevel.gridy = 3;
-		panel_3.add(lblLevel, gbc_lblLevel);
+				
+		
+				lblPosition.setHorizontalAlignment(SwingConstants.CENTER);
+				GridBagConstraints gbc_lblPosition = new GridBagConstraints();
+				gbc_lblPosition.anchor = GridBagConstraints.NORTH;
+				gbc_lblPosition.fill = GridBagConstraints.HORIZONTAL;
+				gbc_lblPosition.insets = new Insets(0, 0, 5, 5);
+				gbc_lblPosition.gridx = 6;
+				gbc_lblPosition.gridy = 1;
+				panel_3.add(lblPosition, gbc_lblPosition);
+		
+				lblLevel.setHorizontalAlignment(SwingConstants.CENTER);
+				GridBagConstraints gbc_lblLevel = new GridBagConstraints();
+				gbc_lblLevel.insets = new Insets(0, 0, 5, 5);
+				gbc_lblLevel.anchor = GridBagConstraints.NORTH;
+				gbc_lblLevel.fill = GridBagConstraints.HORIZONTAL;
+				gbc_lblLevel.gridx = 9;
+				gbc_lblLevel.gridy = 1;
+				panel_3.add(lblLevel, gbc_lblLevel);
 		GridBagConstraints gbc_Location = new GridBagConstraints();
 		gbc_Location.fill = GridBagConstraints.HORIZONTAL;
 		gbc_Location.insets = new Insets(0, 0, 5, 5);
 		gbc_Location.gridx = 6;
-		gbc_Location.gridy = 4;
+		gbc_Location.gridy = 3;
 		panel_3.add(Location, gbc_Location);
-
-		Location.setModel(new DefaultComboBoxModel(new String[] { "Left", "middle", "right" }));
+		
+				Location.setModel(new DefaultComboBoxModel(new String[] { "Left", "middle", "right" }));
 		GridBagConstraints gbc_level = new GridBagConstraints();
 		gbc_level.insets = new Insets(0, 0, 5, 5);
 		gbc_level.fill = GridBagConstraints.HORIZONTAL;
 		gbc_level.gridx = 9;
-		gbc_level.gridy = 4;
+		gbc_level.gridy = 3;
 		panel_3.add(level, gbc_level);
-
-		level.setModel(new DefaultComboBoxModel(new String[] { "One", "two" }));
+		
+				level.setModel(new DefaultComboBoxModel(new String[] { "One", "two" }));
 
 		JPanel panel = new JPanel();
 		CargoOrPanel.addTab("End game location", null, panel, null);

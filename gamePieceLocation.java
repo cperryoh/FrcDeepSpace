@@ -31,7 +31,7 @@ public class gamePieceLocation {
 	int heightRatio,widthRatio;
 	public gamePieceLocation(Scouting s) throws IOException {
 		initialize();
-		frame.setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
+		frame.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
 		main = s;
 	}
 	private void initialize() throws IOException {
@@ -40,7 +40,6 @@ public class gamePieceLocation {
 
 		frame.setResizable(true);
 		frame.setBounds(100, 100, 456, 304);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		
 		

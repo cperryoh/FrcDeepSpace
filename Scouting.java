@@ -192,11 +192,11 @@ public class Scouting {
 		timerLbl.setHorizontalAlignment(SwingConstants.CENTER);
 		
 		
-		frame.getContentPane().add(timerLbl, "cell 2 5 1 2,grow");
+		frame.getContentPane().add(timerLbl, "cell 2 6 1 2,grow");
 		
 		
 		
-		frame.getContentPane().add(btnReset, "cell 2 8,grow");
+		frame.getContentPane().add(btnReset, "cell 2 9,grow");
 		frame.addComponentListener(new a());
 		btnReset.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -206,7 +206,7 @@ public class Scouting {
 		});
 
 		
-		frame.getContentPane().add(scrollPane, "cell 0 9 13 1,grow");
+		frame.getContentPane().add(scrollPane, "cell 0 10 13 1,grow");
 		
 
 		scrollPane.setBorder(null);
@@ -291,7 +291,7 @@ public class Scouting {
 			public void actionPerformed(ActionEvent arg0) {
 			}
 		});
-		frame.getContentPane().add(btnEnter, "cell 8 10,grow");
+		frame.getContentPane().add(btnEnter, "cell 8 11,grow");
 
 		btnAddFoul.addMouseListener(new MouseAdapter() {
 			@Override
@@ -353,13 +353,20 @@ public class Scouting {
 		ratio=frame.getWidth()/frame.getHeight();
 		
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.getContentPane().setLayout(new MigLayout("", "[152px][5px][111px][5px][119px][5px][72px][111px][][][152px][grow][452px,grow]", "[16px,grow][23px][][25px][27px][27px][74px][5px][25px][134px,grow][35px,grow]"));
+		frame.getContentPane().setLayout(new MigLayout("", "[152px][5px][111px][5px][119px][5px][72px][111px][][grow][152px][grow][452px,grow]", "[][16px,grow][23px][][25px][27px][27px][74px][5px][25px][134px,grow][35px]"));
+				
+						frame.getContentPane().add(lblCommentsno, "cell 8 0,grow");
+				TPComments.setBorder(new LineBorder(new Color(0, 0, 0), 3, true));
+				TPComments.setBackground(Color.LIGHT_GRAY);
+				
+				frame.getContentPane().add(TPComments, "cell 8 1,grow");
+				TPComments.setLineWrap(true);
 		
-				frame.getContentPane().add(lblTeam, "cell 8 1,grow");
+				frame.getContentPane().add(lblTeam, "cell 8 2,grow");
 				
 						lblTeam.setHorizontalAlignment(SwingConstants.TRAILING);
 		team = new JTextField();
-		frame.getContentPane().add(team, "cell 9 1,grow");
+		frame.getContentPane().add(team, "cell 9 2,grow");
 		
 		// easter egg key listener =)
 		team.addKeyListener(new KeyAdapter() {
@@ -382,15 +389,13 @@ public class Scouting {
 			}
 		});
 		team.setColumns(10);
-
-		frame.getContentPane().add(lblCommentsno, "cell 10 1,grow");
-		frame.getContentPane().add(btnAddFoul, "cell 2 3,grow");
+		frame.getContentPane().add(btnAddFoul, "cell 2 4,grow");
 		
-				frame.getContentPane().add(lblRound, "cell 8 3,grow");
+				frame.getContentPane().add(lblRound, "cell 8 4,grow");
 				
 						lblRound.setHorizontalAlignment(SwingConstants.TRAILING);
 		RoundNum = new JTextField();
-		frame.getContentPane().add(RoundNum, "cell 9 3,grow");
+		frame.getContentPane().add(RoundNum, "cell 9 4,grow");
 
 		// key listener for enabling/disabling the finish button
 		RoundNum.addKeyListener(new KeyAdapter() {
@@ -407,13 +412,10 @@ public class Scouting {
 			}
 		});
 		RoundNum.setColumns(10);
-		
-		frame.getContentPane().add(TPComments, "cell 10 2 1 2,grow");
-		TPComments.setLineWrap(true);
-		frame.getContentPane().add(btnStartMatch, "cell 2 4,grow");
-		frame.getContentPane().add(btnHatch, "cell 0 5,grow");
-		frame.getContentPane().add(btnCargo, "cell 4 5,grow");
-		frame.getContentPane().add(CargoOrPanel, "cell 6 4 5 5,grow");
+		frame.getContentPane().add(btnStartMatch, "cell 2 5,grow");
+		frame.getContentPane().add(btnHatch, "cell 0 6,grow");
+		frame.getContentPane().add(btnCargo, "cell 4 6,grow");
+		frame.getContentPane().add(CargoOrPanel, "cell 6 5 5 5,grow");
 
 		JPanel Cargo = new JPanel();
 		CargoOrPanel.addTab("Cargo", null, Cargo, null);

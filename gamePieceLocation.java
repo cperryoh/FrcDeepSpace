@@ -50,8 +50,8 @@ public class gamePieceLocation {
 				dropped("cs");
 			}
 		});
-		frame.getContentPane().setLayout(new MigLayout("", "[114px,grow][31px,grow][114px,grow][169px,grow]", "[112px,grow][11px][29px,grow][11px][29px,grow][11px][29px,grow]"));
-		frame.getContentPane().add(droppedCs, "cell 0 6,grow");
+		frame.getContentPane().setLayout(new MigLayout("", "[114px,grow][31px,grow][114px,grow][169px,grow]", "[112px,grow][29px,grow][29px,grow][29px,grow]"));
+		frame.getContentPane().add(droppedCs, "cell 0 3,grow");
 
 		
 		
@@ -60,7 +60,7 @@ public class gamePieceLocation {
 				dropped("r1");
 			}
 		});
-		frame.getContentPane().add(droppedr1, "cell 2 6,grow");
+		frame.getContentPane().add(droppedr1, "cell 2 3,grow");
 
 		
 		
@@ -69,7 +69,7 @@ public class gamePieceLocation {
 				dropped("r2");
 			}
 		});
-		frame.getContentPane().add(droppedR2, "cell 2 4,grow");
+		frame.getContentPane().add(droppedR2, "cell 2 2,grow");
 
 		
 		
@@ -78,12 +78,12 @@ public class gamePieceLocation {
 				dropped("r3");
 			}
 		});
-		frame.getContentPane().add(droppedR3, "cell 2 2,grow");
+		frame.getContentPane().add(droppedR3, "cell 2 1,grow");
 
 		ImageIcon icn = new ImageIcon(getClass().getClassLoader().getResource("rocket.PNG"));
 		BufferedImage ref = ImageIO.read(getClass().getClassLoader().getResource("rocketRef.png"));
 		JLabel Rocket = new JLabel(icn);
-		frame.getContentPane().add(Rocket, "cell 3 0 1 7,growx,aligny center");
+		frame.getContentPane().add(Rocket, "cell 3 0 1 4,growx,aligny center");
 		Rocket.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent arg0) {

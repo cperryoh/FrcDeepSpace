@@ -79,6 +79,7 @@ import net.miginfocom.swing.MigLayout;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import javax.swing.JTextArea;
+import javax.swing.JProgressBar;
 
 public class Scouting {
 
@@ -159,6 +160,7 @@ public class Scouting {
 	private final Action action_7 = new SwingAction_6();
 	private final Action action_8 = new SwingAction_7();
 	private final JTextArea TPComments = new JTextArea();
+	private final JProgressBar progressBar = new JProgressBar();
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -193,10 +195,14 @@ public class Scouting {
 		
 		
 		frame.getContentPane().add(timerLbl, "cell 1 7,grow");
+		progressBar.setForeground(Color.GREEN);
+		progressBar.setValue(100);
+		
+		frame.getContentPane().add(progressBar, "cell 0 8 3 1,grow");
 		
 		
 		
-		frame.getContentPane().add(btnReset, "cell 1 8,grow");
+		frame.getContentPane().add(btnReset, "cell 1 9,grow");
 		frame.addComponentListener(new a());
 		btnReset.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -206,7 +212,7 @@ public class Scouting {
 		});
 
 		
-		frame.getContentPane().add(scrollPane, "cell 0 9 10 1,grow");
+		frame.getContentPane().add(scrollPane, "cell 0 10 10 1,grow");
 		
 
 		scrollPane.setBorder(null);
@@ -291,7 +297,7 @@ public class Scouting {
 			public void actionPerformed(ActionEvent arg0) {
 			}
 		});
-		frame.getContentPane().add(btnEnter, "cell 5 10,grow");
+		frame.getContentPane().add(btnEnter, "cell 5 11,grow");
 
 		btnAddFoul.addMouseListener(new MouseAdapter() {
 			@Override
@@ -352,7 +358,7 @@ public class Scouting {
 		ratio=frame.getWidth()/frame.getHeight();
 		
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.getContentPane().setLayout(new MigLayout("", "[152px][111px][119px][72px][111px][][grow][152px][grow][452px,grow]", "[][16px][23px][][25px][27px][27px][74px][25px][134px,grow][35px]"));
+		frame.getContentPane().setLayout(new MigLayout("", "[152px][111px][119px][72px][111px][][grow][152px][grow][452px,grow]", "[][16px,grow][23px][][25px][27px][27px][74px][][25px][134px,grow][35px]"));
 				
 						frame.getContentPane().add(lblCommentsno, "cell 5 0,grow");
 				TPComments.setBorder(new LineBorder(new Color(0, 0, 0), 3, true));
@@ -414,7 +420,7 @@ public class Scouting {
 		frame.getContentPane().add(btnStartMatch, "cell 1 5,grow");
 		frame.getContentPane().add(btnHatch, "cell 0 6,grow");
 		frame.getContentPane().add(btnCargo, "cell 2 6,grow");
-		frame.getContentPane().add(CargoOrPanel, "cell 3 5 5 4,grow");
+		frame.getContentPane().add(CargoOrPanel, "cell 3 5 5 5,grow");
 
 		JPanel Cargo = new JPanel();
 		CargoOrPanel.addTab("Cargo", null, Cargo, null);
@@ -938,6 +944,17 @@ public class Scouting {
 				if (hasStarted == true) {
 					currentTime = Integer.toString(setInterval());
 					timerLbl.setText(currentTime);
+					System.out.println();
+					progressBar.setValue((int)(((double)Integer.parseInt(currentTime)/(double)150)*100));
+					if(Integer.parseInt(currentTime)>60) {
+						progressBar.setForeground(new Color(0,255,0));
+					}
+					else if(Integer.parseInt(currentTime)>20) {
+						progressBar.setForeground(new Color(255,255,0));
+					}
+					else {
+						progressBar.setForeground(new Color(255,0,0));
+					}
 				}
 				if (Integer.parseInt(currentTime) == 0) {
 					hasStarted = false;
@@ -1018,6 +1035,7 @@ public class Scouting {
 		// clears combo boxes
 		resetComboBox(ComboBoxPanel);
 		resetComboBox(ComboBoxCargo);
+		progressBar.setValue(100);
 		resetComboBox(ComboBoxClimb);
 		resetComboBox(Location);
 		resetComboBox(level);
@@ -1026,6 +1044,7 @@ public class Scouting {
 		resetComboBox(Defended);
 		resetComboBox(failedClimb);
 		resetComboBox(Condition);
+		progressBar.setForeground(new Color(0,255,0));
 		fouls = 0;
 		btnEnter.setBackground(new Color(100, 100, 100));
 		team.setText("");

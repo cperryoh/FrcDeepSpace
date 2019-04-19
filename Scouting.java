@@ -196,7 +196,6 @@ public class Scouting {
 		
 		frame.getContentPane().add(timerLbl, "cell 1 7,grow");
 		progressBar.setForeground(Color.GREEN);
-		progressBar.setValue(100);
 		
 		frame.getContentPane().add(progressBar, "cell 0 8 3 1,grow");
 		
@@ -945,7 +944,7 @@ public class Scouting {
 					currentTime = Integer.toString(setInterval());
 					timerLbl.setText(currentTime);
 					System.out.println();
-					progressBar.setValue((int)(((double)Integer.parseInt(currentTime)/(double)150)*100));
+					progressBar.setValue((int)(100.0-((double)Integer.parseInt(currentTime)/(double)150)*100));
 					if(Integer.parseInt(currentTime)>60) {
 						progressBar.setForeground(new Color(0,255,0));
 					}

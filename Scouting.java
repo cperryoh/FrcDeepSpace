@@ -732,7 +732,7 @@ public class Scouting {
 				writer2.println();
 				// creates table
 				for (int i = 0; i < tableModle.getRowCount(); i++) {
-					if (tableModle.getValueAt(i, 3) != null) {
+					if (tableModle.getValueAt(i, 2) != null) {
 						writer2.print(team.getText() + "," + RoundNum.getText() + ",");
 						// creates columns
 						for (int y = 0; y < tableModle.getColumnCount(); y++) {
@@ -1110,6 +1110,7 @@ public class Scouting {
 			BufferedWriter writer = new BufferedWriter(
 					new FileWriter(teamFolder.getAbsolutePath() + sep + "data for spreadsheet.txt"));
 			// writers header
+			writer.write("Team number, round number,");
 			for (int x = 0; x < tableModel.getColumnCount(); x++) {
 				// if last column don't add comma
 				if (x < tableModel.getColumnCount() - 1) {
@@ -1132,8 +1133,10 @@ public class Scouting {
 						String st;
 						// prints everything in the text file
 						while ((st = r.readLine()) != null) {
-							writer.write(st);
-							writer.newLine();
+							if(st.contains("Failed")==false) {
+								writer.write(st);
+								writer.newLine();
+							}
 						}
 					}
 				}

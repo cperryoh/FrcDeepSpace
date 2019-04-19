@@ -32,6 +32,9 @@ public class gamePieceLocation {
 	public gamePieceLocation(Scouting s) throws IOException {
 		initialize();
 		frame.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
+		
+		
+		
 		main = s;
 	}
 	private void initialize() throws IOException {

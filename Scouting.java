@@ -109,6 +109,7 @@ public class Scouting {
 	JComboBox ComboBoxPanel = new JComboBox();
 	static int oldAvg = 0;
 	boolean hatch = false;
+	JComboBox leftPlatform =new JComboBox();
 	JComboBox Defended = new JComboBox();
 	JComboBox DefendedAgainst = new JComboBox();
 	JComboBox ComboBoxCargo = new JComboBox();
@@ -161,6 +162,7 @@ public class Scouting {
 	private final Action action_8 = new SwingAction_7();
 	private final JTextArea TPComments = new JTextArea();
 	private final JProgressBar progressBar = new JProgressBar();
+	private final JLabel lblCameOffPlatform = new JLabel("Came off platform during sandstorm");
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -461,8 +463,14 @@ public class Scouting {
 		gbl_panel_3.rowHeights = new int[] { 26, 14, 0, 0, 0, 0, 0 };
 		gbl_panel_3.columnWeights = new double[] { 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0,
 				Double.MIN_VALUE };
-		gbl_panel_3.rowWeights = new double[] { 0.0, 0.0, 0.0, 1.0, 0.0, 1.0, Double.MIN_VALUE };
+		gbl_panel_3.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE };
 		panel_3.setLayout(gbl_panel_3);
+		
+		GridBagConstraints gbc_lblCameOffPlatform = new GridBagConstraints();
+		gbc_lblCameOffPlatform.insets = new Insets(0, 0, 5, 5);
+		gbc_lblCameOffPlatform.gridx = 3;
+		gbc_lblCameOffPlatform.gridy = 1;
+		panel_3.add(lblCameOffPlatform, gbc_lblCameOffPlatform);
 
 		lblPosition.setHorizontalAlignment(SwingConstants.CENTER);
 		GridBagConstraints gbc_lblPosition = new GridBagConstraints();
@@ -481,6 +489,13 @@ public class Scouting {
 		gbc_lblLevel.gridx = 9;
 		gbc_lblLevel.gridy = 1;
 		panel_3.add(lblLevel, gbc_lblLevel);
+		
+		GridBagConstraints gbc_leftPlatform = new GridBagConstraints();
+		gbc_leftPlatform.insets = new Insets(0, 0, 5, 5);
+		gbc_leftPlatform.gridx = 3;
+		gbc_leftPlatform.gridy = 3;
+		leftPlatform.setModel(new DefaultComboBoxModel(new String[] {"Yes", "No"}));
+		panel_3.add(leftPlatform, gbc_leftPlatform);
 		GridBagConstraints gbc_Location = new GridBagConstraints();
 		gbc_Location.fill = GridBagConstraints.HORIZONTAL;
 		gbc_Location.insets = new Insets(0, 0, 5, 5);
@@ -662,46 +677,11 @@ public class Scouting {
 	void enter() throws IOException, InterruptedException {
 		if (enterable) {
 			try {
-				// creates scouting folder
-				teamFolder = new File(Desktop + sep + "scouting");
-				teamFolder.mkdir();
-				File f = new File(teamFolder.getAbsolutePath() + sep + team.getText());
-				f.mkdir();
-				// creates and populates the teams info text file
-
-				File[] files = teamFolder.listFiles();
-				boolean foundFile = false;
-				// figures out if there is a teams info text file
-				for (int i = 0; i < files.length; i++) {
-					if (files[i].getName().equals("teams info.txt")) {
-						foundFile = true;
-						break;
-					}
-				}
-
-				Writer FW = new FileWriter(teamFolder.getAbsolutePath() + sep + "teams info.txt", true);
-				BufferedWriter writer = new BufferedWriter(FW);
-				if (foundFile == false) {
-					// writes header if there was no teams info.txt found
-					writer.write(
-							"Team number,Round number,penalties,foul count,defended,defeneded against,highest cargo,highest panel,starting location,robot condition,climb level points,failed climb,comments");
-				}
-				writer.newLine();
-				if (TPComments.getText().equals("")) {
-
-					TPComments.setText("None");
-				}
-				// writes data
-				writer.write(team.getText() + "," + RoundNum.getText() + "," + ComboBoxValue(Penalties) + "," + fouls
-						+ "," + ComboBoxValue(Defended) + "," + ComboBoxValue(DefendedAgainst) + ","
-						+ ComboBoxValue(ComboBoxCargo) + "," + ComboBoxValue(ComboBoxPanel) + ","
-						+ ComboBoxValue(Location) + ":" + ComboBoxValue(level) + "," + ComboBoxValue(Condition) + ","
-						+ (Integer.parseInt(ComboBoxValue(ComboBoxClimb))*3) + "," + ComboBoxValue(failedClimb) + "," + TPComments.getText());
-				writer.close();
-				FW.close();
+				int totalPoints =0;
+				File folder = new File(teamFolder.getAbsolutePath() + sep + team.getText());
 				// writer for round text file
-				PrintWriter writer2 = new PrintWriter(
-						f.getAbsolutePath() + sep + "Round " + RoundNum.getText() + ".txt", "UTF-8");
+				folder.mkdir();
+				PrintWriter writer2 = new PrintWriter(folder.getAbsolutePath() + sep + "Round " + RoundNum.getText() + ".txt", "UTF-8");
 
 				// creates top columns
 				ArrayList myList = new ArrayList();
@@ -721,8 +701,17 @@ public class Scouting {
 					if (getCellValue(tableModle, i, 1) != null) {
 						if (!getCellValue(tableModle, i, 1).equals("")) {
 							writer2.print(team.getText() + "," + RoundNum.getText() + ",");
-							writer2.print(Integer.parseInt(getCellValue(tableModle, i, 0))
-									- Integer.parseInt(getCellValue(tableModle, i, 1)) + ",");
+							if(!getCellValue(tableModle,i,2).contains("Failed")) {
+								if(getCellValue(tableModle,i,3).contains("Hatch")) {
+									totalPoints+=2;
+									System.out.println("Hit hatch");
+								}
+								else {
+									totalPoints+=3;
+									System.out.println("Hit cargo");
+								}
+							}
+							writer2.print(Integer.parseInt(getCellValue(tableModle, i, 0))- Integer.parseInt(getCellValue(tableModle, i, 1)) + ",");
 							// creates columns
 							for (int y = 0; y < tableModle.getColumnCount(); y++) {
 
@@ -737,6 +726,45 @@ public class Scouting {
 					}
 				}
 				writer2.close();
+				
+				// creates scouting folder
+				teamFolder = new File(Desktop + sep + "scouting");
+				teamFolder.mkdir();
+				
+				// creates and populates the teams info text file
+
+				File[] files = teamFolder.listFiles();
+				boolean foundFile = false;
+				// figures out if there is a teams info text file
+				for (int i = 0; i < files.length; i++) {
+					if (files[i].getName().equals("teams info.txt")) {
+						foundFile = true;
+						break;
+					}
+				}
+
+				Writer FW = new FileWriter(teamFolder.getAbsolutePath() + sep + "teams info.txt", true);
+				BufferedWriter writer = new BufferedWriter(FW);
+				if (foundFile == false) {
+					// writes header if there was no teams info.txt found
+					writer.write("Team number,Round number,total point,penalties,foul count,defended,defeneded against,highest cargo,highest panel,starting level,starting location,left platform,climb level points,failed climb,comments");
+				}
+				writer.newLine();
+				if (TPComments.getText().equals("")) {
+
+					TPComments.setText("None");
+				}
+				
+				if(ComboBoxValue(leftPlatform).equals("Yes")) {
+					totalPoints+= (Integer.parseInt(ComboBoxValue(level))*3)+(Integer.parseInt(ComboBoxValue(ComboBoxClimb))*3);
+				}
+				// writes data
+				writer.write(team.getText() + "," + RoundNum.getText() +","+totalPoints+"," + ComboBoxValue(Penalties) + "," + fouls
+						+ "," + ComboBoxValue(Defended) + "," + ComboBoxValue(DefendedAgainst) + ","
+						+ ComboBoxValue(ComboBoxCargo) + "," + ComboBoxValue(ComboBoxPanel) + ","
+						+ ComboBoxValue(level) + "," + ComboBoxValue(Location) +","+ComboBoxValue(leftPlatform)+"," + ComboBoxValue(Condition) + "," + ComboBoxValue(failedClimb) + "," + TPComments.getText());
+				writer.close();
+				FW.close();
 				compileData();
 			} catch (FileNotFoundException | UnsupportedEncodingException e1) {
 				// TODO Auto-generated catch block
@@ -757,6 +785,7 @@ public class Scouting {
 		ComboBoxPanel.setFont(f);
 
 		GPL.droppedr1.setFont(f);
+		leftPlatform.setFont(f);
 		GPL.droppedCs.setFont(f);
 		GPL.droppedR3.setFont(f);
 		Penalties.setFont(f);
@@ -765,6 +794,7 @@ public class Scouting {
 		header.setFont(f);
 		table.setTableHeader(header);
 		msg.btnEnter.setFont(f);
+		lblCameOffPlatform.setFont(medFont);
 		level.setFont(f);
 		btnStartMatch.setFont(f);
 		btnHatch.setFont(f);
@@ -1022,6 +1052,7 @@ public class Scouting {
 		currentRow = 0;
 		// clears combo boxes
 		resetComboBox(ComboBoxPanel);
+		resetComboBox(leftPlatform);
 		resetComboBox(ComboBoxCargo);
 		progressBar.setValue(100);
 		resetComboBox(ComboBoxClimb);

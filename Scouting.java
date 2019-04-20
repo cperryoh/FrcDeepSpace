@@ -420,117 +420,7 @@ public class Scouting {
 		frame.getContentPane().add(btnHatch, "cell 0 6,grow");
 		frame.getContentPane().add(btnCargo, "cell 2 6,grow");
 		frame.getContentPane().add(CargoOrPanel, "cell 3 5 5 5,grow");
-
-		JPanel Cargo = new JPanel();
-		CargoOrPanel.addTab("Cargo", null, Cargo, null);
-		GridBagLayout gbl_Cargo = new GridBagLayout();
-		gbl_Cargo.columnWidths = new int[] { 86, 204, 0, 86, 0 };
-		gbl_Cargo.rowHeights = new int[] { 36, 26, 0 };
-		gbl_Cargo.columnWeights = new double[] { 1.0, 1.0, 0.0, 1.0, Double.MIN_VALUE };
-		gbl_Cargo.rowWeights = new double[] { 0.0, 0.0, Double.MIN_VALUE };
-		Cargo.setLayout(gbl_Cargo);
-
-		lblRocketLevel.setHorizontalAlignment(SwingConstants.RIGHT);
-		GridBagConstraints gbc_lblRocketLevel = new GridBagConstraints();
-		gbc_lblRocketLevel.fill = GridBagConstraints.HORIZONTAL;
-		gbc_lblRocketLevel.insets = new Insets(0, 0, 0, 5);
-		gbc_lblRocketLevel.gridx = 1;
-		gbc_lblRocketLevel.gridy = 1;
-		Cargo.add(lblRocketLevel, gbc_lblRocketLevel);
-		GridBagConstraints gbc_ComboBoxCargo = new GridBagConstraints();
-		gbc_ComboBoxCargo.anchor = GridBagConstraints.WEST;
-		gbc_ComboBoxCargo.insets = new Insets(0, 0, 0, 5);
-		gbc_ComboBoxCargo.gridx = 2;
-		gbc_ComboBoxCargo.gridy = 1;
-		Cargo.add(ComboBoxCargo, gbc_ComboBoxCargo);
-
-		ComboBoxCargo.setModel(new DefaultComboBoxModel(new String[] { "N/A", "One", "Two", "Three" }));
-
-		JPanel panel_4 = new JPanel();
-		CargoOrPanel.addTab("Defense or Defended Against", null, panel_4, null);
-		GridBagLayout gbl_panel_4 = new GridBagLayout();
-		gbl_panel_4.columnWidths = new int[] { 94, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
-		gbl_panel_4.rowHeights = new int[] { 14, 20, 0, 0, 0, 0 };
-		gbl_panel_4.columnWeights = new double[] { 1.0, 1.0, 1.0, 0.0, 1.0, 1.0, 1.0, 0.0, 1.0, 1.0, 1.0, 1.0, 1.0,
-				Double.MIN_VALUE };
-		gbl_panel_4.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE };
-		panel_4.setLayout(gbl_panel_4);
 		frame.setResizable(true);
-		GridBagConstraints gbc_lblDefendedAgainst = new GridBagConstraints();
-		gbc_lblDefendedAgainst.fill = GridBagConstraints.BOTH;
-		gbc_lblDefendedAgainst.insets = new Insets(0, 0, 5, 5);
-		gbc_lblDefendedAgainst.gridx = 2;
-		gbc_lblDefendedAgainst.gridy = 3;
-		panel_4.add(lblDefendedAgainst, gbc_lblDefendedAgainst);
-		GridBagConstraints gbc_DefendedAgainst = new GridBagConstraints();
-		gbc_DefendedAgainst.insets = new Insets(0, 0, 5, 5);
-		gbc_DefendedAgainst.gridx = 3;
-		gbc_DefendedAgainst.gridy = 3;
-		panel_4.add(DefendedAgainst, gbc_DefendedAgainst);
-
-		DefendedAgainst.setModel(new DefaultComboBoxModel(new String[] { "No", "Yes" }));
-
-		GridBagConstraints gbc_lblDefended = new GridBagConstraints();
-		gbc_lblDefended.fill = GridBagConstraints.BOTH;
-		gbc_lblDefended.insets = new Insets(0, 0, 5, 5);
-		gbc_lblDefended.gridx = 5;
-		gbc_lblDefended.gridy = 3;
-		panel_4.add(lblDefended, gbc_lblDefended);
-		GridBagConstraints gbc_Defended = new GridBagConstraints();
-		gbc_Defended.insets = new Insets(0, 0, 5, 5);
-		gbc_Defended.fill = GridBagConstraints.HORIZONTAL;
-		gbc_Defended.gridx = 7;
-		gbc_Defended.gridy = 3;
-		panel_4.add(Defended, gbc_Defended);
-		
-
-		Defended.setModel(new DefaultComboBoxModel(new String[] { "No", "Yes" }));
-
-		JPanel panel_3 = new JPanel();
-		CargoOrPanel.addTab("Starting location", null, panel_3, null);
-		GridBagLayout gbl_panel_3 = new GridBagLayout();
-		gbl_panel_3.columnWidths = new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
-		gbl_panel_3.rowHeights = new int[] { 26, 14, 0, 0, 0, 0, 0 };
-		gbl_panel_3.columnWeights = new double[] { 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0,
-				Double.MIN_VALUE };
-		gbl_panel_3.rowWeights = new double[] { 0.0, 0.0, 0.0, 1.0, 0.0, 1.0, Double.MIN_VALUE };
-		panel_3.setLayout(gbl_panel_3);
-		
-				
-		
-				lblPosition.setHorizontalAlignment(SwingConstants.CENTER);
-				GridBagConstraints gbc_lblPosition = new GridBagConstraints();
-				gbc_lblPosition.anchor = GridBagConstraints.NORTH;
-				gbc_lblPosition.fill = GridBagConstraints.HORIZONTAL;
-				gbc_lblPosition.insets = new Insets(0, 0, 5, 5);
-				gbc_lblPosition.gridx = 6;
-				gbc_lblPosition.gridy = 1;
-				panel_3.add(lblPosition, gbc_lblPosition);
-		
-				lblLevel.setHorizontalAlignment(SwingConstants.CENTER);
-				GridBagConstraints gbc_lblLevel = new GridBagConstraints();
-				gbc_lblLevel.insets = new Insets(0, 0, 5, 5);
-				gbc_lblLevel.anchor = GridBagConstraints.NORTH;
-				gbc_lblLevel.fill = GridBagConstraints.HORIZONTAL;
-				gbc_lblLevel.gridx = 9;
-				gbc_lblLevel.gridy = 1;
-				panel_3.add(lblLevel, gbc_lblLevel);
-		GridBagConstraints gbc_Location = new GridBagConstraints();
-		gbc_Location.fill = GridBagConstraints.HORIZONTAL;
-		gbc_Location.insets = new Insets(0, 0, 5, 5);
-		gbc_Location.gridx = 6;
-		gbc_Location.gridy = 3;
-		panel_3.add(Location, gbc_Location);
-		
-				Location.setModel(new DefaultComboBoxModel(new String[] { "Left", "middle", "right" }));
-		GridBagConstraints gbc_level = new GridBagConstraints();
-		gbc_level.insets = new Insets(0, 0, 5, 5);
-		gbc_level.fill = GridBagConstraints.HORIZONTAL;
-		gbc_level.gridx = 9;
-		gbc_level.gridy = 3;
-		panel_3.add(level, gbc_level);
-		
-				level.setModel(new DefaultComboBoxModel(new String[] { "One", "two" }));
 
 		JPanel panel = new JPanel();
 		CargoOrPanel.addTab("End game location", null, panel, null);
@@ -573,15 +463,52 @@ public class Scouting {
 		panel.add(failedClimb, gbc_failedClimb);
 		msg.getFrame().setSize((frame.getWidth()/1380)*574, (frame.getHeight()/690)*191);
 		failedClimb.setModel(new DefaultComboBoxModel(new String[] { "N/A", "One", "Two", "Three" }));
-
-		JPanel panel_5 = new JPanel();
-		CargoOrPanel.addTab("Penalties", null, panel_5, null);
-		GridBagLayout gbl_panel_5 = new GridBagLayout();
-		gbl_panel_5.columnWidths = new int[] { 201, 107, 0, 0, 0, 0 };
-		gbl_panel_5.rowHeights = new int[] { 28, 0, 0, 0 };
-		gbl_panel_5.columnWeights = new double[] { 0.0, 0.0, 1.0, 0.0, 1.0, Double.MIN_VALUE };
-		gbl_panel_5.rowWeights = new double[] { 0.0, 0.0, 1.0, Double.MIN_VALUE };
-		panel_5.setLayout(gbl_panel_5);
+		
+				JPanel panel_3 = new JPanel();
+				CargoOrPanel.addTab("Starting location", null, panel_3, null);
+				GridBagLayout gbl_panel_3 = new GridBagLayout();
+				gbl_panel_3.columnWidths = new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+				gbl_panel_3.rowHeights = new int[] { 26, 14, 0, 0, 0, 0, 0 };
+				gbl_panel_3.columnWeights = new double[] { 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0,
+						Double.MIN_VALUE };
+				gbl_panel_3.rowWeights = new double[] { 0.0, 0.0, 0.0, 1.0, 0.0, 1.0, Double.MIN_VALUE };
+				panel_3.setLayout(gbl_panel_3);
+				
+						
+				
+						lblPosition.setHorizontalAlignment(SwingConstants.CENTER);
+						GridBagConstraints gbc_lblPosition = new GridBagConstraints();
+						gbc_lblPosition.anchor = GridBagConstraints.NORTH;
+						gbc_lblPosition.fill = GridBagConstraints.HORIZONTAL;
+						gbc_lblPosition.insets = new Insets(0, 0, 5, 5);
+						gbc_lblPosition.gridx = 6;
+						gbc_lblPosition.gridy = 1;
+						panel_3.add(lblPosition, gbc_lblPosition);
+						
+								lblLevel.setHorizontalAlignment(SwingConstants.CENTER);
+								GridBagConstraints gbc_lblLevel = new GridBagConstraints();
+								gbc_lblLevel.insets = new Insets(0, 0, 5, 5);
+								gbc_lblLevel.anchor = GridBagConstraints.NORTH;
+								gbc_lblLevel.fill = GridBagConstraints.HORIZONTAL;
+								gbc_lblLevel.gridx = 9;
+								gbc_lblLevel.gridy = 1;
+								panel_3.add(lblLevel, gbc_lblLevel);
+								GridBagConstraints gbc_Location = new GridBagConstraints();
+								gbc_Location.fill = GridBagConstraints.HORIZONTAL;
+								gbc_Location.insets = new Insets(0, 0, 5, 5);
+								gbc_Location.gridx = 6;
+								gbc_Location.gridy = 3;
+								panel_3.add(Location, gbc_Location);
+								
+										Location.setModel(new DefaultComboBoxModel(new String[] { "Left", "middle", "right" }));
+										GridBagConstraints gbc_level = new GridBagConstraints();
+										gbc_level.insets = new Insets(0, 0, 5, 5);
+										gbc_level.fill = GridBagConstraints.HORIZONTAL;
+										gbc_level.gridx = 9;
+										gbc_level.gridy = 3;
+										panel_3.add(level, gbc_level);
+										
+												level.setModel(new DefaultComboBoxModel(new String[] { "One", "two" }));
 
 		JPanel panel_1 = new JPanel();
 		CargoOrPanel.addTab("Panel", null, panel_1, null);
@@ -608,41 +535,114 @@ public class Scouting {
 		gbc_ComboBoxPanel.gridy = 1;
 		panel_1.add(ComboBoxPanel, gbc_ComboBoxPanel);
 		ComboBoxPanel.setModel(new DefaultComboBoxModel(new String[] { "N/A", "One", "Two", "Three" }));
+				
+						JPanel Cargo = new JPanel();
+						CargoOrPanel.addTab("Cargo", null, Cargo, null);
+						GridBagLayout gbl_Cargo = new GridBagLayout();
+						gbl_Cargo.columnWidths = new int[] { 86, 204, 0, 86, 0 };
+						gbl_Cargo.rowHeights = new int[] { 36, 26, 0 };
+						gbl_Cargo.columnWeights = new double[] { 1.0, 1.0, 0.0, 1.0, Double.MIN_VALUE };
+						gbl_Cargo.rowWeights = new double[] { 0.0, 0.0, Double.MIN_VALUE };
+						Cargo.setLayout(gbl_Cargo);
+						
+								lblRocketLevel.setHorizontalAlignment(SwingConstants.RIGHT);
+								GridBagConstraints gbc_lblRocketLevel = new GridBagConstraints();
+								gbc_lblRocketLevel.fill = GridBagConstraints.HORIZONTAL;
+								gbc_lblRocketLevel.insets = new Insets(0, 0, 0, 5);
+								gbc_lblRocketLevel.gridx = 1;
+								gbc_lblRocketLevel.gridy = 1;
+								Cargo.add(lblRocketLevel, gbc_lblRocketLevel);
+								GridBagConstraints gbc_ComboBoxCargo = new GridBagConstraints();
+								gbc_ComboBoxCargo.anchor = GridBagConstraints.WEST;
+								gbc_ComboBoxCargo.insets = new Insets(0, 0, 0, 5);
+								gbc_ComboBoxCargo.gridx = 2;
+								gbc_ComboBoxCargo.gridy = 1;
+								Cargo.add(ComboBoxCargo, gbc_ComboBoxCargo);
+								
+										ComboBoxCargo.setModel(new DefaultComboBoxModel(new String[] { "N/A", "One", "Two", "Three" }));
+																				
+																						JPanel panel_5 = new JPanel();
+																						CargoOrPanel.addTab("Penalties", null, panel_5, null);
+																						GridBagLayout gbl_panel_5 = new GridBagLayout();
+																						gbl_panel_5.columnWidths = new int[] { 201, 107, 0, 0, 0, 0 };
+																						gbl_panel_5.rowHeights = new int[] { 28, 0, 0, 0 };
+																						gbl_panel_5.columnWeights = new double[] { 0.0, 0.0, 1.0, 0.0, 1.0, Double.MIN_VALUE };
+																						gbl_panel_5.rowWeights = new double[] { 0.0, 0.0, 1.0, Double.MIN_VALUE };
+																						panel_5.setLayout(gbl_panel_5);
+																						
+																								
+																								
+																								lblPenaltiesRecived.setHorizontalAlignment(SwingConstants.RIGHT);
+																								GridBagConstraints gbc_lblPenaltiesRecived = new GridBagConstraints();
+																								gbc_lblPenaltiesRecived.anchor = GridBagConstraints.EAST;
+																								gbc_lblPenaltiesRecived.insets = new Insets(0, 0, 5, 5);
+																								gbc_lblPenaltiesRecived.gridx = 1;
+																								gbc_lblPenaltiesRecived.gridy = 1;
+																								panel_5.add(lblPenaltiesRecived, gbc_lblPenaltiesRecived);
+																								GridBagConstraints gbc_Penalties = new GridBagConstraints();
+																								gbc_Penalties.anchor = GridBagConstraints.WEST;
+																								gbc_Penalties.insets = new Insets(0, 0, 5, 5);
+																								gbc_Penalties.gridx = 2;
+																								gbc_Penalties.gridy = 1;
+																								panel_5.add(Penalties, gbc_Penalties);
+																								
+																										Penalties.setModel(new DefaultComboBoxModel(new String[] { "None", "Yellow", "red" }));
+																										
+																												JPanel panel_4 = new JPanel();
+																												CargoOrPanel.addTab("Defense or Defended Against", null, panel_4, null);
+																												GridBagLayout gbl_panel_4 = new GridBagLayout();
+																												gbl_panel_4.columnWidths = new int[] { 94, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+																												gbl_panel_4.rowHeights = new int[] { 14, 20, 0, 0, 0, 0 };
+																												gbl_panel_4.columnWeights = new double[] { 1.0, 1.0, 1.0, 0.0, 1.0, 1.0, 1.0, 0.0, 1.0, 1.0, 1.0, 1.0, 1.0,
+																														Double.MIN_VALUE };
+																												gbl_panel_4.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE };
+																												panel_4.setLayout(gbl_panel_4);
+																												GridBagConstraints gbc_lblDefendedAgainst = new GridBagConstraints();
+																												gbc_lblDefendedAgainst.fill = GridBagConstraints.BOTH;
+																												gbc_lblDefendedAgainst.insets = new Insets(0, 0, 5, 5);
+																												gbc_lblDefendedAgainst.gridx = 2;
+																												gbc_lblDefendedAgainst.gridy = 3;
+																												panel_4.add(lblDefendedAgainst, gbc_lblDefendedAgainst);
+																												GridBagConstraints gbc_DefendedAgainst = new GridBagConstraints();
+																												gbc_DefendedAgainst.insets = new Insets(0, 0, 5, 5);
+																												gbc_DefendedAgainst.gridx = 3;
+																												gbc_DefendedAgainst.gridy = 3;
+																												panel_4.add(DefendedAgainst, gbc_DefendedAgainst);
+																												
+																														DefendedAgainst.setModel(new DefaultComboBoxModel(new String[] { "No", "Yes" }));
+																														
+																																GridBagConstraints gbc_lblDefended = new GridBagConstraints();
+																																gbc_lblDefended.fill = GridBagConstraints.BOTH;
+																																gbc_lblDefended.insets = new Insets(0, 0, 5, 5);
+																																gbc_lblDefended.gridx = 5;
+																																gbc_lblDefended.gridy = 3;
+																																panel_4.add(lblDefended, gbc_lblDefended);
+																																GridBagConstraints gbc_Defended = new GridBagConstraints();
+																																gbc_Defended.insets = new Insets(0, 0, 5, 5);
+																																gbc_Defended.fill = GridBagConstraints.HORIZONTAL;
+																																gbc_Defended.gridx = 7;
+																																gbc_Defended.gridy = 3;
+																																panel_4.add(Defended, gbc_Defended);
+																																
 
-		JPanel panel_2 = new JPanel();
-		CargoOrPanel.addTab("Disabilities", null, panel_2, null);
-		GridBagLayout gbl_panel_2 = new GridBagLayout();
-		gbl_panel_2.columnWidths = new int[] { 193, 140, 0, 0, 0, 0, 0 };
-		gbl_panel_2.rowHeights = new int[] { 22, 0, 0, 0, 0, 0 };
-		gbl_panel_2.columnWeights = new double[] { 0.0, 0.0, 0.0, 1.0, 0.0, 1.0, Double.MIN_VALUE };
-		gbl_panel_2.rowWeights = new double[] { 0.0, 0.0, 0.0, 1.0, 1.0, Double.MIN_VALUE };
-		panel_2.setLayout(gbl_panel_2);
-
-		
-		
-		lblPenaltiesRecived.setHorizontalAlignment(SwingConstants.RIGHT);
-		GridBagConstraints gbc_lblPenaltiesRecived = new GridBagConstraints();
-		gbc_lblPenaltiesRecived.anchor = GridBagConstraints.EAST;
-		gbc_lblPenaltiesRecived.insets = new Insets(0, 0, 5, 5);
-		gbc_lblPenaltiesRecived.gridx = 1;
-		gbc_lblPenaltiesRecived.gridy = 1;
-		panel_5.add(lblPenaltiesRecived, gbc_lblPenaltiesRecived);
-		GridBagConstraints gbc_Penalties = new GridBagConstraints();
-		gbc_Penalties.anchor = GridBagConstraints.WEST;
-		gbc_Penalties.insets = new Insets(0, 0, 5, 5);
-		gbc_Penalties.gridx = 2;
-		gbc_Penalties.gridy = 1;
-		panel_5.add(Penalties, gbc_Penalties);
-
-		Penalties.setModel(new DefaultComboBoxModel(new String[] { "None", "Yellow", "red" }));
-		GridBagConstraints gbc_Condition = new GridBagConstraints();
-		gbc_Condition.insets = new Insets(0, 0, 5, 5);
-		gbc_Condition.anchor = GridBagConstraints.NORTHWEST;
-		gbc_Condition.gridx = 2;
-		gbc_Condition.gridy = 2;
-		panel_2.add(Condition, gbc_Condition);
-		
-				Condition.setModel(new DefaultComboBoxModel(new String[] { "working", "not working at all", "broken feature" }));
+																																Defended.setModel(new DefaultComboBoxModel(new String[] { "No", "Yes" }));
+																																
+																																		JPanel panel_2 = new JPanel();
+																																		CargoOrPanel.addTab("Disabilities", null, panel_2, null);
+																																		GridBagLayout gbl_panel_2 = new GridBagLayout();
+																																		gbl_panel_2.columnWidths = new int[] { 193, 140, 0, 0, 0, 0, 0 };
+																																		gbl_panel_2.rowHeights = new int[] { 22, 0, 0, 0, 0, 0 };
+																																		gbl_panel_2.columnWeights = new double[] { 0.0, 0.0, 0.0, 1.0, 0.0, 1.0, Double.MIN_VALUE };
+																																		gbl_panel_2.rowWeights = new double[] { 0.0, 0.0, 0.0, 1.0, 1.0, Double.MIN_VALUE };
+																																		panel_2.setLayout(gbl_panel_2);
+																																		GridBagConstraints gbc_Condition = new GridBagConstraints();
+																																		gbc_Condition.insets = new Insets(0, 0, 5, 5);
+																																		gbc_Condition.anchor = GridBagConstraints.NORTHWEST;
+																																		gbc_Condition.gridx = 2;
+																																		gbc_Condition.gridy = 2;
+																																		panel_2.add(Condition, gbc_Condition);
+																																		
+																																				Condition.setModel(new DefaultComboBoxModel(new String[] { "working", "not working at all", "broken feature" }));
 
 		btnEnter.setForeground(Color.BLACK);
 		btnEnter.setAction(action);

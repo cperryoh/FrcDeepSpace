@@ -153,6 +153,14 @@ public class gamePieceLocation {
 		if (Integer.parseInt(main.currentTime) >= 135) {
 			main.leftPlatform.getModel().setSelectedItem(main.leftPlatform.getModel().getElementAt(1));
 		}
+		else {
+			if(main.hatch) {
+				main.table.setValueAt("hatch", main.currentRow, 3);
+			}
+			else {
+				main.table.setValueAt("cargo", main.currentRow, 3);
+			}
+		}
 		main.currentRow++;
 	}
 
@@ -246,6 +254,15 @@ public class gamePieceLocation {
 		main.btnCargo.setVisible(true);
 		if (Integer.parseInt(main.currentTime) >= 135) {
 			main.leftPlatform.getModel().setSelectedItem(main.leftPlatform.getModel().getElementAt(1));
+		}
+		else {
+			if(main.hatch) {
+				main.table.setValueAt("hatch", main.currentRow, 3);
+			}
+			else {
+				
+				main.table.setValueAt("cargo", main.currentRow, 3);
+			}
 		}
 		frame.setVisible(false);
 		main.table.setValueAt(main.currentTime, main.currentRow, 1);

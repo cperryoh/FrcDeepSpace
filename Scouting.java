@@ -1137,7 +1137,7 @@ public class Scouting {
 		try {
 			// writes file
 			BufferedWriter writer = new BufferedWriter(
-					new FileWriter(teamFolder.getAbsolutePath() + sep + "data for spreadsheet.txt"));
+					new FileWriter(teamFolder.getAbsolutePath() + sep + "game piece data.txt"));
 			// writers header
 			writer.write("Team number, round number,cycle time,");
 			for (int x = 0; x < tableModel.getColumnCount(); x++) {

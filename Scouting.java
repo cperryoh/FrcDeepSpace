@@ -375,11 +375,10 @@ public class Scouting {
 					btnEnter.setBackground(btnReset.getBackground());
 				}
 				if (team.getText().equals("5667")) {
-					msg.display(frame, "Hello!!", "Hey that's my team. You are in the presence of greatness!",
-							"Yeah ok...");
+					msg.display(frame, "Hello!!", "Hey that's my team. You are in the presence of greatness!","Yeah ok...");
 				}
 				if (team.getText().equals("3003") || team.getText().equals("120")) {
-					msg.display(frame, "Tell them I say hi", "Hey my team had analiance with them!!", "HIIIII");
+					msg.display(frame, "Tell them I say hi", "Hey my team had an alliance with them!!", "Tell them 5667 says hi");
 				}
 
 			}
@@ -494,13 +493,20 @@ public class Scouting {
 		gbc_leftPlatform.insets = new Insets(0, 0, 5, 5);
 		gbc_leftPlatform.gridx = 3;
 		gbc_leftPlatform.gridy = 3;
-		leftPlatform.setModel(new DefaultComboBoxModel(new String[] {"Yes", "No"}));
+		leftPlatform.setModel(new DefaultComboBoxModel(new String[] {"No", "Yes"}));
 		panel_3.add(leftPlatform, gbc_leftPlatform);
 		GridBagConstraints gbc_Location = new GridBagConstraints();
 		gbc_Location.fill = GridBagConstraints.HORIZONTAL;
 		gbc_Location.insets = new Insets(0, 0, 5, 5);
 		gbc_Location.gridx = 6;
 		gbc_Location.gridy = 3;
+		Location.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(ComboBoxValue(level).equals("2") && ComboBoxValue(Location).equals("middle")) {
+					level.getModel().setSelectedItem(level.getModel().getElementAt(0));
+				}
+			}
+		});
 		panel_3.add(Location, gbc_Location);
 
 		Location.setModel(new DefaultComboBoxModel(new String[] { "Left", "middle", "right" }));
@@ -509,6 +515,14 @@ public class Scouting {
 		gbc_level.fill = GridBagConstraints.HORIZONTAL;
 		gbc_level.gridx = 9;
 		gbc_level.gridy = 3;
+		level.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				if(ComboBoxValue(Location).equals("middle")) {
+					level.getModel().setSelectedItem(level.getModel().getElementAt(0));
+				}
+			}
+			
+		});
 		panel_3.add(level, gbc_level);
 
 		level.setModel(new DefaultComboBoxModel(new String[] { "1", "2" }));
@@ -691,8 +705,10 @@ public class Scouting {
 					// if last column don't add comma
 					if (x < tableModle.getColumnCount() - 1) {
 						writer2.print(tableModle.getColumnName(x) + ",");
+						System.out.println(tableModle.getColumnName(x));
 					} else {
 						writer2.print(tableModle.getColumnName(x));
+						System.out.println(tableModle.getColumnName(x));
 					}
 				}
 				writer2.println();
@@ -1054,7 +1070,7 @@ public class Scouting {
 		resetComboBox(ComboBoxPanel);
 		resetComboBox(leftPlatform);
 		resetComboBox(ComboBoxCargo);
-		progressBar.setValue(100);
+		progressBar.setValue(0);
 		resetComboBox(ComboBoxClimb);
 		resetComboBox(Location);
 		resetComboBox(level);
@@ -1100,6 +1116,8 @@ public class Scouting {
 		if (hasHatch) {
 			if (Integer.parseInt(currentTime) >= 135) {
 				table.setValueAt("hatch(sand storm)", currentRow, 3);
+				
+				
 			} else {
 				table.setValueAt("hatch", currentRow, 3);
 			}
@@ -1130,7 +1148,7 @@ public class Scouting {
 			BufferedWriter writer = new BufferedWriter(
 					new FileWriter(teamFolder.getAbsolutePath() + sep + "data for spreadsheet.txt"));
 			// writers header
-			writer.write("Team number, round number,cycle time");
+			writer.write("Team number, round number,cycle time,");
 			for (int x = 0; x < tableModel.getColumnCount(); x++) {
 				// if last column don't add comma
 				if (x < tableModel.getColumnCount() - 1) {
@@ -1153,10 +1171,8 @@ public class Scouting {
 						String st;
 						// prints everything in the text file
 						while ((st = r.readLine()) != null) {
-							if (st.contains("Failed") == false) {
 								writer.write(st);
 								writer.newLine();
-							}
 						}
 					}
 				}

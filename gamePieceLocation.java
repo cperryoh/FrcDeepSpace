@@ -150,6 +150,9 @@ public class gamePieceLocation {
 		main.btnHatch.setVisible(true);
 		main.btnCargo.setVisible(true);
 		frame.setVisible(false);
+		if (Integer.parseInt(main.currentTime) >= 135) {
+			main.leftPlatform.getModel().setSelectedItem(main.leftPlatform.getModel().getElementAt(1));
+		}
 		main.currentRow++;
 	}
 
@@ -241,6 +244,9 @@ public class gamePieceLocation {
 	void done() {
 		main.btnHatch.setVisible(true);
 		main.btnCargo.setVisible(true);
+		if (Integer.parseInt(main.currentTime) >= 135) {
+			main.leftPlatform.getModel().setSelectedItem(main.leftPlatform.getModel().getElementAt(1));
+		}
 		frame.setVisible(false);
 		main.table.setValueAt(main.currentTime, main.currentRow, 1);
 		main.currentRow++;

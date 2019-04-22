@@ -12,7 +12,6 @@ import javax.swing.JTable;
 //import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
-import javax.swing.table.TableColumnModel;
 import javax.swing.table.TableModel;
 //import javax.tools.DocumentationTool.Location;
 import javax.swing.JPanel;
@@ -30,15 +29,9 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.io.Writer;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
-import java.util.concurrent.TimeUnit;
-import javax.swing.UIManager.*;
 import javax.swing.Action;
 import javax.swing.JTextField;
 import javax.swing.JLabel;
@@ -46,7 +39,6 @@ import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.JTabbedPane;
 import javax.swing.JComboBox;
-import javax.swing.JFileChooser;
 import javax.swing.DefaultComboBoxModel;
 import java.awt.Dimension;
 import java.awt.event.KeyAdapter;
@@ -62,18 +54,10 @@ import javax.swing.JMenuBar;
 import java.awt.Font;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionListener;
-import javax.swing.JTextPane;
-import javax.swing.border.MatteBorder;
-import javax.swing.border.CompoundBorder;
 import javax.swing.border.LineBorder;
-import javax.swing.border.SoftBevelBorder;
 import javax.swing.plaf.FontUIResource;
-import javax.swing.plaf.basic.BasicInternalFrameTitlePane.SystemMenuBar;
-import javax.swing.border.BevelBorder;
-import javax.swing.SpringLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
-import java.awt.Rectangle;
 
 import net.miginfocom.swing.MigLayout;
 import java.awt.event.ComponentAdapter;
@@ -109,7 +93,7 @@ public class Scouting {
 	JComboBox ComboBoxPanel = new JComboBox();
 	static int oldAvg = 0;
 	boolean hatch = false;
-	JComboBox leftPlatform =new JComboBox();
+	JComboBox leftPlatform = new JComboBox();
 	JComboBox Defended = new JComboBox();
 	JComboBox DefendedAgainst = new JComboBox();
 	JComboBox ComboBoxCargo = new JComboBox();
@@ -465,7 +449,7 @@ public class Scouting {
 				Double.MIN_VALUE };
 		gbl_panel_3.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE };
 		panel_3.setLayout(gbl_panel_3);
-		
+
 		GridBagConstraints gbc_lblCameOffPlatform = new GridBagConstraints();
 		gbc_lblCameOffPlatform.insets = new Insets(0, 0, 5, 5);
 		gbc_lblCameOffPlatform.gridx = 3;
@@ -489,12 +473,12 @@ public class Scouting {
 		gbc_lblLevel.gridx = 9;
 		gbc_lblLevel.gridy = 1;
 		panel_3.add(lblLevel, gbc_lblLevel);
-		
+
 		GridBagConstraints gbc_leftPlatform = new GridBagConstraints();
 		gbc_leftPlatform.insets = new Insets(0, 0, 5, 5);
 		gbc_leftPlatform.gridx = 3;
 		gbc_leftPlatform.gridy = 3;
-		leftPlatform.setModel(new DefaultComboBoxModel(new String[] {"Yes", "No"}));
+		leftPlatform.setModel(new DefaultComboBoxModel(new String[] { "Yes", "No" }));
 		panel_3.add(leftPlatform, gbc_leftPlatform);
 		GridBagConstraints gbc_Location = new GridBagConstraints();
 		gbc_Location.fill = GridBagConstraints.HORIZONTAL;
@@ -640,7 +624,8 @@ public class Scouting {
 		gbc_Condition.gridy = 2;
 		panel_2.add(Condition, gbc_Condition);
 
-		Condition.setModel(new DefaultComboBoxModel(new String[] { "working", "not working at all", "broken feature" }));
+		Condition
+				.setModel(new DefaultComboBoxModel(new String[] { "working", "not working at all", "broken feature" }));
 
 		btnEnter.setForeground(Color.BLACK);
 		btnEnter.setAction(action);
@@ -703,8 +688,14 @@ public class Scouting {
 							writer2.print(team.getText() + "," + RoundNum.getText() + ",");
 							if(!getCellValue(tableModle,i,2).contains("Failed")) {
 								if(getCellValue(tableModle,i,3).contains("Hatch")) {
-									totalPoints+=2;
-									System.out.println("Hit hatch");
+									if(getCellValue(tableModle,i,2).equals("CS")&&getCellValue(tableModle,i,3).contains("sand storm")) {
+										totalPoints+=5;
+										System.out.println("Hit hatch");
+									}
+									else {
+										totalPoints+=2;
+										System.out.println("Hit hatch");
+									}
 								}
 								else {
 									totalPoints+=3;

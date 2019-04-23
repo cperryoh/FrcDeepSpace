@@ -678,6 +678,8 @@ public class Scouting {
 	void enter() throws IOException, InterruptedException {
 		if (enterable) {
 			try {
+				System.out.println(getClass().getClassLoader().getResource("sound.wav").getPath());
+				//sound s = new sound();
 				int totalPoints = 0;
 				File folder = new File(teamFolder.getAbsolutePath() + sep + team.getText());
 				// writer for round text file
@@ -849,7 +851,6 @@ public class Scouting {
 		FontUIResource font = new FontUIResource(f);
 		UIManager.put("table.font", font);
 		scrollPane.setFont(f);
-
 	}
 
 	private class Enter extends AbstractAction {

@@ -662,7 +662,6 @@ public class Scouting {
 			int newAvg = (frame.getWidth() + frame.getHeight()) / 2;
 			f = new Font("Tahoma", Font.BOLD, (13 * newAvg) / oldAvg);
 			setFonts();
-			System.out.println(frame.getSize().toString());
 			GPL.frame.setSize((int)(((double)frame.getWidth()/1380.0)*456.0), (int)(((double)frame.getHeight()/601.0)*304.0));
 			frame.setSize( frame.getWidth(), frame.getWidth()/ratio);
 			table.setRowHeight((int)((double)table.getWidth()/(1380.0/16.0)));

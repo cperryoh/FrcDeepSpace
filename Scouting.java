@@ -754,7 +754,7 @@ public class Scouting {
 				BufferedWriter writer = new BufferedWriter(FW);
 				if (foundFile == false) {
 					// writes header if there was no teams info.txt found
-					writer.write("Team number,Round number,total point,penalties,foul count,defended,defeneded against,highest cargo,highest panel,starting level,starting location,left platform,condition,failed climb,comments");
+					writer.write("Team number,Round number,total point,penalties,foul count,defended,defeneded against,highest cargo,highest panel,starting level,starting location,left platform,condition,end game climb,failed climb,comments");
 				}
 				writer.newLine();
 				if (TPComments.getText().equals("")) {
@@ -769,7 +769,7 @@ public class Scouting {
 				writer.write(team.getText() + "," + RoundNum.getText() +","+totalPoints+"," + ComboBoxValue(Penalties) + "," + fouls
 						+ "," + ComboBoxValue(Defended) + "," + ComboBoxValue(DefendedAgainst) + ","
 						+ ComboBoxValue(ComboBoxCargo) + "," + ComboBoxValue(ComboBoxPanel) + ","
-						+ ComboBoxValue(level) + "," + ComboBoxValue(Location) +","+ComboBoxValue(leftPlatform)+"," + ComboBoxValue(Condition) + "," + ComboBoxValue(failedClimb) + "," + TPComments.getText());
+						+ ComboBoxValue(level) + "," + ComboBoxValue(Location) +","+ComboBoxValue(leftPlatform)+"," + ComboBoxValue(Condition) + "," +ComboBoxValue(ComboBoxClimb)+","+ ComboBoxValue(failedClimb) + "," + TPComments.getText());
 				writer.close();
 				FW.close();
 				compileData();

@@ -12,7 +12,6 @@ import javax.swing.JTable;
 //import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
-import javax.swing.table.TableColumnModel;
 import javax.swing.table.TableModel;
 //import javax.tools.DocumentationTool.Location;
 import javax.swing.JPanel;
@@ -30,15 +29,9 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.io.Writer;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
-import java.util.concurrent.TimeUnit;
-import javax.swing.UIManager.*;
 import javax.swing.Action;
 import javax.swing.JTextField;
 import javax.swing.JLabel;
@@ -46,7 +39,6 @@ import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.JTabbedPane;
 import javax.swing.JComboBox;
-import javax.swing.JFileChooser;
 import javax.swing.DefaultComboBoxModel;
 import java.awt.Dimension;
 import java.awt.event.KeyAdapter;
@@ -62,23 +54,16 @@ import javax.swing.JMenuBar;
 import java.awt.Font;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionListener;
-import javax.swing.JTextPane;
-import javax.swing.border.MatteBorder;
-import javax.swing.border.CompoundBorder;
 import javax.swing.border.LineBorder;
-import javax.swing.border.SoftBevelBorder;
 import javax.swing.plaf.FontUIResource;
-import javax.swing.plaf.basic.BasicInternalFrameTitlePane.SystemMenuBar;
-import javax.swing.border.BevelBorder;
-import javax.swing.SpringLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
-import java.awt.Rectangle;
 
 import net.miginfocom.swing.MigLayout;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import javax.swing.JTextArea;
+import javax.swing.JProgressBar;
 
 public class Scouting {
 
@@ -108,6 +93,7 @@ public class Scouting {
 	JComboBox ComboBoxPanel = new JComboBox();
 	static int oldAvg = 0;
 	boolean hatch = false;
+	JComboBox leftPlatform = new JComboBox();
 	JComboBox Defended = new JComboBox();
 	JComboBox DefendedAgainst = new JComboBox();
 	JComboBox ComboBoxCargo = new JComboBox();
@@ -159,12 +145,14 @@ public class Scouting {
 	private final Action action_7 = new SwingAction_6();
 	private final Action action_8 = new SwingAction_7();
 	private final JTextArea TPComments = new JTextArea();
+	private final JProgressBar progressBar = new JProgressBar();
+	private final JLabel lblCameOffPlatform = new JLabel("Came off platform during sandstorm");
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					
+
 					Scouting window = new Scouting();
 					window.frame.setVisible(true);
 					GPL = new gamePieceLocation(window);
@@ -178,25 +166,24 @@ public class Scouting {
 
 	public Scouting() throws IOException {
 		initialize();
-		
+
 		teamFolder.mkdir();
-		
-		
+
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 
 		// places window in the middle of the screen
 		int width = (int) screenSize.getWidth();
-		
+
 		int height = (int) screenSize.getHeight();
 		frame.setLocation((width / 2) - (frame.getWidth() / 2), (height / 2) - (frame.getHeight() / 2));
 		timerLbl.setHorizontalAlignment(SwingConstants.CENTER);
-		
-		
+
 		frame.getContentPane().add(timerLbl, "cell 1 7,grow");
-		
-		
-		
-		frame.getContentPane().add(btnReset, "cell 1 8,grow");
+		progressBar.setForeground(Color.GREEN);
+
+		frame.getContentPane().add(progressBar, "cell 0 8 3 1,grow");
+
+		frame.getContentPane().add(btnReset, "cell 1 9,grow");
 		frame.addComponentListener(new a());
 		btnReset.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -205,9 +192,7 @@ public class Scouting {
 			}
 		});
 
-		
-		frame.getContentPane().add(scrollPane, "cell 0 9 10 1,grow");
-		
+		frame.getContentPane().add(scrollPane, "cell 0 10 10 1,grow");
 
 		scrollPane.setBorder(null);
 
@@ -222,7 +207,7 @@ public class Scouting {
 		});
 
 		table = new JTable();
-		
+
 		table.setBorder(null);
 
 		// table selection tools
@@ -291,24 +276,22 @@ public class Scouting {
 			public void actionPerformed(ActionEvent arg0) {
 			}
 		});
-		frame.getContentPane().add(btnEnter, "cell 5 10,grow");
+		frame.getContentPane().add(btnEnter, "cell 5 11,grow");
 
 		btnAddFoul.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent e) {
-				
-				
-				
+
 				msg.display(frame, "", "Foul added", "Ok");
 				fouls++;
-				msg.getFrame().setLocation(frame.getX()+(frame.getWidth()/2)+200, frame.getY());
+				msg.getFrame().setLocation(frame.getX() + (frame.getWidth() / 2) + 200, frame.getY());
 				Timer timer = new Timer();
 				timer.schedule(new TimerTask() {
 					@Override
 					public void run() {
 						msg.getFrame().setVisible(false);
 					}
-				},2*1000);
+				}, 2 * 1000);
 			}
 		});
 		btnCargo.setVisible(false);
@@ -319,12 +302,8 @@ public class Scouting {
 
 		menuBar.add(mnStartingGamePiece);
 
-		
-
 		mntmCargo.setAction(action_8);
 		mnStartingGamePiece.add(mntmCargo);
-
-		
 
 		mntmHatch.setAction(action_7);
 		mnStartingGamePiece.add(mntmHatch);
@@ -335,7 +314,7 @@ public class Scouting {
 		JMenuItem mntmNewMenuItem_3 = new JMenuItem("New menu item");
 		mntmNewMenuItem_3.setAction(action_5);
 		popupMenu.add(mntmNewMenuItem_3);
-		originalSize=frame.getSize();
+		originalSize = frame.getSize();
 	}
 
 	/**
@@ -345,28 +324,29 @@ public class Scouting {
 	 */
 	private void initialize() throws IOException {
 		frame = new JFrame();
-		
-		
+
 		frame.setBounds(100, 100, 1417, 601);
-		oldAvg = (frame.getWidth() +frame.getHeight()) / 2;
-		ratio=frame.getWidth()/frame.getHeight();
-		
+		oldAvg = (frame.getWidth() + frame.getHeight()) / 2;
+		ratio = frame.getWidth() / frame.getHeight();
+
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.getContentPane().setLayout(new MigLayout("", "[152px][111px][119px][72px][111px][][grow][152px][grow][452px,grow]", "[][16px,grow][23px][][25px][27px][27px][74px][25px][134px,grow][35px]"));
-				
-						frame.getContentPane().add(lblCommentsno, "cell 5 0,grow");
-				TPComments.setBorder(new LineBorder(new Color(0, 0, 0), 3, true));
-				TPComments.setBackground(Color.LIGHT_GRAY);
-				
-				frame.getContentPane().add(TPComments, "cell 5 1,grow");
-				TPComments.setLineWrap(true);
-		
-				frame.getContentPane().add(lblTeam, "cell 5 2,grow");
-				
-						lblTeam.setHorizontalAlignment(SwingConstants.TRAILING);
+		frame.getContentPane()
+				.setLayout(new MigLayout("", "[152px][111px][119px][72px][111px][][grow][152px][grow][452px,grow]",
+						"[][16px,grow][23px][][25px][27px][27px][74px][][25px][134px,grow][35px]"));
+
+		frame.getContentPane().add(lblCommentsno, "cell 5 0,grow");
+		TPComments.setBorder(new LineBorder(new Color(0, 0, 0), 3, true));
+		TPComments.setBackground(Color.LIGHT_GRAY);
+
+		frame.getContentPane().add(TPComments, "cell 5 1,grow");
+		TPComments.setLineWrap(true);
+
+		frame.getContentPane().add(lblTeam, "cell 5 2,grow");
+
+		lblTeam.setHorizontalAlignment(SwingConstants.TRAILING);
 		team = new JTextField();
 		frame.getContentPane().add(team, "cell 6 2,grow");
-		
+
 		// easter egg key listener =)
 		team.addKeyListener(new KeyAdapter() {
 			@Override
@@ -379,20 +359,22 @@ public class Scouting {
 					btnEnter.setBackground(btnReset.getBackground());
 				}
 				if (team.getText().equals("5667")) {
-					msg.display(frame, "Hello!!", "Hey that's my team. You are in the presence of greatness!","Yeah ok...");
+					msg.display(frame, "Hello!!", "Hey that's my team. You are in the presence of greatness!",
+							"Yeah ok...");
 				}
 				if (team.getText().equals("3003") || team.getText().equals("120")) {
-					msg.display(frame, "Tell them I say hi", "Hey my team had analiance with them!!", "HIIIII");
+					msg.display(frame, "Tell them I say hi", "Hey my team had an alliance with them!!",
+							"Tell them 5667 says hi");
 				}
-				
+
 			}
 		});
 		team.setColumns(10);
 		frame.getContentPane().add(btnAddFoul, "cell 1 4,grow");
-		
-				frame.getContentPane().add(lblRound, "cell 5 4,grow");
-				
-						lblRound.setHorizontalAlignment(SwingConstants.TRAILING);
+
+		frame.getContentPane().add(lblRound, "cell 5 4,grow");
+
+		lblRound.setHorizontalAlignment(SwingConstants.TRAILING);
 		RoundNum = new JTextField();
 		frame.getContentPane().add(RoundNum, "cell 6 4,grow");
 
@@ -414,7 +396,146 @@ public class Scouting {
 		frame.getContentPane().add(btnStartMatch, "cell 1 5,grow");
 		frame.getContentPane().add(btnHatch, "cell 0 6,grow");
 		frame.getContentPane().add(btnCargo, "cell 2 6,grow");
-		frame.getContentPane().add(CargoOrPanel, "cell 3 5 5 4,grow");
+		frame.getContentPane().add(CargoOrPanel, "cell 3 5 5 5,grow");
+		frame.setResizable(true);
+
+		JPanel panel = new JPanel();
+		CargoOrPanel.addTab("End game location", null, panel, null);
+		GridBagLayout gbl_panel = new GridBagLayout();
+		gbl_panel.columnWidths = new int[] { 122, 64, 82, 72, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+		gbl_panel.rowHeights = new int[] { 32, 26, 0, 0, 0 };
+		gbl_panel.columnWeights = new double[] { 1.0, 1.0, 1.0, 1.0, 0.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0,
+				Double.MIN_VALUE };
+		gbl_panel.rowWeights = new double[] { 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE };
+		panel.setLayout(gbl_panel);
+
+		lblEndGameClimb.setHorizontalAlignment(SwingConstants.TRAILING);
+		GridBagConstraints gbc_lblEndGameClimb = new GridBagConstraints();
+		gbc_lblEndGameClimb.fill = GridBagConstraints.HORIZONTAL;
+		gbc_lblEndGameClimb.insets = new Insets(0, 0, 5, 5);
+		gbc_lblEndGameClimb.gridx = 2;
+		gbc_lblEndGameClimb.gridy = 2;
+		panel.add(lblEndGameClimb, gbc_lblEndGameClimb);
+		GridBagConstraints gbc_ComboBoxClimb = new GridBagConstraints();
+		gbc_ComboBoxClimb.anchor = GridBagConstraints.WEST;
+		gbc_ComboBoxClimb.insets = new Insets(0, 0, 5, 5);
+		gbc_ComboBoxClimb.gridx = 3;
+		gbc_ComboBoxClimb.gridy = 2;
+		panel.add(ComboBoxClimb, gbc_ComboBoxClimb);
+
+		ComboBoxClimb.setModel(new DefaultComboBoxModel(new String[] { "0", "1", "2", "3" }));
+
+		lblFaildedClimb.setHorizontalAlignment(SwingConstants.RIGHT);
+		GridBagConstraints gbc_lblFaildedClimb = new GridBagConstraints();
+		gbc_lblFaildedClimb.anchor = GridBagConstraints.EAST;
+		gbc_lblFaildedClimb.insets = new Insets(0, 0, 5, 5);
+		gbc_lblFaildedClimb.gridx = 6;
+		gbc_lblFaildedClimb.gridy = 2;
+		panel.add(lblFaildedClimb, gbc_lblFaildedClimb);
+		GridBagConstraints gbc_failedClimb = new GridBagConstraints();
+		gbc_failedClimb.insets = new Insets(0, 0, 5, 5);
+		gbc_failedClimb.fill = GridBagConstraints.HORIZONTAL;
+		gbc_failedClimb.gridx = 7;
+		gbc_failedClimb.gridy = 2;
+		panel.add(failedClimb, gbc_failedClimb);
+		msg.getFrame().setSize((frame.getWidth() / 1380) * 574, (frame.getHeight() / 690) * 191);
+		failedClimb.setModel(new DefaultComboBoxModel(new String[] { "0", "1", "2", "3" }));
+
+		JPanel panel_3 = new JPanel();
+		CargoOrPanel.addTab("Starting location", null, panel_3, null);
+		GridBagLayout gbl_panel_3 = new GridBagLayout();
+		gbl_panel_3.columnWidths = new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+		gbl_panel_3.rowHeights = new int[] { 26, 14, 0, 0, 0, 0, 0 };
+		gbl_panel_3.columnWeights = new double[] { 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0,
+				Double.MIN_VALUE };
+		gbl_panel_3.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE };
+		panel_3.setLayout(gbl_panel_3);
+
+		GridBagConstraints gbc_lblCameOffPlatform = new GridBagConstraints();
+		gbc_lblCameOffPlatform.insets = new Insets(0, 0, 5, 5);
+		gbc_lblCameOffPlatform.gridx = 3;
+		gbc_lblCameOffPlatform.gridy = 1;
+		panel_3.add(lblCameOffPlatform, gbc_lblCameOffPlatform);
+
+		lblPosition.setHorizontalAlignment(SwingConstants.CENTER);
+		GridBagConstraints gbc_lblPosition = new GridBagConstraints();
+		gbc_lblPosition.anchor = GridBagConstraints.NORTH;
+		gbc_lblPosition.fill = GridBagConstraints.HORIZONTAL;
+		gbc_lblPosition.insets = new Insets(0, 0, 5, 5);
+		gbc_lblPosition.gridx = 6;
+		gbc_lblPosition.gridy = 1;
+		panel_3.add(lblPosition, gbc_lblPosition);
+
+		lblLevel.setHorizontalAlignment(SwingConstants.CENTER);
+		GridBagConstraints gbc_lblLevel = new GridBagConstraints();
+		gbc_lblLevel.insets = new Insets(0, 0, 5, 5);
+		gbc_lblLevel.anchor = GridBagConstraints.NORTH;
+		gbc_lblLevel.fill = GridBagConstraints.HORIZONTAL;
+		gbc_lblLevel.gridx = 9;
+		gbc_lblLevel.gridy = 1;
+		panel_3.add(lblLevel, gbc_lblLevel);
+
+		GridBagConstraints gbc_leftPlatform = new GridBagConstraints();
+		gbc_leftPlatform.insets = new Insets(0, 0, 5, 5);
+		gbc_leftPlatform.gridx = 3;
+		gbc_leftPlatform.gridy = 3;
+		leftPlatform.setModel(new DefaultComboBoxModel(new String[] { "No", "Yes" }));
+		panel_3.add(leftPlatform, gbc_leftPlatform);
+		GridBagConstraints gbc_Location = new GridBagConstraints();
+		gbc_Location.fill = GridBagConstraints.HORIZONTAL;
+		gbc_Location.insets = new Insets(0, 0, 5, 5);
+		gbc_Location.gridx = 6;
+		gbc_Location.gridy = 3;
+		Location.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (ComboBoxValue(level).equals("2") && ComboBoxValue(Location).equals("middle")) {
+					level.getModel().setSelectedItem(level.getModel().getElementAt(0));
+				}
+			}
+		});
+		panel_3.add(Location, gbc_Location);
+
+		Location.setModel(new DefaultComboBoxModel(new String[] { "Left", "middle", "right" }));
+		GridBagConstraints gbc_level = new GridBagConstraints();
+		gbc_level.insets = new Insets(0, 0, 5, 5);
+		gbc_level.fill = GridBagConstraints.HORIZONTAL;
+		gbc_level.gridx = 9;
+		gbc_level.gridy = 3;
+		level.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				if (ComboBoxValue(Location).equals("middle")) {
+					level.getModel().setSelectedItem(level.getModel().getElementAt(0));
+				}
+			}
+
+		});
+		panel_3.add(level, gbc_level);
+
+		level.setModel(new DefaultComboBoxModel(new String[] { "1", "2" }));
+
+		JPanel panel_1 = new JPanel();
+		CargoOrPanel.addTab("Panel", null, panel_1, null);
+		GridBagLayout gbl_panel_1 = new GridBagLayout();
+		gbl_panel_1.columnWidths = new int[] { 209, 112, 0, 0, 0, 0, 0, 0 };
+		gbl_panel_1.rowHeights = new int[] { 26, 0, 0, 0 };
+		gbl_panel_1.columnWeights = new double[] { 0.0, 1.0, 1.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
+		gbl_panel_1.rowWeights = new double[] { 0.0, 0.0, 0.0, Double.MIN_VALUE };
+		panel_1.setLayout(gbl_panel_1);
+
+		lblHighestRocketLevel.setHorizontalAlignment(SwingConstants.RIGHT);
+		GridBagConstraints gbc_lblHighestRocketLevel = new GridBagConstraints();
+		gbc_lblHighestRocketLevel.fill = GridBagConstraints.HORIZONTAL;
+		gbc_lblHighestRocketLevel.insets = new Insets(0, 0, 5, 5);
+		gbc_lblHighestRocketLevel.gridx = 1;
+		gbc_lblHighestRocketLevel.gridy = 1;
+		panel_1.add(lblHighestRocketLevel, gbc_lblHighestRocketLevel);
+		GridBagConstraints gbc_ComboBoxPanel = new GridBagConstraints();
+		gbc_ComboBoxPanel.anchor = GridBagConstraints.WEST;
+		gbc_ComboBoxPanel.insets = new Insets(0, 0, 5, 5);
+		gbc_ComboBoxPanel.gridx = 2;
+		gbc_ComboBoxPanel.gridy = 1;
+		panel_1.add(ComboBoxPanel, gbc_ComboBoxPanel);
+		ComboBoxPanel.setModel(new DefaultComboBoxModel(new String[] { "N/A", "1", "2", "3" }));
 
 		JPanel Cargo = new JPanel();
 		CargoOrPanel.addTab("Cargo", null, Cargo, null);
@@ -439,7 +560,32 @@ public class Scouting {
 		gbc_ComboBoxCargo.gridy = 1;
 		Cargo.add(ComboBoxCargo, gbc_ComboBoxCargo);
 
-		ComboBoxCargo.setModel(new DefaultComboBoxModel(new String[] { "N/A", "One", "Two", "Three" }));
+		ComboBoxCargo.setModel(new DefaultComboBoxModel(new String[] { "N/A", "1", "2", "3" }));
+
+		JPanel panel_5 = new JPanel();
+		CargoOrPanel.addTab("Penalties", null, panel_5, null);
+		GridBagLayout gbl_panel_5 = new GridBagLayout();
+		gbl_panel_5.columnWidths = new int[] { 201, 107, 0, 0, 0, 0 };
+		gbl_panel_5.rowHeights = new int[] { 28, 0, 0, 0 };
+		gbl_panel_5.columnWeights = new double[] { 0.0, 0.0, 1.0, 0.0, 1.0, Double.MIN_VALUE };
+		gbl_panel_5.rowWeights = new double[] { 0.0, 0.0, 1.0, Double.MIN_VALUE };
+		panel_5.setLayout(gbl_panel_5);
+
+		lblPenaltiesRecived.setHorizontalAlignment(SwingConstants.RIGHT);
+		GridBagConstraints gbc_lblPenaltiesRecived = new GridBagConstraints();
+		gbc_lblPenaltiesRecived.anchor = GridBagConstraints.EAST;
+		gbc_lblPenaltiesRecived.insets = new Insets(0, 0, 5, 5);
+		gbc_lblPenaltiesRecived.gridx = 1;
+		gbc_lblPenaltiesRecived.gridy = 1;
+		panel_5.add(lblPenaltiesRecived, gbc_lblPenaltiesRecived);
+		GridBagConstraints gbc_Penalties = new GridBagConstraints();
+		gbc_Penalties.anchor = GridBagConstraints.WEST;
+		gbc_Penalties.insets = new Insets(0, 0, 5, 5);
+		gbc_Penalties.gridx = 2;
+		gbc_Penalties.gridy = 1;
+		panel_5.add(Penalties, gbc_Penalties);
+
+		Penalties.setModel(new DefaultComboBoxModel(new String[] { "None", "Yellow", "red" }));
 
 		JPanel panel_4 = new JPanel();
 		CargoOrPanel.addTab("Defense or Defended Against", null, panel_4, null);
@@ -450,7 +596,6 @@ public class Scouting {
 				Double.MIN_VALUE };
 		gbl_panel_4.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE };
 		panel_4.setLayout(gbl_panel_4);
-		frame.setResizable(true);
 		GridBagConstraints gbc_lblDefendedAgainst = new GridBagConstraints();
 		gbc_lblDefendedAgainst.fill = GridBagConstraints.BOTH;
 		gbc_lblDefendedAgainst.insets = new Insets(0, 0, 5, 5);
@@ -477,132 +622,8 @@ public class Scouting {
 		gbc_Defended.gridx = 7;
 		gbc_Defended.gridy = 3;
 		panel_4.add(Defended, gbc_Defended);
-		
 
 		Defended.setModel(new DefaultComboBoxModel(new String[] { "No", "Yes" }));
-
-		JPanel panel_3 = new JPanel();
-		CargoOrPanel.addTab("Starting location", null, panel_3, null);
-		GridBagLayout gbl_panel_3 = new GridBagLayout();
-		gbl_panel_3.columnWidths = new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
-		gbl_panel_3.rowHeights = new int[] { 26, 14, 0, 0, 0, 0, 0 };
-		gbl_panel_3.columnWeights = new double[] { 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0,
-				Double.MIN_VALUE };
-		gbl_panel_3.rowWeights = new double[] { 0.0, 0.0, 0.0, 1.0, 0.0, 1.0, Double.MIN_VALUE };
-		panel_3.setLayout(gbl_panel_3);
-
-		
-
-		lblPosition.setHorizontalAlignment(SwingConstants.CENTER);
-		GridBagConstraints gbc_lblPosition = new GridBagConstraints();
-		gbc_lblPosition.anchor = GridBagConstraints.NORTH;
-		gbc_lblPosition.fill = GridBagConstraints.HORIZONTAL;
-		gbc_lblPosition.insets = new Insets(0, 0, 5, 5);
-		gbc_lblPosition.gridx = 6;
-		gbc_lblPosition.gridy = 3;
-		panel_3.add(lblPosition, gbc_lblPosition);
-
-		lblLevel.setHorizontalAlignment(SwingConstants.CENTER);
-		GridBagConstraints gbc_lblLevel = new GridBagConstraints();
-		gbc_lblLevel.insets = new Insets(0, 0, 5, 5);
-		gbc_lblLevel.anchor = GridBagConstraints.NORTH;
-		gbc_lblLevel.fill = GridBagConstraints.HORIZONTAL;
-		gbc_lblLevel.gridx = 9;
-		gbc_lblLevel.gridy = 3;
-		panel_3.add(lblLevel, gbc_lblLevel);
-		GridBagConstraints gbc_Location = new GridBagConstraints();
-		gbc_Location.fill = GridBagConstraints.HORIZONTAL;
-		gbc_Location.insets = new Insets(0, 0, 5, 5);
-		gbc_Location.gridx = 6;
-		gbc_Location.gridy = 4;
-		panel_3.add(Location, gbc_Location);
-
-		Location.setModel(new DefaultComboBoxModel(new String[] { "Left", "middle", "right" }));
-		GridBagConstraints gbc_level = new GridBagConstraints();
-		gbc_level.insets = new Insets(0, 0, 5, 5);
-		gbc_level.fill = GridBagConstraints.HORIZONTAL;
-		gbc_level.gridx = 9;
-		gbc_level.gridy = 4;
-		panel_3.add(level, gbc_level);
-
-		level.setModel(new DefaultComboBoxModel(new String[] { "One", "two" }));
-
-		JPanel panel = new JPanel();
-		CargoOrPanel.addTab("End game location", null, panel, null);
-		GridBagLayout gbl_panel = new GridBagLayout();
-		gbl_panel.columnWidths = new int[] { 122, 64, 82, 72, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
-		gbl_panel.rowHeights = new int[] { 32, 26, 0, 0, 0 };
-		gbl_panel.columnWeights = new double[] { 1.0, 1.0, 1.0, 1.0, 0.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0,
-				Double.MIN_VALUE };
-		gbl_panel.rowWeights = new double[] { 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE };
-		panel.setLayout(gbl_panel);
-
-		lblEndGameClimb.setHorizontalAlignment(SwingConstants.TRAILING);
-		GridBagConstraints gbc_lblEndGameClimb = new GridBagConstraints();
-		gbc_lblEndGameClimb.fill = GridBagConstraints.HORIZONTAL;
-		gbc_lblEndGameClimb.insets = new Insets(0, 0, 5, 5);
-		gbc_lblEndGameClimb.gridx = 2;
-		gbc_lblEndGameClimb.gridy = 2;
-		panel.add(lblEndGameClimb, gbc_lblEndGameClimb);
-		GridBagConstraints gbc_ComboBoxClimb = new GridBagConstraints();
-		gbc_ComboBoxClimb.anchor = GridBagConstraints.WEST;
-		gbc_ComboBoxClimb.insets = new Insets(0, 0, 5, 5);
-		gbc_ComboBoxClimb.gridx = 3;
-		gbc_ComboBoxClimb.gridy = 2;
-		panel.add(ComboBoxClimb, gbc_ComboBoxClimb);
-
-		ComboBoxClimb.setModel(new DefaultComboBoxModel(new String[] { "N/A", "One", "Two", "Three" }));
-
-		lblFaildedClimb.setHorizontalAlignment(SwingConstants.RIGHT);
-		GridBagConstraints gbc_lblFaildedClimb = new GridBagConstraints();
-		gbc_lblFaildedClimb.anchor = GridBagConstraints.EAST;
-		gbc_lblFaildedClimb.insets = new Insets(0, 0, 5, 5);
-		gbc_lblFaildedClimb.gridx = 6;
-		gbc_lblFaildedClimb.gridy = 2;
-		panel.add(lblFaildedClimb, gbc_lblFaildedClimb);
-		GridBagConstraints gbc_failedClimb = new GridBagConstraints();
-		gbc_failedClimb.insets = new Insets(0, 0, 5, 5);
-		gbc_failedClimb.fill = GridBagConstraints.HORIZONTAL;
-		gbc_failedClimb.gridx = 7;
-		gbc_failedClimb.gridy = 2;
-		panel.add(failedClimb, gbc_failedClimb);
-		msg.getFrame().setSize((frame.getWidth()/1380)*574, (frame.getHeight()/690)*191);
-		failedClimb.setModel(new DefaultComboBoxModel(new String[] { "N/A", "One", "Two", "Three" }));
-
-		JPanel panel_5 = new JPanel();
-		CargoOrPanel.addTab("Penalties", null, panel_5, null);
-		GridBagLayout gbl_panel_5 = new GridBagLayout();
-		gbl_panel_5.columnWidths = new int[] { 201, 107, 0, 0, 0, 0 };
-		gbl_panel_5.rowHeights = new int[] { 28, 0, 0, 0 };
-		gbl_panel_5.columnWeights = new double[] { 0.0, 0.0, 1.0, 0.0, 1.0, Double.MIN_VALUE };
-		gbl_panel_5.rowWeights = new double[] { 0.0, 0.0, 1.0, Double.MIN_VALUE };
-		panel_5.setLayout(gbl_panel_5);
-
-		JPanel panel_1 = new JPanel();
-		CargoOrPanel.addTab("Panel", null, panel_1, null);
-		GridBagLayout gbl_panel_1 = new GridBagLayout();
-		gbl_panel_1.columnWidths = new int[] { 209, 112, 0, 0, 0, 0, 0, 0 };
-		gbl_panel_1.rowHeights = new int[] { 26, 0, 0, 0 };
-		gbl_panel_1.columnWeights = new double[] { 0.0, 1.0, 1.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
-		gbl_panel_1.rowWeights = new double[] { 0.0, 0.0, 0.0, Double.MIN_VALUE };
-		panel_1.setLayout(gbl_panel_1);
-
-		
-		
-		lblHighestRocketLevel.setHorizontalAlignment(SwingConstants.RIGHT);
-		GridBagConstraints gbc_lblHighestRocketLevel = new GridBagConstraints();
-		gbc_lblHighestRocketLevel.fill = GridBagConstraints.HORIZONTAL;
-		gbc_lblHighestRocketLevel.insets = new Insets(0, 0, 5, 5);
-		gbc_lblHighestRocketLevel.gridx = 1;
-		gbc_lblHighestRocketLevel.gridy = 1;
-		panel_1.add(lblHighestRocketLevel, gbc_lblHighestRocketLevel);
-		GridBagConstraints gbc_ComboBoxPanel = new GridBagConstraints();
-		gbc_ComboBoxPanel.anchor = GridBagConstraints.WEST;
-		gbc_ComboBoxPanel.insets = new Insets(0, 0, 5, 5);
-		gbc_ComboBoxPanel.gridx = 2;
-		gbc_ComboBoxPanel.gridy = 1;
-		panel_1.add(ComboBoxPanel, gbc_ComboBoxPanel);
-		ComboBoxPanel.setModel(new DefaultComboBoxModel(new String[] { "N/A", "One", "Two", "Three" }));
 
 		JPanel panel_2 = new JPanel();
 		CargoOrPanel.addTab("Disabilities", null, panel_2, null);
@@ -612,32 +633,15 @@ public class Scouting {
 		gbl_panel_2.columnWeights = new double[] { 0.0, 0.0, 0.0, 1.0, 0.0, 1.0, Double.MIN_VALUE };
 		gbl_panel_2.rowWeights = new double[] { 0.0, 0.0, 0.0, 1.0, 1.0, Double.MIN_VALUE };
 		panel_2.setLayout(gbl_panel_2);
-
-		
-		
-		lblPenaltiesRecived.setHorizontalAlignment(SwingConstants.RIGHT);
-		GridBagConstraints gbc_lblPenaltiesRecived = new GridBagConstraints();
-		gbc_lblPenaltiesRecived.anchor = GridBagConstraints.EAST;
-		gbc_lblPenaltiesRecived.insets = new Insets(0, 0, 5, 5);
-		gbc_lblPenaltiesRecived.gridx = 1;
-		gbc_lblPenaltiesRecived.gridy = 1;
-		panel_5.add(lblPenaltiesRecived, gbc_lblPenaltiesRecived);
-		GridBagConstraints gbc_Penalties = new GridBagConstraints();
-		gbc_Penalties.anchor = GridBagConstraints.WEST;
-		gbc_Penalties.insets = new Insets(0, 0, 5, 5);
-		gbc_Penalties.gridx = 2;
-		gbc_Penalties.gridy = 1;
-		panel_5.add(Penalties, gbc_Penalties);
-
-		Penalties.setModel(new DefaultComboBoxModel(new String[] { "None", "Yellow", "red" }));
 		GridBagConstraints gbc_Condition = new GridBagConstraints();
 		gbc_Condition.insets = new Insets(0, 0, 5, 5);
 		gbc_Condition.anchor = GridBagConstraints.NORTHWEST;
 		gbc_Condition.gridx = 2;
 		gbc_Condition.gridy = 2;
 		panel_2.add(Condition, gbc_Condition);
-		
-				Condition.setModel(new DefaultComboBoxModel(new String[] { "working", "not working at all", "broken feature" }));
+
+		Condition
+				.setModel(new DefaultComboBoxModel(new String[] { "working", "not working at all", "broken feature" }));
 
 		btnEnter.setForeground(Color.BLACK);
 		btnEnter.setAction(action);
@@ -652,29 +656,91 @@ public class Scouting {
 		int height = (int) screenSize.getHeight();
 		enterable = false;
 		frame.setTitle("Made by Cole Perry from team 5667");
-		
+
 	}
+
 	private class a extends ComponentAdapter {
-		
+
 		@Override
-		
+
 		public void componentResized(ComponentEvent arg0) {
 			int newAvg = (frame.getWidth() + frame.getHeight()) / 2;
 			f = new Font("Tahoma", Font.BOLD, (13 * newAvg) / oldAvg);
 			setFonts();
-			GPL.frame.setSize((int)(((double)frame.getWidth()/1380.0)*456.0), (int)(((double)frame.getHeight()/601.0)*304.0));
-			frame.setSize( frame.getWidth(), frame.getWidth()/ratio);
-			table.setRowHeight((int)((double)table.getWidth()/(1380.0/16.0)));
+
+			GPL.frame.setSize((int) (((double) frame.getWidth() / 1380.0) * 456.0),
+					(int) (((double) frame.getHeight() / 601.0) * 304.0));
+			frame.setSize(frame.getWidth(), frame.getWidth() / ratio);
+			table.setRowHeight((int) ((double) table.getWidth() / (1380.0 / 16.0)));
 		}
 	}
+
 	void enter() throws IOException, InterruptedException {
 		if (enterable) {
 			try {
+				int totalPoints = 0;
+				File folder = new File(teamFolder.getAbsolutePath() + sep + team.getText());
+				// writer for round text file
+				folder.mkdir();
+				PrintWriter writer2 = new PrintWriter(
+						folder.getAbsolutePath() + sep + "Round " + RoundNum.getText() + ".txt", "UTF-8");
+
+				// creates top columns
+				ArrayList myList = new ArrayList();
+				TableModel tableModle = table.getModel();
+				writer2.print("Team number, round number,cycle time,");
+				for (int x = 0; x < tableModle.getColumnCount(); x++) {
+					// if last column don't add comma
+					if (x < tableModle.getColumnCount() - 1) {
+						writer2.print(tableModle.getColumnName(x) + ",");
+						System.out.println(tableModle.getColumnName(x));
+					} else {
+						writer2.print(tableModle.getColumnName(x));
+						System.out.println(tableModle.getColumnName(x));
+					}
+				}
+				writer2.println();
+				// creates table
+				for (int i = 0; i < tableModle.getRowCount(); i++) {
+					if (getCellValue(tableModle, i, 1) != null) {
+						if (!getCellValue(tableModle, i, 1).equals("")) {
+							writer2.print(team.getText() + "," + RoundNum.getText() + ",");
+
+							if (!getCellValue(tableModle, i, 2).contains("Failed")) {
+								if (getCellValue(tableModle, i, 3).contains("Hatch")) {
+									if (getCellValue(tableModle, i, 2).equals("CS")&& getCellValue(tableModle, i, 3).contains("sand storm")) {
+										totalPoints += 5;
+										System.out.println("Hit hatch");
+									} else {
+										totalPoints += 2;
+										System.out.println("Hit hatch");
+									}
+								} else {
+									totalPoints += 3;
+									System.out.println("Hit cargo");
+								}
+							}
+							writer2.print(Integer.parseInt(getCellValue(tableModle, i, 0))
+									- Integer.parseInt(getCellValue(tableModle, i, 1)) + ",");
+							// creates columns
+							for (int y = 0; y < tableModle.getColumnCount(); y++) {
+
+								if (y < tableModle.getColumnCount() - 1) {
+									writer2.print(getCellValue(tableModel, i, y) + ",");
+								} else {
+									writer2.print(getCellValue(tableModel, i, y));
+								}
+							}
+							writer2.println("");
+						}
+					}
+				}
+				writer2.close();
+
 				// creates scouting folder
 				teamFolder = new File(Desktop + sep + "scouting");
 				teamFolder.mkdir();
-				File f = new File(teamFolder.getAbsolutePath() + sep + team.getText());
-				f.mkdir();
+
 				// creates and populates the teams info text file
 
 				File[] files = teamFolder.listFiles();
@@ -686,60 +752,33 @@ public class Scouting {
 						break;
 					}
 				}
-				
+
 				Writer FW = new FileWriter(teamFolder.getAbsolutePath() + sep + "teams info.txt", true);
 				BufferedWriter writer = new BufferedWriter(FW);
 				if (foundFile == false) {
 					// writes header if there was no teams info.txt found
 					writer.write(
-							"Team number,Round number,penalties,foul count,defended,defeneded against,highest cargo,highest panel,starting location,robot condition,climb level,failed climb,comments");
+							"Team number,Round number,total point,penalties,foul count,defended,defeneded against,highest cargo,highest panel,starting level,starting location,left platform,condition,end game climb,failed climb,comments");
 				}
 				writer.newLine();
 				if (TPComments.getText().equals("")) {
-					
+
 					TPComments.setText("None");
 				}
+
+				if (ComboBoxValue(leftPlatform).equals("Yes")) {
+					totalPoints += (Integer.parseInt(ComboBoxValue(level)) * 3)
+							+ (Integer.parseInt(ComboBoxValue(ComboBoxClimb)) * 3);
+				}
 				// writes data
-				writer.write(team.getText() + "," + RoundNum.getText() + "," + ComboBoxValue(Penalties) + "," + fouls
-						+ "," + ComboBoxValue(Defended) + "," + ComboBoxValue(DefendedAgainst) + ","
-						+ ComboBoxValue(ComboBoxCargo) + "," + ComboBoxValue(ComboBoxPanel) + ","
-						+ ComboBoxValue(Location) + ":" + ComboBoxValue(level) + "," + ComboBoxValue(Condition) + ","
+				writer.write(team.getText() + "," + RoundNum.getText() + "," + totalPoints + ","
+						+ ComboBoxValue(Penalties) + "," + fouls + "," + ComboBoxValue(Defended) + ","
+						+ ComboBoxValue(DefendedAgainst) + "," + ComboBoxValue(ComboBoxCargo) + ","
+						+ ComboBoxValue(ComboBoxPanel) + "," + ComboBoxValue(level) + "," + ComboBoxValue(Location)
+						+ "," + ComboBoxValue(leftPlatform) + "," + ComboBoxValue(Condition) + ","
 						+ ComboBoxValue(ComboBoxClimb) + "," + ComboBoxValue(failedClimb) + "," + TPComments.getText());
 				writer.close();
 				FW.close();
-				// writer for round text file
-				PrintWriter writer2 = new PrintWriter(
-						f.getAbsolutePath() + sep + "Round " + RoundNum.getText() + ".txt", "UTF-8");
-
-				// creates top columns
-				ArrayList myList = new ArrayList();
-				TableModel tableModle = table.getModel();
-				writer2.print("Team number, round number,");
-				for (int x = 0; x < tableModle.getColumnCount(); x++) {
-					// if last column don't add comma
-					if (x < tableModle.getColumnCount() - 1) {
-						writer2.print(tableModle.getColumnName(x) + ",");
-					} else {
-						writer2.print(tableModle.getColumnName(x));
-					}
-				}
-				writer2.println();
-				// creates table
-				for (int i = 0; i < tableModle.getRowCount(); i++) {
-					if (tableModle.getValueAt(i, 3) != null) {
-						writer2.print(team.getText() + "," + RoundNum.getText() + ",");
-						// creates columns
-						for (int y = 0; y < tableModle.getColumnCount(); y++) {
-							if (y < tableModle.getColumnCount() - 1) {
-								writer2.print(getCellValue(tableModel, i, y) + ",");
-							} else {
-								writer2.print(getCellValue(tableModel, i, y));
-							}
-						}
-						writer2.println("");
-					}
-				}
-				writer2.close();
 				compileData();
 			} catch (FileNotFoundException | UnsupportedEncodingException e1) {
 				// TODO Auto-generated catch block
@@ -749,17 +788,18 @@ public class Scouting {
 			reset();
 
 		} else {
-			// popup window if they didnt put in the info
+			// popup window if they didn't put in the info
 			msg.display(frame, "Enter info", "Please enter team and or round numbers", "Ok");
 		}
 	}
 
 	void setFonts() {
-		Font medFont = new Font("Tahoma", Font.BOLD, (int) ((double)13*1.5));
+		Font medFont = new Font("Tahoma", Font.BOLD, (int) ((double) 13 * 1.5));
 		msg.messageBox.setFont(f);
 		ComboBoxPanel.setFont(f);
-		
+
 		GPL.droppedr1.setFont(f);
+		leftPlatform.setFont(f);
 		GPL.droppedCs.setFont(f);
 		GPL.droppedR3.setFont(f);
 		Penalties.setFont(f);
@@ -768,6 +808,7 @@ public class Scouting {
 		header.setFont(f);
 		table.setTableHeader(header);
 		msg.btnEnter.setFont(f);
+		lblCameOffPlatform.setFont(medFont);
 		level.setFont(f);
 		btnStartMatch.setFont(f);
 		btnHatch.setFont(f);
@@ -776,7 +817,7 @@ public class Scouting {
 		TPComments.setFont(f);
 		btnEnter.setFont(f);
 		Condition.setFont(f);
-		
+
 		DefendedAgainst.setFont(f);
 		failedClimb.setFont(f);
 		lblFaildedClimb.setFont(f);
@@ -799,7 +840,7 @@ public class Scouting {
 		lblRound.setFont(medFont);
 		team.setFont(medFont);
 		lblTeam.setFont(medFont);
-		timerLbl.setFont(new Font("Tahoma", Font.BOLD, (46/13)*f.getSize()));
+		timerLbl.setFont(new Font("Tahoma", Font.BOLD, (46 / 13) * f.getSize()));
 		lblCommentsno.setFont(f);
 		lblPenaltiesRecived.setFont(f);
 		lblHighestRocketLevel.setFont(f);
@@ -937,6 +978,15 @@ public class Scouting {
 				if (hasStarted == true) {
 					currentTime = Integer.toString(setInterval());
 					timerLbl.setText(currentTime);
+
+					progressBar.setValue((int) (100.0 - ((double) Integer.parseInt(currentTime) / (double) 150) * 100));
+					if (Integer.parseInt(currentTime) > 60) {
+						progressBar.setForeground(new Color(0, 255, 0));
+					} else if (Integer.parseInt(currentTime) > 20) {
+						progressBar.setForeground(new Color(255, 255, 0));
+					} else {
+						progressBar.setForeground(new Color(255, 0, 0));
+					}
 				}
 				if (Integer.parseInt(currentTime) == 0) {
 					hasStarted = false;
@@ -1016,7 +1066,9 @@ public class Scouting {
 		currentRow = 0;
 		// clears combo boxes
 		resetComboBox(ComboBoxPanel);
+		resetComboBox(leftPlatform);
 		resetComboBox(ComboBoxCargo);
+		progressBar.setValue(0);
 		resetComboBox(ComboBoxClimb);
 		resetComboBox(Location);
 		resetComboBox(level);
@@ -1025,6 +1077,7 @@ public class Scouting {
 		resetComboBox(Defended);
 		resetComboBox(failedClimb);
 		resetComboBox(Condition);
+		progressBar.setForeground(new Color(0, 255, 0));
 		fouls = 0;
 		btnEnter.setBackground(new Color(100, 100, 100));
 		team.setText("");
@@ -1061,6 +1114,7 @@ public class Scouting {
 		if (hasHatch) {
 			if (Integer.parseInt(currentTime) >= 135) {
 				table.setValueAt("hatch(sand storm)", currentRow, 3);
+
 			} else {
 				table.setValueAt("hatch", currentRow, 3);
 			}
@@ -1089,8 +1143,9 @@ public class Scouting {
 		try {
 			// writes file
 			BufferedWriter writer = new BufferedWriter(
-					new FileWriter(teamFolder.getAbsolutePath() + sep + "data for spreadsheet.txt"));
+					new FileWriter(teamFolder.getAbsolutePath() + sep + "game piece data.txt"));
 			// writers header
+			writer.write("Team number, round number,cycle time,");
 			for (int x = 0; x < tableModel.getColumnCount(); x++) {
 				// if last column don't add comma
 				if (x < tableModel.getColumnCount() - 1) {

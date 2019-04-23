@@ -1,6 +1,7 @@
 package FrcDeepSpace;
 
 import java.awt.Color;
+ 
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 
@@ -31,7 +32,10 @@ public class gamePieceLocation {
 	int heightRatio,widthRatio;
 	public gamePieceLocation(Scouting s) throws IOException {
 		initialize();
-		frame.setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
+		frame.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
+		
+		
+		
 		main = s;
 	}
 	private void initialize() throws IOException {
@@ -40,7 +44,6 @@ public class gamePieceLocation {
 
 		frame.setResizable(true);
 		frame.setBounds(100, 100, 456, 304);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		
 		
@@ -50,8 +53,8 @@ public class gamePieceLocation {
 				dropped("cs");
 			}
 		});
-		frame.getContentPane().setLayout(new MigLayout("", "[114px,grow][31px,grow][114px,grow][169px,grow]", "[112px,grow][11px][29px,grow][11px][29px,grow][11px][29px,grow]"));
-		frame.getContentPane().add(droppedCs, "cell 0 6,grow");
+		frame.getContentPane().setLayout(new MigLayout("", "[114px,grow][31px,grow][114px,grow][169px,grow]", "[112px,grow][29px,grow][29px,grow][29px,grow]"));
+		frame.getContentPane().add(droppedCs, "cell 0 3,grow");
 
 		
 		
@@ -60,7 +63,7 @@ public class gamePieceLocation {
 				dropped("r1");
 			}
 		});
-		frame.getContentPane().add(droppedr1, "cell 2 6,grow");
+		frame.getContentPane().add(droppedr1, "cell 2 3,grow");
 
 		
 		
@@ -69,7 +72,7 @@ public class gamePieceLocation {
 				dropped("r2");
 			}
 		});
-		frame.getContentPane().add(droppedR2, "cell 2 4,grow");
+		frame.getContentPane().add(droppedR2, "cell 2 2,grow");
 
 		
 		
@@ -78,12 +81,12 @@ public class gamePieceLocation {
 				dropped("r3");
 			}
 		});
-		frame.getContentPane().add(droppedR3, "cell 2 2,grow");
+		frame.getContentPane().add(droppedR3, "cell 2 1,grow");
 
 		ImageIcon icn = new ImageIcon(getClass().getClassLoader().getResource("rocket.PNG"));
 		BufferedImage ref = ImageIO.read(getClass().getClassLoader().getResource("rocketRef.png"));
 		JLabel Rocket = new JLabel(icn);
-		frame.getContentPane().add(Rocket, "cell 3 0 1 7,growx,aligny center");
+		frame.getContentPane().add(Rocket, "cell 3 0 1 4,growx,aligny center");
 		Rocket.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent arg0) {
@@ -148,6 +151,17 @@ public class gamePieceLocation {
 		main.btnHatch.setVisible(true);
 		main.btnCargo.setVisible(true);
 		frame.setVisible(false);
+		if (Integer.parseInt(main.currentTime) >= 135) {
+			main.leftPlatform.getModel().setSelectedItem(main.leftPlatform.getModel().getElementAt(1));
+		}
+		else {
+			if(main.hatch) {
+				main.table.setValueAt("hatch", main.currentRow, 3);
+			}
+			else {
+				main.table.setValueAt("cargo", main.currentRow, 3);
+			}
+		}
 		main.currentRow++;
 	}
 
@@ -239,6 +253,18 @@ public class gamePieceLocation {
 	void done() {
 		main.btnHatch.setVisible(true);
 		main.btnCargo.setVisible(true);
+		if (Integer.parseInt(main.currentTime) >= 135) {
+			main.leftPlatform.getModel().setSelectedItem(main.leftPlatform.getModel().getElementAt(1));
+		}
+		else {
+			if(main.hatch) {
+				main.table.setValueAt("hatch", main.currentRow, 3);
+			}
+			else {
+				
+				main.table.setValueAt("cargo", main.currentRow, 3);
+			}
+		}
 		frame.setVisible(false);
 		main.table.setValueAt(main.currentTime, main.currentRow, 1);
 		main.currentRow++;

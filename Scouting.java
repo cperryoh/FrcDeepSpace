@@ -754,7 +754,7 @@ public class Scouting {
 				BufferedWriter writer = new BufferedWriter(FW);
 				if (foundFile == false) {
 					// writes header if there was no teams info.txt found
-					writer.write("Team number,Round number,total point,penalties,foul count,defended,defeneded against,highest cargo,highest panel,starting level,starting location,left platform,climb level points,failed climb,comments");
+					writer.write("Team number,Round number,total point,penalties,foul count,defended,defeneded against,highest cargo,highest panel,starting level,starting location,left platform,condition,failed climb,comments");
 				}
 				writer.newLine();
 				if (TPComments.getText().equals("")) {

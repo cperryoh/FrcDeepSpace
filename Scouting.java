@@ -677,6 +677,11 @@ public class Scouting {
 	void enter() throws IOException, InterruptedException {
 		if (enterable) {
 			try {
+<<<<<<< HEAD
+=======
+				
+				//sound s = new sound();
+>>>>>>> 41f3671a8550241af4993d3d7f30b2d50e61d131
 				int totalPoints = 0;
 				File folder = new File(teamFolder.getAbsolutePath() + sep + team.getText());
 				// writer for round text file
@@ -709,14 +714,11 @@ public class Scouting {
 								if (getCellValue(tableModle, i, 3).contains("Hatch")) {
 									if (getCellValue(tableModle, i, 2).equals("CS")&& getCellValue(tableModle, i, 3).contains("sand storm")) {
 										totalPoints += 5;
-										System.out.println("Hit hatch");
 									} else {
 										totalPoints += 2;
-										System.out.println("Hit hatch");
 									}
 								} else {
 									totalPoints += 3;
-									System.out.println("Hit cargo");
 								}
 							}
 							writer2.print(Integer.parseInt(getCellValue(tableModle, i, 0))
@@ -751,23 +753,23 @@ public class Scouting {
 						break;
 					}
 				}
-
 				Writer FW = new FileWriter(teamFolder.getAbsolutePath() + sep + "teams info.txt", true);
 				BufferedWriter writer = new BufferedWriter(FW);
 				if (foundFile == false) {
 					// writes header if there was no teams info.txt found
-					writer.write(
-							"Team number,Round number,total point,penalties,foul count,defended,defeneded against,highest cargo,highest panel,starting level,starting location,left platform,condition,end game climb,failed climb,comments");
+					writer.write("Team number,Round number,total point,penalties,foul count,defended,defeneded against,highest cargo,highest panel,starting level,starting location,left platform,condition,end game climb,failed climb,comments");
 				}
 				writer.newLine();
 				if (TPComments.getText().equals("")) {
-
 					TPComments.setText("None");
 				}
 
 				if (ComboBoxValue(leftPlatform).equals("Yes")) {
 					totalPoints += (Integer.parseInt(ComboBoxValue(level)) * 3)
 							+ (Integer.parseInt(ComboBoxValue(ComboBoxClimb)) * 3);
+				}
+				else {
+					totalPoints += (Integer.parseInt(ComboBoxValue(ComboBoxClimb)) * 3);
 				}
 				// writes data
 				writer.write(team.getText() + "," + RoundNum.getText() + "," + totalPoints + ","

@@ -93,7 +93,7 @@ public class Scouting {
 	JComboBox ComboBoxPanel = new JComboBox();
 	static int oldAvg = 0;
 	boolean hatch = false;
-	JComboBox leftPlatform = new JComboBox();
+	public JComboBox leftPlatform = new JComboBox();
 	JComboBox Defended = new JComboBox();
 	JComboBox DefendedAgainst = new JComboBox();
 	JComboBox ComboBoxCargo = new JComboBox();
@@ -668,8 +668,7 @@ public class Scouting {
 			f = new Font("Tahoma", Font.BOLD, (13 * newAvg) / oldAvg);
 			setFonts();
 
-			GPL.frame.setSize((int) (((double) frame.getWidth() / 1380.0) * 456.0),
-					(int) (((double) frame.getHeight() / 601.0) * 304.0));
+			GPL.frame.setSize((int) (((double) frame.getWidth() / 1380.0) * 456.0),(int) (((double) frame.getHeight() / 601.0) * 304.0));
 			frame.setSize(frame.getWidth(), frame.getWidth() / ratio);
 			table.setRowHeight((int) ((double) table.getWidth() / (1380.0 / 16.0)));
 		}
@@ -678,8 +677,6 @@ public class Scouting {
 	void enter() throws IOException, InterruptedException {
 		if (enterable) {
 			try {
-				System.out.println(getClass().getClassLoader().getResource("sound.wav").getPath());
-				//sound s = new sound();
 				int totalPoints = 0;
 				File folder = new File(teamFolder.getAbsolutePath() + sep + team.getText());
 				// writer for round text file

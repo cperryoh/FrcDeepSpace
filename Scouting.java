@@ -2,21 +2,15 @@
 package FrcDeepSpace;
 
 import java.awt.EventQueue;
-//import java.awt.List;
 import java.awt.Toolkit;
-
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
-//import java.awt.BorderLayout;
 import javax.swing.JTable;
-//import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import javax.swing.table.TableModel;
-//import javax.tools.DocumentationTool.Location;
 import javax.swing.JPanel;
 import javax.swing.JButton;
-//import javax.imageio.ImageIO;
 import javax.swing.AbstractAction;
 import java.awt.event.ActionEvent;
 import java.io.BufferedReader;
@@ -29,6 +23,9 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.io.Writer;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -58,7 +55,6 @@ import javax.swing.border.LineBorder;
 import javax.swing.plaf.FontUIResource;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
-
 import net.miginfocom.swing.MigLayout;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
@@ -93,7 +89,7 @@ public class Scouting {
 	JComboBox ComboBoxPanel = new JComboBox();
 	static int oldAvg = 0;
 	boolean hatch = false;
-	JComboBox leftPlatform = new JComboBox();
+	public JComboBox leftPlatform = new JComboBox();
 	JComboBox Defended = new JComboBox();
 	JComboBox DefendedAgainst = new JComboBox();
 	JComboBox ComboBoxCargo = new JComboBox();
@@ -110,7 +106,7 @@ public class Scouting {
 	JComboBox level = new JComboBox();
 	JComboBox Location = new JComboBox();
 	JComboBox failedClimb = new JComboBox();
-	File teamFolder = new File(Desktop + sep + "scouting");
+	File teamFolder = new File(Desktop + sep + System.getProperty("user.name")+"scouting");
 	public static JTable table;
 	Font f = new Font("Tahoma", Font.BOLD, 13);
 	static int selectedRow = 0;
@@ -668,8 +664,7 @@ public class Scouting {
 			f = new Font("Tahoma", Font.BOLD, (13 * newAvg) / oldAvg);
 			setFonts();
 
-			GPL.frame.setSize((int) (((double) frame.getWidth() / 1380.0) * 456.0),
-					(int) (((double) frame.getHeight() / 601.0) * 304.0));
+			GPL.frame.setSize((int) (((double) frame.getWidth() / 1380.0) * 456.0),(int) (((double) frame.getHeight() / 601.0) * 304.0));
 			frame.setSize(frame.getWidth(), frame.getWidth() / ratio);
 			table.setRowHeight((int) ((double) table.getWidth() / (1380.0 / 16.0)));
 		}
@@ -678,8 +673,6 @@ public class Scouting {
 	void enter() throws IOException, InterruptedException {
 		if (enterable) {
 			try {
-				
-				//sound s = new sound();
 				int totalPoints = 0;
 				File folder = new File(teamFolder.getAbsolutePath() + sep + team.getText());
 				// writer for round text file
@@ -873,7 +866,7 @@ public class Scouting {
 
 	// file chooser
 
-	// reset combo box function cuz i'm lazy
+	// reset combo box function cuz i'm lazy lol
 	void resetComboBox(JComboBox box) {
 		box.getModel().setSelectedItem(box.getModel().getElementAt(0));
 	}
@@ -1123,6 +1116,9 @@ public class Scouting {
 				table.setValueAt("cargo", currentRow, 3);
 			}
 		}
+		if (Integer.parseInt(currentTime) >= 135 && hasStarted) {
+			leftPlatform.getModel().setSelectedItem(leftPlatform.getModel().getElementAt(1));
+		}
 		btnHatch.setVisible(false);
 		hatch = hasHatch;
 		btnCargo.setVisible(false);
@@ -1177,5 +1173,18 @@ public class Scouting {
 			// TODO Auto-generated catch block
 			e2.printStackTrace();
 		}
+	}
+	private static boolean wifiIsOn() {
+	    try {
+	        final URL url = new URL("http://www.google.com");
+	        final URLConnection conn = url.openConnection();
+	        conn.connect();
+	        conn.getInputStream().close();
+	        return true;
+	    } catch (MalformedURLException e) {
+	        throw new RuntimeException(e);
+	    } catch (IOException e) {
+	        return false;
+	    }
 	}
 }

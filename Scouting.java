@@ -677,11 +677,6 @@ public class Scouting {
 	void enter() throws IOException, InterruptedException {
 		if (enterable) {
 			try {
-<<<<<<< HEAD
-=======
-				
-				//sound s = new sound();
->>>>>>> 41f3671a8550241af4993d3d7f30b2d50e61d131
 				int totalPoints = 0;
 				File folder = new File(teamFolder.getAbsolutePath() + sep + team.getText());
 				// writer for round text file
@@ -875,7 +870,7 @@ public class Scouting {
 
 	// file chooser
 
-	// reset combo box function cuz i'm lazy
+	// reset combo box function cuz i'm lazy lol
 	void resetComboBox(JComboBox box) {
 		box.getModel().setSelectedItem(box.getModel().getElementAt(0));
 	}

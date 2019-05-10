@@ -261,7 +261,7 @@ public class gamePieceLocation {
 				main.table.setValueAt("hatch", main.currentRow, 3);
 			}
 			else {
-				
+				 
 				main.table.setValueAt("cargo", main.currentRow, 3);
 			}
 		}

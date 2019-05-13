@@ -946,8 +946,6 @@ public class Scouting {
 		});
 	}
 
-	// test
-	// resets the program
 	private class SwingAction_4 extends AbstractAction {
 		public SwingAction_4() {
 			putValue(NAME, "Clear all fields");

@@ -106,7 +106,7 @@ public class Scouting {
 	JComboBox level = new JComboBox();
 	JComboBox Location = new JComboBox();
 	JComboBox failedClimb = new JComboBox();
-	File teamFolder = new File(Desktop + sep + System.getProperty("user.name")+"scouting");
+	File teamFolder;
 	public static JTable table;
 	Font f = new Font("Tahoma", Font.BOLD, 13);
 	static int selectedRow = 0;
@@ -162,7 +162,7 @@ public class Scouting {
 
 	public Scouting() throws IOException {
 		initialize();
-
+		 teamFolder = new File(Desktop + sep +"scouting");
 		teamFolder.mkdir();
 
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -728,11 +728,6 @@ public class Scouting {
 					}
 				}
 				writer2.close();
-
-				// creates scouting folder
-				teamFolder = new File(Desktop + sep + "scouting");
-				teamFolder.mkdir();
-
 				// creates and populates the teams info text file
 
 				File[] files = teamFolder.listFiles();
@@ -1171,18 +1166,5 @@ public class Scouting {
 			// TODO Auto-generated catch block
 			e2.printStackTrace();
 		}
-	}
-	private static boolean wifiIsOn() {
-	    try {
-	        final URL url = new URL("http://www.google.com");
-	        final URLConnection conn = url.openConnection();
-	        conn.connect();
-	        conn.getInputStream().close();
-	        return true;
-	    } catch (MalformedURLException e) {
-	        throw new RuntimeException(e);
-	    } catch (IOException e) {
-	        return false;
-	    }
 	}
 }

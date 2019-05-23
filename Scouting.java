@@ -958,7 +958,7 @@ public class Scouting {
 	}
 
 	void timer() {
-		int delay = 1000; // how long till the timer begins
+		int delay = 1000;// how long till the timer begins
 		int period = 1000;// how long between each execution of run() inside timer task
 		timerLbl.setText("150");
 		timer = new Timer();

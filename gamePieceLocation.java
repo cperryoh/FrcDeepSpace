@@ -36,6 +36,7 @@ public class gamePieceLocation {
 		
 		
 		
+		
 		main = s;
 	}
 	private void initialize() throws IOException {

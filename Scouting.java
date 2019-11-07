@@ -58,6 +58,9 @@ import java.awt.Insets;
 import net.miginfocom.swing.MigLayout;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
+
 import javax.swing.JTextArea;
 import javax.swing.JProgressBar;
 
@@ -94,8 +97,6 @@ public class Scouting {
 	JComboBox DefendedAgainst = new JComboBox();
 	JComboBox ComboBoxCargo = new JComboBox();
 	JLabel lblCommentsno = new JLabel("Comments (No commas):");
-	JLabel lblTeam = new JLabel("Team:");
-	JLabel lblRound = new JLabel("Round:");
 	JLabel lblRocketLevel = new JLabel("Highest rocket level:");
 	JLabel lblEndGameClimb = new JLabel("End game climb:");
 	JLabel lblLevel = new JLabel("level");
@@ -162,7 +163,9 @@ public class Scouting {
 
 	public Scouting() throws IOException {
 		initialize();
-		 teamFolder = new File(Desktop + sep +"scouting");
+		createTooltip(RoundNum,"Current round");
+		createTooltip(team,"Team number");
+		teamFolder = new File(Desktop + sep +"scouting");
 		teamFolder.mkdir();
 
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -335,59 +338,63 @@ public class Scouting {
 
 		frame.getContentPane().add(TPComments, "cell 5 1,grow");
 		TPComments.setLineWrap(true);
-
-		frame.getContentPane().add(lblTeam, "cell 5 2,grow");
-
-		lblTeam.setHorizontalAlignment(SwingConstants.TRAILING);
 		team = new JTextField();
-		frame.getContentPane().add(team, "cell 6 2,grow");
-
-		// easter egg key listener =)
-		team.addKeyListener(new KeyAdapter() {
-			@Override
-			public void keyReleased(KeyEvent arg0) {
-				if (isNumber(team.getText()) == false || isNumber(RoundNum.getText()) == false) {
-					btnEnter.setBackground(new Color(100, 100, 100));
-					enterable = false;
-				} else {
-					enterable = true;
-					btnEnter.setBackground(btnReset.getBackground());
-				}
-				if (team.getText().equals("5667")) {
-					msg.display(frame, "Hello!!", "Hey that's my team. You are in the presence of greatness!",
-							"Yeah ok...");
-				}
-				if (team.getText().equals("3003") || team.getText().equals("120")) {
-					msg.display(frame, "Tell them I say hi", "Hey my team had an alliance with them!!",
-							"Tell them 5667 says hi");
-				}
-
-			}
-		});
-		team.setColumns(10);
+		frame.getContentPane().add(team, "cell 5 2,grow");
+		
+				// easter egg key listener =)
+				team.addKeyListener(new KeyAdapter() {
+					@Override
+					public void keyReleased(KeyEvent arg0) {
+						if (isNumber(team.getText()) == false || isNumber(RoundNum.getText()) == false) {
+							btnEnter.setBackground(new Color(100, 100, 100));
+							enterable = false;
+						} else {
+							enterable = true;
+							btnEnter.setBackground(btnReset.getBackground());
+						}
+						if (team.getText().equals("5667")) {
+							msg.display(frame, "Hello!!", "Hey that's my team. You are in the presence of greatness!",
+									"Yeah ok...");
+						}
+						if (team.getText().equals("3003") || team.getText().equals("120")) {
+							msg.display(frame, "Tell them I say hi", "Hey my team had an alliance with them!!",
+									"Tell them 5667 says hi");
+						}
+		
+					}
+					@Override
+					public void keyTyped(KeyEvent e) {
+						if (!Character.isDigit(e.getKeyChar())&&e.getKeyCode()!=KeyEvent.VK_ENTER) {
+			                e.consume();
+			            }
+					}
+				});
+				team.setColumns(10);
 		frame.getContentPane().add(btnAddFoul, "cell 1 4,grow");
-
-		frame.getContentPane().add(lblRound, "cell 5 4,grow");
-
-		lblRound.setHorizontalAlignment(SwingConstants.TRAILING);
 		RoundNum = new JTextField();
-		frame.getContentPane().add(RoundNum, "cell 6 4,grow");
-
-		// key listener for enabling/disabling the finish button
-		RoundNum.addKeyListener(new KeyAdapter() {
-			@Override
-			public void keyReleased(KeyEvent e) {
-				if (isNumber(team.getText()) == false || isNumber(RoundNum.getText()) == false) {
-					btnEnter.setBackground(new Color(99, 100, 100));
-					enterable = false;
-
-				} else {
-					enterable = true;
-					btnEnter.setBackground(btnReset.getBackground());
-				}
-			}
-		});
-		RoundNum.setColumns(10);
+		frame.getContentPane().add(RoundNum, "cell 5 4,grow");
+		
+				// key listener for enabling/disabling the finish button
+				RoundNum.addKeyListener(new KeyAdapter() {
+					@Override
+					public void keyReleased(KeyEvent e) {
+						if (isNumber(team.getText()) == false || isNumber(RoundNum.getText()) == false) {
+							btnEnter.setBackground(new Color(99, 100, 100));
+							enterable = false;
+		
+						} else {
+							enterable = true;
+							btnEnter.setBackground(btnReset.getBackground());
+						}
+					}
+					@Override
+					public void keyTyped(KeyEvent e) {
+						if (!Character.isDigit(e.getKeyChar())&&e.getKeyCode()!=KeyEvent.VK_ENTER) {
+			                e.consume();
+			            }
+					}
+				});
+				RoundNum.setColumns(10);
 		frame.getContentPane().add(btnStartMatch, "cell 1 5,grow");
 		frame.getContentPane().add(btnHatch, "cell 0 6,grow");
 		frame.getContentPane().add(btnCargo, "cell 2 6,grow");
@@ -653,7 +660,24 @@ public class Scouting {
 		frame.setTitle("Made by Cole Perry from team 5667");
 
 	}
-
+	public void createTooltip(JTextField tf, String message) {
+    	tf.setText(message);
+    	tf.setForeground(Color.gray);
+    	tf.addFocusListener(new FocusAdapter() {
+        	public void focusGained(FocusEvent arg0) {
+        		if(tf.getText().equals(message)) {
+        			tf.setText("");
+        		}
+        		tf.setForeground(Color.black);
+        	}
+        	public void focusLost(FocusEvent e) {
+        		if(tf.getText().equals("")) {
+        			tf.setText(message);
+        			tf.setForeground(Color.gray);
+        		}
+        	}
+        });
+    }
 	private class a extends ComponentAdapter {
 
 		@Override
@@ -773,9 +797,9 @@ public class Scouting {
 			}
 			reset();
 
-		} else {
-			// popup window if they didn't put in the info
-			msg.display(frame, "Enter info", "Please enter team and or round numbers", "Ok");
+		}
+		else {
+			msg.display(frame, "", "Please enter a team or round number", "Ok");
 		}
 	}
 
@@ -823,9 +847,7 @@ public class Scouting {
 		mnStartingGamePiece.setFont(f);
 		table.setFont(f);
 		RoundNum.setFont(medFont);
-		lblRound.setFont(medFont);
 		team.setFont(medFont);
-		lblTeam.setFont(medFont);
 		timerLbl.setFont(new Font("Tahoma", Font.BOLD, (46 / 13) * f.getSize()));
 		lblCommentsno.setFont(f);
 		lblPenaltiesRecived.setFont(f);
@@ -952,7 +974,7 @@ public class Scouting {
 	}
 
 	void timer() {
-		int delay = 1000; // how long till the timer begins
+		int delay = 1000;// how long till the timer begins
 		int period = 1000;// how long between each execution of run() inside timer task
 		timerLbl.setText("150");
 		timer = new Timer();

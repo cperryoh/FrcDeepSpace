@@ -327,8 +327,7 @@ public class Scouting {
 
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane()
-				.setLayout(new MigLayout("", "[152px][111px][119px][72px][111px][][grow][152px][grow][452px,grow]",
-						"[][16px,grow][23px][][25px][27px][27px][74px][][25px][134px,grow][35px]"));
+				.setLayout(new MigLayout("", "[152px][111px][119px,grow][72px][111px][][grow][152px][grow][452px,grow]", "[][16px,grow][23px][][25px][27px][27px][74px][][25px][134px,grow][35px]"));
 
 		frame.getContentPane().add(lblCommentsno, "cell 5 0,grow");
 		TPComments.setBorder(new LineBorder(new Color(0, 0, 0), 3, true));
